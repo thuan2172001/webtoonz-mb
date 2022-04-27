@@ -12,7 +12,12 @@ class HomePageScreen extends StatelessWidget {
       bottomNavigationBar: bottomNavigator(),
       body: PageView(
         controller: Get.put(GlobalController()).pageController,
-        children: [HomePageTabScreen(), SideBarMenu()],
+        children: [
+          HomePageTabScreen(),
+          Container(),
+          Container(),
+          SideBarMenu()
+        ],
       ),
     );
   }

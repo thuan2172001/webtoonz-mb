@@ -1,75 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:untitled/controller/global_controller.dart';
+import 'package:untitled/main.dart';
 import 'package:untitled/utils/config.dart';
+import 'package:untitled/widgets/app_bar.dart';
 
 class HomePageTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: getWidth(16)),
-      child: ListView(
-        children: [
-          SizedBox(
-            height: getHeight(60),
-          ),
-          Text(
-            "Homepage",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: getWidth(20),
+    return Scaffold(
+      appBar: appBar(
+          title: "Webtoonz",
+          hideBackButton: true,
+          centerTitle: true,
+          elevation: 1.0,
+          actions: [
+            SvgPicture.asset(
+              "assets/icons/bell.svg",
+              width: getWidth(24),
             ),
-          ),
-          SizedBox(
-            height: getHeight(40),
-          ),
-        ],
-      ),
-    );
-  }
-
-  GestureDetector actionTab(
-      {required Color color,
-      required String icon,
-      required String tag,
-      Function? function}) {
-    return GestureDetector(
-      onTap: () {
-        if (function != null) {
-          function();
-        }
-      },
-      child: Container(
-        width: getWidth(165),
-        height: getWidth(130),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(
-            getWidth(6),
-          ),
-        ),
+            SizedBox(
+              width: getWidth(20),
+            ),
+            SvgPicture.asset(
+              "assets/icons/cart.svg",
+              width: getWidth(24),
+            ),
+            SizedBox(
+              width: getWidth(20),
+            ),
+          ]),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: getWidth(20)),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(getWidth(44)),
-              child: Container(
-                width: getWidth(44),
-                height: getWidth(44),
-                color: Colors.white,
-                padding: EdgeInsets.all(getWidth(9)),
-                child: SvgPicture.asset(
-                  icon,
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Categories",
+                style: TextStyle(
+                  fontSize: getWidth(15),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            SizedBox(height: getHeight(20)),
+            Container(
+              height: getHeight(140),
+              child: Expanded(
+                child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: const BouncingScrollPhysics(),
+                  children: globalController.categories.value.map((e) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: getWidth(20)),
+                          child: SvgPicture.asset(
+                            "assets/icons/sample-category.svg",
+                            width: getWidth(60),
+                          ),
+                        ),
+                        Container(
+                          width: getWidth(60),
+                          margin: EdgeInsets.only(left: getWidth(20)),
+                          child: Text(
+                            e["categoryName"],
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
                 ),
               ),
             ),
-            Text(
-              tag.tr,
-              style: TextStyle(fontSize: getWidth(15)),
-            )
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "New release",
+                style: TextStyle(
+                  fontSize: getWidth(15),
+                ),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            SizedBox(height: getHeight(20)),
           ],
         ),
       ),

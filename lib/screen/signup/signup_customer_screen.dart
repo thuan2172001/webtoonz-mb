@@ -151,9 +151,9 @@ Container confirmButtonContainer(
         Expanded(
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 84, 129, 207),
+              backgroundColor: const Color(0xFF3669C9),
               side: const BorderSide(
-                color: Color.fromARGB(255, 84, 129, 207),
+                color: Color(0xFF3669C9),
               ),
             ),
             onPressed: () async {
@@ -191,7 +191,7 @@ Container confirmButtonContainer(
             child: const Text(
               "Already have account? Back to Sign-in",
               style: TextStyle(
-                color: Color.fromARGB(255, 84, 129, 207),
+                color: Color(0xFF3669C9),
                 fontWeight: FontWeight.bold,
               ),
             ),

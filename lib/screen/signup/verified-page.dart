@@ -53,7 +53,7 @@ class VerifiedPage extends StatelessWidget {
               style: TextStyle(
                   fontSize: getHeight(24),
                   fontWeight: FontWeight.w500,
-                  color: const Color.fromARGB(255, 84, 129, 207)),
+                  color: const Color(0xFF3669C9)),
             ),
             SizedBox(
               height: getHeight(16),
@@ -99,9 +99,9 @@ Container confirmButtonContainer(BuildContext context) {
         Expanded(
           child: OutlinedButton(
             style: OutlinedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 84, 129, 207),
+              backgroundColor: const Color(0xFF3669C9),
               side: const BorderSide(
-                color: Color.fromARGB(255, 84, 129, 207),
+                color: Color(0xFF3669C9),
               ),
             ),
             onPressed: () async {

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/utils/config.dart';
 
-AppBar appBar({String? title,
-  List<Widget>? actions,
-  Function? backFunction,
-  PreferredSizeWidget? bottom,
-  bool? hideBackButton = false,
-  double? elevation,
-  double? leadingWidth,
-  bool? centerTitle
-}) {
+AppBar appBar(
+    {String? title,
+    List<Widget>? actions,
+    Function? backFunction,
+    PreferredSizeWidget? bottom,
+    bool? hideBackButton = false,
+    double? elevation,
+    double? leadingWidth,
+    bool? centerTitle}) {
   return AppBar(
     backgroundColor: Colors.white,
     leading: hideBackButton != true
@@ -34,7 +34,7 @@ AppBar appBar({String? title,
       style: TextStyle(
         fontSize: getHeight(24),
         fontWeight: FontWeight.w500,
-        color: Colors.black,
+        color: Color(0xFF3669C9),
       ),
     ),
     actions: actions,

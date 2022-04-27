@@ -69,7 +69,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(
-                      color: Color.fromARGB(255, 84, 129, 207),
+                      color: Color(0xFF3669C9),
                     ),
                   ),
                   onPressed: () {
@@ -84,7 +84,7 @@ class ChangePasswordScreen extends StatelessWidget {
                         ? "Update"
                         : "Edit password",
                     style: const TextStyle(
-                      color: Color.fromARGB(255, 84, 129, 207),
+                      color: Color(0xFF3669C9),
                       fontWeight: FontWeight.bold,
                     ),
                   ),

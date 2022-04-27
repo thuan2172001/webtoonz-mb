@@ -320,10 +320,9 @@ AlertDialog alertConfirmDialog(context, title, message, onConfirm) {
                   Expanded(
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 84, 129, 207),
+                        backgroundColor: const Color(0xFF3669C9),
                         side: const BorderSide(
-                          color: Color.fromARGB(255, 84, 129, 207),
+                          color: Color(0xFF3669C9),
                         ),
                         padding: EdgeInsets.symmetric(vertical: getHeight(12)),
                       ),

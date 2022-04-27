@@ -11,7 +11,7 @@ SizedBox getAppName() {
         height: getHeight(40),
         width: getWidth(127),
         decoration: BoxDecoration(
-          color: Color.fromARGB(255, 84, 129, 207),
+          color: Color(0xFF3669C9),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(

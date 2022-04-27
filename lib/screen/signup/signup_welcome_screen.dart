@@ -106,7 +106,7 @@ Container confirmButtonContainer(
             child: const Text(
               "Already have account? Back to Sign-in",
               style: TextStyle(
-                color: Color.fromARGB(255, 84, 129, 207),
+                color: Color(0xFF3669C9),
                 fontWeight: FontWeight.bold,
               ),
             ),

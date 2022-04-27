@@ -41,7 +41,7 @@ Container bottomNavigator() {
                               "assets/icons/home.svg",
                               width: getWidth(24),
                               color: globalController.currentPage.value == 0
-                                  ? Color.fromARGB(255, 84, 129, 207)
+                                  ? Color(0xFF3669C9)
                                   : Color(0xFF999999),
                             ),
                             Text(
@@ -49,7 +49,38 @@ Container bottomNavigator() {
                               style: TextStyle(
                                   fontSize: getWidth(12),
                                   color: globalController.currentPage.value == 0
-                                      ? Color.fromARGB(255, 84, 129, 207)
+                                      ? Color(0xFF3669C9)
+                                      : Color(0xFF999999)),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                  Obx(() {
+                    return Bouncing(
+                      onPress: () {
+                        globalController.onChangeTab(1);
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        width: getWidth(60),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icons/ic_menu_wishlist.svg",
+                              width: getWidth(24),
+                              color: globalController.currentPage.value == 1
+                                  ? Color(0xFF3669C9)
+                                  : Color(0xFF999999),
+                            ),
+                            Text(
+                              "Favorite",
+                              style: TextStyle(
+                                  fontSize: getWidth(12),
+                                  color: globalController.currentPage.value == 1
+                                      ? Color(0xFF3669C9)
                                       : Color(0xFF999999)),
                             )
                           ],
@@ -63,6 +94,37 @@ Container bottomNavigator() {
                         globalController.onChangeTab(2);
                       },
                       child: Container(
+                        color: Colors.white,
+                        width: getWidth(60),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icons/ic_menu_order.svg",
+                              width: getWidth(24),
+                              color: globalController.currentPage.value == 2
+                                  ? Color(0xFF3669C9)
+                                  : Color(0xFF999999),
+                            ),
+                            Text(
+                              "Order",
+                              style: TextStyle(
+                                  fontSize: getWidth(12),
+                                  color: globalController.currentPage.value == 2
+                                      ? Color(0xFF3669C9)
+                                      : Color(0xFF999999)),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                  Obx(() {
+                    return Bouncing(
+                      onPress: () {
+                        globalController.onChangeTab(3);
+                      },
+                      child: Container(
                         width: getWidth(65),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,8 +132,8 @@ Container bottomNavigator() {
                             SvgPicture.asset(
                               "assets/icons/user.svg",
                               width: getWidth(24),
-                              color: globalController.currentPage.value == 2
-                                  ? Color.fromARGB(255, 84, 129, 207)
+                              color: globalController.currentPage.value == 3
+                                  ? Color(0xFF3669C9)
                                   : Color(0xFF999999),
                             ),
                             FittedBox(
@@ -80,8 +142,8 @@ Container bottomNavigator() {
                                 style: TextStyle(
                                     fontSize: getWidth(12),
                                     color:
-                                        globalController.currentPage.value == 2
-                                            ? Color.fromARGB(255, 84, 129, 207)
+                                        globalController.currentPage.value == 3
+                                            ? Color(0xFF3669C9)
                                             : Color(0xFF999999)),
                               ),
                             )
