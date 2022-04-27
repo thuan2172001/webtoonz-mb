@@ -91,6 +91,28 @@ class HomePageTabScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: getHeight(20)),
+            Expanded(
+              child: GridView.count(
+                primary: false,
+                padding: const EdgeInsets.all(10),
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                crossAxisCount: 2,
+                children: globalController.categories.value.map((e) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        color: Colors.teal[100],
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: Color(0xFF000000),
+                          width: getWidth(1),
+                        )),
+                    padding: const EdgeInsets.all(8),
+                    child: const Text("He'd have you all unravel at the"),
+                  );
+                }).toList(),
+              ),
+            ),
           ],
         ),
       ),
