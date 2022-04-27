@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/api/certificate_service.dart';
 import 'package:untitled/api/signature_service.dart';
+import 'package:untitled/main.dart';
 import 'package:untitled/model/User.dart';
 import 'package:untitled/model/custom_dio.dart';
 import 'package:untitled/model/status.dart';
@@ -113,6 +114,7 @@ class LoginPageController extends GetxController {
                 jsonResponse["data"]["encryptedPrivateKey"];
             userInfo.role = jsonResponse["data"]["role"];
             userInfo.phone = jsonResponse["data"]["phoneNumber"];
+            globalController.user.value = userInfo;
             return true;
           } else {
             messValidatePassword.value = "invalid_password";

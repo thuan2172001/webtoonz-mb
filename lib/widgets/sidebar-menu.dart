@@ -9,6 +9,7 @@ import 'package:untitled/utils/config.dart';
 class SideBarMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    GlobalController globalController = Get.put(GlobalController());
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -81,11 +82,7 @@ class SideBarMenu extends StatelessWidget {
                           FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              Get.put(GlobalController())
-                                  .user
-                                  .value
-                                  .username
-                                  .toString(),
+                              globalController.user.value.fullName.toString(),
                               style: TextStyle(
                                   fontSize: getWidth(16),
                                   fontWeight: FontWeight.w500),
@@ -133,7 +130,7 @@ class SideBarMenu extends StatelessWidget {
                                               width: getWidth(32),
                                               height: getWidth(32),
                                               child: SvgPicture.asset(
-                                                "assets/icons/info.svg",
+                                                "assets/icons/menu-ic-1.svg",
                                                 height: getWidth(32),
                                               ),
                                             ),
@@ -141,7 +138,7 @@ class SideBarMenu extends StatelessWidget {
                                               width: getWidth(8),
                                             ),
                                             Text(
-                                              'My information',
+                                              'Update information',
                                               style: TextStyle(
                                                   fontSize: getWidth(16)),
                                             )
@@ -184,7 +181,7 @@ class SideBarMenu extends StatelessWidget {
                                               width: getWidth(32),
                                               height: getWidth(32),
                                               child: SvgPicture.asset(
-                                                "assets/icons/request.svg",
+                                                "assets/icons/menu-ic-2.svg",
                                                 height: getWidth(32),
                                               ),
                                             ),
@@ -192,7 +189,109 @@ class SideBarMenu extends StatelessWidget {
                                               width: getWidth(8),
                                             ),
                                             Text(
-                                              "My Project",
+                                              'Payment management',
+                                              style: TextStyle(
+                                                  fontSize: getWidth(16)),
+                                            )
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: getWidth(15),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: getHeight(16),
+                                    ),
+                                    Container(
+                                      height: 1,
+                                      width: double.infinity,
+                                      color: const Color(0xFFE6E6E6),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {},
+                              child: Container(
+                                color: Colors.white,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: getHeight(16),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: getWidth(32),
+                                              height: getWidth(32),
+                                              child: SvgPicture.asset(
+                                                "assets/icons/menu-ic-3.svg",
+                                                height: getWidth(32),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: getWidth(8),
+                                            ),
+                                            Text(
+                                              'Transaction',
+                                              style: TextStyle(
+                                                  fontSize: getWidth(16)),
+                                            )
+                                          ],
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios,
+                                          size: getWidth(15),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: getHeight(16),
+                                    ),
+                                    Container(
+                                      height: 1,
+                                      width: double.infinity,
+                                      color: const Color(0xFFE6E6E6),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {},
+                              child: Container(
+                                color: Colors.white,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: getHeight(16),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: getWidth(32),
+                                              height: getWidth(32),
+                                              child: SvgPicture.asset(
+                                                "assets/icons/menu-ic-4.svg",
+                                                height: getWidth(32),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: getWidth(8),
+                                            ),
+                                            Text(
+                                              "Bookshelf",
                                               style: TextStyle(
                                                   fontSize: getWidth(16)),
                                             )
@@ -237,7 +336,7 @@ class SideBarMenu extends StatelessWidget {
                                               width: getWidth(32),
                                               height: getWidth(32),
                                               child: SvgPicture.asset(
-                                                "assets/icons/lock.svg",
+                                                "assets/icons/menu-ic-5.svg",
                                                 height: getWidth(32),
                                               ),
                                             ),
@@ -286,7 +385,7 @@ class SideBarMenu extends StatelessWidget {
                                             width: getWidth(32),
                                             height: getWidth(32),
                                             child: SvgPicture.asset(
-                                              "assets/icons/logout.svg",
+                                              "assets/icons/menu-ic-6.svg",
                                               height: getWidth(32),
                                             ),
                                           ),
