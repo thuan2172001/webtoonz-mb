@@ -111,6 +111,14 @@ flutter:
       fonts:
         - asset: assets/fonts/TT-Norms-Pro-Bold.ttf
           weight: 500
+    - family: DMSans
+      fonts:
+        - asset: assets/fonts/DMSans-Regular.ttf
+          weight: 500
+    - family: DMSans-Bold
+      fonts:
+        - asset: assets/fonts/DMSans-Bold.ttf
+          weight: 500
 
 
   # To add assets to your application, add an assets section, like this:

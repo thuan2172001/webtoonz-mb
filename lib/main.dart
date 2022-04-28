@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           Platform.isIOS ? Transition.cupertino : Transition.rightToLeft,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: "TTNorm-Bold",
+        fontFamily: "DMSans",
       ),
       home: LoginScreen(),
     );

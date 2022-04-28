@@ -134,8 +134,6 @@ class ChangePasswordController extends GetxController {
       customDio.dio.options.headers["Authorization"] =
           globalController.user.value.certificate.toString();
 
-      print(globalController.user.value.certificate.toString());
-
       var response = await customDio.put(
         "/auth/password",
         {

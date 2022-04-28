@@ -19,63 +19,83 @@ class SignupWelcomeScreen extends StatelessWidget {
           child: confirmButtonContainer(context, signupController)),
       body: Container(
         color: Colors.white,
-        padding: EdgeInsets.only(
-          left: getWidth(16),
-          right: getWidth(16),
-          top: getHeight(24),
-        ),
+        // padding: EdgeInsets.only(
+        //   left: getWidth(16),
+        //   right: getWidth(16),
+        //   top: getHeight(24),
+        // ),
         child: ListView(
           children: [
-            getAppName(),
+            Container(
+                height: getHeight(480),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  image: DecorationImage(
+                    image: AssetImage("assets/icons/background.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: null),
             SizedBox(
               height: getHeight(24),
             ),
+            // getAppName(),
             Text(
               "Sign up",
               style: TextStyle(
-                fontSize: getHeight(20),
+                fontSize: getHeight(24),
+                color: const Color(0xFF3669C9),
               ),
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: getHeight(36),
+              height: getHeight(24),
             ),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                  side: const BorderSide(
-                    color: Color(0xFFE6E6E6),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: getHeight(16)),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3669C9),
+                    side: const BorderSide(
+                      color: Color(0xFFE6E6E6),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: getHeight(16))),
+                onPressed: () {
+                  signupController.isCustomerMode.value = true;
+                  Get.to(() => SignupCustomerScreen());
+                },
+                child: const Text(
+                  "Create account as Customer",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
-                  padding: EdgeInsets.symmetric(vertical: getHeight(16))),
-              onPressed: () {
-                signupController.isCustomerMode.value = true;
-                Get.to(() => SignupCustomerScreen());
-              },
-              child: const Text(
-                "Create account as Customer",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             SizedBox(
               height: getHeight(8),
             ),
-            OutlinedButton(
-              style: OutlinedButton.styleFrom(
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: getHeight(16)),
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  // backgroundColor: const Color(0xFF3669C9),
                   side: const BorderSide(
-                    color: Color(0xFFE6E6E6),
+                    color: Color(0xFF3669C9),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: getHeight(16))),
-              onPressed: () {
-                signupController.isCustomerMode.value = false;
-                Get.to(() => SignupCreatorScreen());
-              },
-              child: const Text(
-                "Create account as Creator",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
+                  padding: EdgeInsets.symmetric(vertical: getHeight(16)),
+                ),
+                onPressed: () {
+                  signupController.isCustomerMode.value = false;
+                  Get.to(() => SignupCreatorScreen());
+                },
+                child: const Text(
+                  "Create account as Creator",
+                  style: TextStyle(
+                    color: Color(0xFF3669C9),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

@@ -68,12 +68,13 @@ class SideBarMenu extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Container(
+                          Container(
+                            width: getWidth(48),
+                            height: getWidth(48),
+                            child: SvgPicture.asset(
+                              "assets/icons/account.svg",
                               width: getWidth(48),
                               height: getWidth(48),
-                              color: Colors.black,
                             ),
                           ),
                           SizedBox(
