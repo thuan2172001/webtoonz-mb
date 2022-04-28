@@ -114,6 +114,7 @@ class LoginPageController extends GetxController {
                 jsonResponse["data"]["encryptedPrivateKey"];
             userInfo.role = jsonResponse["data"]["role"];
             userInfo.phone = jsonResponse["data"]["phoneNumber"];
+            userInfo.certificate = certificateList[0];
             globalController.user.value = userInfo;
             return true;
           } else {

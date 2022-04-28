@@ -59,7 +59,6 @@ class ChangePasswordController extends GetxController {
   }
 
   String errMsgConfirmPassword() {
-    var text = newPassword.text;
     var confirmText = confirmPassword.text;
     if (confirmText == "")
       return "Confirm password is required";
@@ -69,35 +68,37 @@ class ChangePasswordController extends GetxController {
   }
 
   Future<bool> checkPassword(String password) async {
-    var mail = globalController.user.value.mail;
-    var responseCredential =
-        await loginPageController.getCredential(mail ?? "");
-    Status validateUsername = ResponseValidator.check(responseCredential);
-    if (validateUsername.status == "OK") {
-      var data = responseCredential.data["data"];
-      var userId = data["id"];
+    var username = globalController.user.value.username;
+    if (username == null) {
+      return false;
+    }
+    var responseCredential = await loginPageController.getCredential(username);
+    responseCredential = jsonDecode(responseCredential.toString());
+
+    if (responseCredential["success"] == false) {
+      return false;
+    } else {
+      var data = responseCredential["data"];
       var publicKey = data['publicKey'];
       var encryptedPrivateKey = data['encryptedPrivateKey'];
-      var email = data["mail"];
-      var userName = data["username"];
       String? privateKey = decryptAESCryptoJS(encryptedPrivateKey, password);
 
       Status validatePassword = new Status();
 
-      if (privateKey == null)
-        validatePassword =
-            new Status(status: "ERROR", message: "WRONG.PASSWORD");
-      else
-        validatePassword = new Status(status: "SUCCESS", message: "SUCCESS");
+      if (privateKey == null) {
+        validatePassword = Status(status: "ERROR", message: "WRONG.PASSWORD");
+      } else {
+        validatePassword = Status(status: "SUCCESS", message: "SUCCESS");
+      }
 
       if (validatePassword.status == "SUCCESS") {
-        var certificateInfo = SignatureService.getCertificateInfo(userId);
+        var certificateInfo = SignatureService.getCertificateInfo(username);
         String signature = SignatureService.getSignature(
             certificateInfo, privateKey as String);
         String times = TimeService.getTimeNow().toString();
         List<String> certificateList = SignatureService.getCertificateLogin(
           certificateInfo,
-          userId,
+          username,
           encryptedPrivateKey,
           signature,
           publicKey,
@@ -114,8 +115,6 @@ class ChangePasswordController extends GetxController {
       } else {
         return false;
       }
-    } else {
-      return false;
     }
   }
 
@@ -135,14 +134,13 @@ class ChangePasswordController extends GetxController {
       customDio.dio.options.headers["Authorization"] =
           globalController.user.value.certificate.toString();
 
-      var response = await customDio.post(
+      print(globalController.user.value.certificate.toString());
+
+      var response = await customDio.put(
         "/auth/password",
         {
-          "data": {
-            "UserId": globalController.user.value.id,
-            "encryptedPrivateKey": encryptedKeyPair["encryptedPrivateKey"],
-            "publicKey": encryptedKeyPair["publicKey"],
-          },
+          "encryptedPrivateKey": encryptedKeyPair["encryptedPrivateKey"],
+          "publicKey": encryptedKeyPair["publicKey"],
         },
       );
 
@@ -161,8 +159,7 @@ class ChangePasswordController extends GetxController {
       CustomDialog(context, "FAILED").show({"message": "cfpassword_not_match"});
     } else {
       // Todo change password api
-      // var truePassword = await checkPassword(password.text);
-      var truePassword = checkCurrentPassword(password.text);
+      var truePassword = await checkPassword(password.text);
       if (truePassword) {
         var encryptedKeyPair = generateKeyPairAndEncrypt(newPassword.text);
         var response = await sendNewKeyPair(encryptedKeyPair: encryptedKeyPair);

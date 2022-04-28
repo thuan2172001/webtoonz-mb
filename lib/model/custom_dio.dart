@@ -70,8 +70,7 @@ class CustomDio {
   }
 
   Future put(String url, [Map<String, dynamic>? params]) async {
-    print(params);
-    return _dio.put(url, data: jsonEncode({"data": params}));
+    return _dio.put(url, data: jsonEncode(params));
   }
 
   Future delete(String url, [Map<String, dynamic>? params]) async {
