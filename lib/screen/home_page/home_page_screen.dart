@@ -8,16 +8,21 @@ import 'package:untitled/widgets/sidebar-menu.dart';
 class HomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: bottomNavigator(),
-      body: PageView(
-        controller: Get.put(GlobalController()).pageController,
-        children: [
-          HomePageTabScreen(),
-          Container(),
-          Container(),
-          SideBarMenu()
-        ],
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        bottomNavigationBar: bottomNavigator(),
+        body: PageView(
+          controller: Get.put(GlobalController()).pageController,
+          children: [
+            HomePageTabScreen(),
+            Container(),
+            Container(),
+            SideBarMenu()
+          ],
+        ),
       ),
     );
   }

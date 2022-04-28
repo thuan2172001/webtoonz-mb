@@ -6,16 +6,17 @@ import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/input.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
-  ChangePasswordController changePasswordController =
-      Get.put(ChangePasswordController());
-
   @override
   Widget build(BuildContext context) {
+    ChangePasswordController changePasswordController =
+        Get.put(ChangePasswordController());
     return Scaffold(
       appBar: appBar(
         title: "Change password",
+        centerTitle: true,
       ),
       body: Container(
+        color: Colors.white,
         padding: EdgeInsets.only(
           left: getWidth(27),
           right: getWidth(27),
@@ -23,7 +24,7 @@ class ChangePasswordScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: getHeight(20),
+              height: getHeight(30),
             ),
             Obx(() => inputPassword(
                   context,
@@ -63,14 +64,21 @@ class ChangePasswordScreen extends StatelessWidget {
               height: getHeight(20),
             ),
             Obx(
-              () => SizedBox(
+              () => Container(
                 height: getHeight(52),
                 width: double.infinity,
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                      color: Color(0xFF3669C9),
+                    backgroundColor: changePasswordController.isEditting.value
+                        ? Color(0xFF3669C9)
+                        : Colors.white,
+                    side: BorderSide(
+                      color: changePasswordController.isEditting.value
+                          ? Colors.white
+                          : Color(0xFF3669C9),
                     ),
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
                   onPressed: () {
                     if (changePasswordController.isEditting.value) {
@@ -83,8 +91,10 @@ class ChangePasswordScreen extends StatelessWidget {
                     changePasswordController.isEditting.value
                         ? "Update"
                         : "Edit password",
-                    style: const TextStyle(
-                      color: Color(0xFF3669C9),
+                    style: TextStyle(
+                      color: changePasswordController.isEditting.value
+                          ? Colors.white
+                          : Color(0xFF3669C9),
                       fontWeight: FontWeight.bold,
                     ),
                   ),

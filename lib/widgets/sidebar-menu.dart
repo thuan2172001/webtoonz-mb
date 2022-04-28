@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
+import 'package:untitled/screen/transaction/transaction_screen.dart';
 import 'package:untitled/utils/config.dart';
 
 class SideBarMenu extends StatelessWidget {
@@ -215,7 +216,9 @@ class SideBarMenu extends StatelessWidget {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                Get.to(TransactionScreen());
+                              },
                               child: Container(
                                 color: Colors.white,
                                 child: Column(
