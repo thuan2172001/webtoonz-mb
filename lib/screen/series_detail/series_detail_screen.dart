@@ -10,75 +10,50 @@ import 'package:untitled/widgets/app_bar.dart';
 
 class SeriesDetailScreen extends StatelessWidget {
   final Series seriesInfo;
-  final double coverImageBottomPadding = 30;
-  final double imageHeight = 300;
-  final double sidePadding = 20;
-  final double titleFontSize = 25;
-  final double authorAvatarWidth = 50;
-  final double statusFontSize = 20;
-  final double authorTitleFontSize = 20;
 
   const SeriesDetailScreen({Key? key, required this.seriesInfo})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double coverImageBottomPadding = 30;
+    double imageHeight =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 30 : 40;
+    double sidePadding = 5;
+    double authorAvatarWidth = 10;
+    double descriptionFontSize = 10;
+    double statusFontSize = 10;
+    double categoryFontSize = 7;
+    double authorTitleFontSize = 15;
+
     return Scaffold(
       appBar: appBar(
-        title: seriesInfo.serieName,
-      ),
+          title: seriesInfo.serieName,
+          centerTitle: true,
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.search),
+              onPressed: () {},
+            )
+          ]),
       body: ListView(
         physics: AlwaysScrollableScrollPhysics(),
         children: [
           Padding(
             padding: EdgeInsets.only(bottom: coverImageBottomPadding),
-            child: Stack(
-              //alignment: Alignment.center,
-              children: <Widget>[
-                Container(
-                  color: Colors.black,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Image.network(seriesInfo.cover,
-                          height: imageHeight, fit: BoxFit.cover),
-                    ],
-                  ),
-                ),
-                ClipRRect(
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                    child: Container(
-                      height: 300,
-                      color: Colors.grey.withOpacity(0.1),
-                      alignment: Alignment.center,
-                      child: Stack(
-                        children: [
-                          Text(
-                            seriesInfo.serieName,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: titleFontSize.sp),
-                          ),
-                          Text(
-                            seriesInfo.serieName,
-                            style: TextStyle(
-                                fontSize: titleFontSize.sp,
-                                foreground: Paint()
-                                  ..style = PaintingStyle.stroke
-                                  ..strokeWidth = 0.7
-                                  ..color = Colors.black),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+            child: Container(
+              color: Colors.black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Image.network(seriesInfo.cover,
+                      height: imageHeight.h, fit: BoxFit.cover),
+                ],
+              ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: sidePadding, right: sidePadding),
+            padding: EdgeInsets.only(left: sidePadding.w, right: sidePadding.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -105,13 +80,17 @@ class SeriesDetailScreen extends StatelessWidget {
                           ])),
                       Container(
                           width: statusFontSize.sp,
-                          child: SvgPicture.asset('assets/icons/share.svg'))
+                          child: SvgPicture.asset(
+                            'assets/icons/share.svg',
+                            width: statusFontSize.sp,
+                          ))
                     ],
                   ),
                 ),
                 Text(
                   seriesInfo.category,
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(
+                      color: Colors.grey, fontSize: categoryFontSize.sp),
                 ),
                 Container(
                   child: Container(
@@ -130,7 +109,7 @@ class SeriesDetailScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
                         child: Container(
-                          width: authorAvatarWidth,
+                          width: authorAvatarWidth.w,
                           child: CircleAvatar(
                             backgroundImage:
                                 NetworkImage(seriesInfo.authorAvatar),
@@ -139,7 +118,7 @@ class SeriesDetailScreen extends StatelessWidget {
                       ),
                       Text(
                         seriesInfo.authorName,
-                        style: TextStyle(fontSize: authorTitleFontSize),
+                        style: TextStyle(fontSize: authorTitleFontSize.sp),
                       )
                     ],
                   ),
@@ -148,6 +127,7 @@ class SeriesDetailScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: ExpandableText(
                     seriesInfo.description,
+                    style: TextStyle(fontSize: descriptionFontSize.sp),
                     expandText: 'show more',
                     collapseText: 'show less',
                     maxLines: 6,
@@ -165,7 +145,7 @@ class SeriesDetailScreen extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 5,
                       mainAxisSpacing: 5,
-                      childAspectRatio: 2 / 3),
+                      childAspectRatio: 4 / 5.7),
                 )
               ],
             ),
