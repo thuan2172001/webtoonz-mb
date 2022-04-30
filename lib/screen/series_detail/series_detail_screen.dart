@@ -143,8 +143,8 @@ class SeriesDetailScreen extends StatelessWidget {
                   },
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 0,
+                      mainAxisSpacing: 0,
                       childAspectRatio: 4 / 5.7),
                 )
               ],

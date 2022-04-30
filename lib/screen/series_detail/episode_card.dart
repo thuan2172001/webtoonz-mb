@@ -83,7 +83,7 @@ class EpisodeCard extends StatelessWidget {
         ),
       ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(6.0),
       ),
       elevation: 5,
       margin: EdgeInsets.all(10),
