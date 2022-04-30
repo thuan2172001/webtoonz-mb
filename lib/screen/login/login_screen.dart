@@ -10,6 +10,8 @@ import 'package:untitled/widgets/input.dart';
 import 'package:untitled/widgets/app_name.dart';
 import 'package:untitled/widgets/layout.dart';
 
+import '../episode_detail/episode_detail_screen.dart';
+
 enum LoginOption { customer, professional }
 
 class LoginScreen extends StatelessWidget {
@@ -156,7 +158,8 @@ Container confirmButtonContainer(
                       // controller.isLoading.value = true;
                       var result = await controller.login();
                       if (result) {
-                        Get.to(() => HomePageScreen());
+                        Get.to(() => EpisodeDetailScreen(episodeId: "1fb20e90-1ea6-11ec-85db-78afa2a06816",));
+                        //Get.to(() => HomePageScreen());
                       }
                       controller.isLoading.value = false;
                     },
