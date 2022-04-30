@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/i18n.dart';
 import 'package:untitled/screen/login/login_screen.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:untitled/service/stripe.dart';
 
 GlobalController globalController = Get.put(GlobalController());
 
@@ -39,6 +37,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "DMSans",
       ),
       home: LoginScreen(),
+      //home: SeriesDetailScreen(seriesInfo: buildSerie()),
     );
   }
 }
