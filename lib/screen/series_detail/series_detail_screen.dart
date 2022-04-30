@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,7 +30,7 @@ class SeriesDetailScreen extends StatelessWidget {
           centerTitle: true,
           actions: <Widget>[
             new IconButton(
-              icon: new Icon(Icons.search),
+              icon: new Icon(Icons.search, color: Colors.black),
               onPressed: () {},
             )
           ]),
@@ -103,11 +101,11 @@ class SeriesDetailScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(bottom: 3.h),
                   child: Row(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(right: 10),
+                        padding: EdgeInsets.only(right: 2.w),
                         child: Container(
                           width: authorAvatarWidth.w,
                           child: CircleAvatar(

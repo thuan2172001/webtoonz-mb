@@ -6,7 +6,8 @@ Series buildSerie() {
     testEpisodes.add(SeriesEpisode(
         "Under the sea season 3",
         "26",
-        "https://nftjapan.s3.ap-southeast-1.amazonaws.com/image/f7cee056-a816-439b-a37e-5cdbdebdd132-AriumWeb1x1.008.png",
+        //"https://nftjapan.s3.ap-southeast-1.amazonaws.com/image/f7cee056-a816-439b-a37e-5cdbdebdd132-AriumWeb1x1.008.png",
+        "https://files.catbox.moe/s2qswd.jpg",
         921,
         1995));
   }
