@@ -57,6 +57,7 @@ dependencies:
   flutter_masked_text2: ^0.9.1
   expandable_text:
   number_paginator: ^0.0.2
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:
