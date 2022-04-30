@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sizer/sizer.dart';
 import 'package:untitled/model/Serie.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
 import 'package:untitled/widgets/app_bar.dart';
@@ -55,12 +56,14 @@ class SeriesDetailScreen extends StatelessWidget {
                         children: [
                           Text(
                             seriesInfo.serieName,
-                            style: TextStyle(color: Colors.white, fontSize: 25),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: titleFontSize.sp),
                           ),
                           Text(
                             seriesInfo.serieName,
                             style: TextStyle(
-                                fontSize: 25,
+                                fontSize: titleFontSize.sp,
                                 foreground: Paint()
                                   ..style = PaintingStyle.stroke
                                   ..strokeWidth = 0.7
@@ -90,18 +93,18 @@ class SeriesDetailScreen extends StatelessWidget {
                               children: [
                             TextSpan(
                                 text: '${seriesInfo.totalEpisodes} items  |  ',
-                                style: TextStyle(fontSize: statusFontSize)),
+                                style: TextStyle(fontSize: statusFontSize.sp)),
                             WidgetSpan(
                                 child: SvgPicture.asset(
                               'assets/icons/heart.svg',
-                              width: statusFontSize,
+                              width: statusFontSize.sp,
                             )),
                             TextSpan(
                                 text: ' ${seriesInfo.likes}',
-                                style: TextStyle(fontSize: statusFontSize))
+                                style: TextStyle(fontSize: statusFontSize.sp))
                           ])),
                       Container(
-                          width: statusFontSize,
+                          width: statusFontSize.sp,
                           child: SvgPicture.asset('assets/icons/share.svg'))
                     ],
                   ),

@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sizer/sizer.dart';
 import 'package:untitled/model/Serie.dart';
 
 class EpisodeCard extends StatelessWidget {
   final SeriesEpisode episode;
-  final double episodeTitleFontSize = 25;
-  final double priceFontSize = 20;
-  final double statusFontSize = 15;
-  final double imageHeight = 300;
+  final double episodeTitleFontSize = 15;
+  final double priceFontSize = 12;
+  final double statusFontSize = 7;
 
   const EpisodeCard({Key? key, required this.episode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -35,14 +33,14 @@ class EpisodeCard extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 3),
               child: Text(
                 episode.name,
-                style: TextStyle(fontSize: episodeTitleFontSize),
+                style: TextStyle(fontSize: episodeTitleFontSize.sp),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: Text(
                 'VND ${episode.price}',
-                style: TextStyle(fontSize: priceFontSize, color: Colors.red),
+                style: TextStyle(fontSize: priceFontSize.sp, color: Colors.red),
               ),
             ),
             Row(
@@ -51,17 +49,21 @@ class EpisodeCard extends StatelessWidget {
                 RichText(
                     text: TextSpan(
                         style: TextStyle(
-                            color: Colors.black, fontSize: statusFontSize),
+                            color: Colors.black, fontSize: statusFontSize.sp),
                         children: [
                       WidgetSpan(
                           child: SvgPicture.asset(
                         'assets/icons/gold_star.svg',
-                        width: 15,
+                        width: statusFontSize.sp,
                       )),
                       TextSpan(text: ' ${episode.likeInit}')
                     ])),
-                Text(' ${episode.comments} Comments'),
-                SvgPicture.asset('assets/icons/dot_menu.svg', width: 15)
+                Text(
+                  ' ${episode.comments} Comments',
+                  style: TextStyle(fontSize: statusFontSize.sp),
+                ),
+                SvgPicture.asset('assets/icons/dot_menu.svg',
+                    width: statusFontSize.sp)
               ],
             )
           ],
