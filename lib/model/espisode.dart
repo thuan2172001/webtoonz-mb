@@ -23,6 +23,10 @@ class Episode {
 
   var soldQuantity;
 
+  var alreadyLiked;
+
+  var isBought;
+
   Episode({
     this.id,
     this.name,
@@ -34,6 +38,8 @@ class Episode {
     this.creatorAvatar,
     this.creatorId,
     this.soldQuantity,
+    this.alreadyLiked,
+    this.isBought,
   });
 
   factory Episode.fromJson(Map<String, dynamic> json) {
@@ -47,6 +53,9 @@ class Episode {
         soldQuantity: json["data"]["data"]["soldQuantity"],
         creatorFullName: json["data"]["data"]["creatorInfo"]["fullName"],
         creatorAvatar: json["data"]["data"]["creatorInfo"]["avatar"],
-        creatorId: json["data"]["data"]["serie"]["creatorId"]);
+        creatorId: json["data"]["data"]["serie"]["creatorId"],
+        alreadyLiked:json["data"]["data"]["alreadyLiked"],
+        isBought:json["data"]["data"]["isBought"]
+    );
   }
 }

@@ -1,17 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
-import '../../controller/signup/signup_controller.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
-import '../../widgets/layout.dart';
-import '../login/login_screen.dart';
-import '../signup/signup_creator_screen.dart';
-import '../signup/signup_customer_screen.dart';
 
 class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   final String episodeId;
@@ -21,13 +17,32 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   late EpisodeDetailController episodeDetailController;
 
   void _addComment() {
+    TextEditingController comment = TextEditingController();
     Get.bottomSheet(
         Container(
           margin: EdgeInsets.symmetric(horizontal: getHeight(16)),
           child: Column(
             children: [
-              Text("What do you think?"),
-              Text("Please share your opinion about the product"),
+              SizedBox(
+                height: getHeight(10),
+              ),
+              Text("What do you think?",
+                  style: TextStyle(
+                    fontSize: getWidth(20),
+                  )),
+              SizedBox(
+                height: getHeight(15),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: getWidth(30)),
+                child: Center(
+                  child: Text("Please share your opinion about the product",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: getWidth(20),
+                      )),
+                ),
+              ),
               SizedBox(
                 height: getHeight(10),
               ),
@@ -36,10 +51,15 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                   textAlignVertical: TextAlignVertical.top,
                   expands: true,
                   maxLines: null,
+                  style: TextStyle(
+                    fontSize: getWidth(20),
+                  ),
+                  controller: comment,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     hintText: 'Your preview',
-                    hintStyle: TextStyle(color: Colors.grey),
+                    hintStyle:
+                        TextStyle(color: Colors.grey, fontSize: getWidth(16)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     ),
@@ -49,27 +69,30 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
               SizedBox(
                 height: getHeight(10),
               ),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    minimumSize: Size.fromHeight(20),
-                    backgroundColor: const Color(0xFF3669C9),
-                    side: const BorderSide(
-                      color: Color(0xFFE6E6E6),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: getHeight(20))),
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text(
-                  "Comment",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black87,
+                  primary: Colors.blue,
+                  minimumSize: Size(getWidth(350), getHeight(60)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(getWidth(15))),
                   ),
                 ),
+                onPressed: () {
+                  episodeDetailController.addComment(comment.text);
+                  episodeDetailController.getComments();
+                  Get.back();
+                },
+                child: Text('Comment',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: getWidth(18),
+                    )),
               ),
               SizedBox(
-                height: getHeight(10),
+                height: getHeight(20),
               ),
             ],
           ),
@@ -77,70 +100,93 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
+          topLeft: Radius.circular(getWidth(18)),
+          topRight: Radius.circular(getWidth(18)),
         )));
   }
 
   void _share() {
     Get.bottomSheet(
         Container(
-          margin: EdgeInsets.symmetric(horizontal: getHeight(16)),
+          margin: EdgeInsets.symmetric(horizontal: getHeight(36)),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Share"),
+              SizedBox(
+                height: getHeight(30),
+              ),
+              Text("Share",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: getWidth(30),
+                  )),
+              SizedBox(
+                height: getHeight(30),
+              ),
               Row(
                 children: [
                   Expanded(
                       child: IconButton(
-                    iconSize: 72,
-                    icon: Icon(Icons.facebook),
+                    iconSize: getWidth(70),
+                    icon: Icon(
+                      Icons.facebook,
+                      color: Colors.blue,
+                    ),
+                    onPressed: () {
+
+                    },
+                  )),
+                  Expanded(
+                      child: IconButton(
+                    iconSize: getWidth(70),
+                    icon: Icon(
+                      Icons.facebook,
+                      color: Colors.blue,
+                    ),
                     onPressed: () {},
                   )),
                   Expanded(
                       child: IconButton(
-                    iconSize: 72,
-                    icon: Icon(Icons.facebook),
+                    iconSize: getWidth(70),
+                    icon: Icon(
+                      Icons.facebook,
+                      color: Colors.blue,
+                    ),
                     onPressed: () {},
                   )),
                   Expanded(
                       child: IconButton(
-                    iconSize: 72,
-                    icon: Icon(Icons.facebook),
-                    onPressed: () {},
-                  )),
-                  Expanded(
-                      child: IconButton(
-                    iconSize: 72,
-                    icon: Icon(Icons.facebook),
+                    iconSize: getWidth(70),
+                    icon: Icon(
+                      Icons.facebook,
+                      color: Colors.blue,
+                    ),
                     onPressed: () {},
                   )),
                 ],
               ),
               SizedBox(
-                height: getHeight(10),
+                height: getHeight(30),
               ),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    minimumSize: Size.fromHeight(20),
-                    backgroundColor: const Color(0xFF3669C9),
-                    side: const BorderSide(
-                      color: Color(0xFFE6E6E6),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: getHeight(20))),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black87,
+                  primary: Colors.blue,
+                  minimumSize: Size(getWidth(350), getHeight(60)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                    BorderRadius.all(Radius.circular(getWidth(15))),
+                  ),
+                ),
                 onPressed: () {
                   Get.back();
                 },
-                child: const Text(
-                  "Close",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: getHeight(10),
+                child: Text('Close',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: getWidth(18),
+                    )),
               ),
             ],
           ),
@@ -148,66 +194,106 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
+          topLeft: Radius.circular(getWidth(18)),
+          topRight: Radius.circular(getWidth(18)),
         )));
   }
 
   void _addToCart() {
-    var quantity = 0.obs;
+    var quantity = 1.obs;
     Get.bottomSheet(
         Container(
-          margin: EdgeInsets.symmetric(horizontal: getHeight(16)),
+          margin: EdgeInsets.symmetric(horizontal: getHeight(30)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(children: [
-                Expanded(child: const Text("Add to Cart")),
+              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Expanded(
+                    child: Text("Add to Cart",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: getWidth(20),
+                        ))),
                 IconButton(
                     onPressed: () {
                       Get.back();
                     },
-                    icon: Icon(Icons.close))
+                    icon: Icon(Icons.close, size: getWidth(30)))
               ]),
               Divider(color: Colors.grey[400]),
               Row(
                 children: [
-                  Expanded(child: Text("Quantity")),
+                  Expanded(
+                      child: Text("Quantity",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: getWidth(18),
+                          ))),
                   IconButton(
                       onPressed: () {
                         if (quantity > 0) quantity--;
                       },
-                      icon: Icon(Icons.remove)),
-                  Obx(() => Text("$quantity")),
+                      icon: Icon(
+                        Icons.remove,
+                        size: getWidth(30),
+                      )),
+                  Obx(() => Text("$quantity",
+                      style: TextStyle(
+                        fontSize: getWidth(18),
+                      ))),
                   IconButton(
                       onPressed: () {
                         quantity++;
                       },
-                      icon: Icon(Icons.add))
+                      icon: Icon(
+                        Icons.add,
+                        size: getWidth(30),
+                      ))
                 ],
               ),
               Divider(color: Colors.grey[400]),
-              Text("Total Price"),
-              Obx(() => Text(
-                  "VND ${quantity * episodeDetailController.episode.value.price}.000")),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    minimumSize: Size.fromHeight(20),
-                    backgroundColor: const Color(0xFF3669C9),
-                    side: const BorderSide(
-                      color: Color(0xFFE6E6E6),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: getHeight(20))),
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text(
-                  "Add to Cart",
+              SizedBox(
+                height: getHeight(10),
+              ),
+              Text("Total Price",
                   style: TextStyle(
-                    color: Colors.white,
+                    fontSize: getWidth(16),
+                  )),
+              SizedBox(
+                height: getHeight(5),
+              ),
+              Obx(() => Text(
+                  "VND ${quantity * episodeDetailController.episode.value.price}.000",
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    fontSize: getWidth(18),
+                  ))),
+              SizedBox(
+                height: getHeight(30),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black87,
+                  primary: Colors.blue,
+                  minimumSize: Size(getWidth(350), getHeight(60)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(getWidth(15))),
                   ),
                 ),
+                onPressed: () {
+                  episodeDetailController.addToCart(quantity.value);
+                  Get.back();
+                },
+                child: Text('Add to card',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: getWidth(18),
+                    )),
+              ),
+              SizedBox(
+                height: getHeight(20),
               ),
             ],
           ),
@@ -215,8 +301,8 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
+          topLeft: Radius.circular(getWidth(18)),
+          topRight: Radius.circular(getWidth(18)),
         )));
   }
 
@@ -271,8 +357,12 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         SizedBox(
           height: getHeight(24),
         ),
-        Obx(
-          () => Image.network(episodeDetailController.episode.value.image),
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(getWidth(12)),
+            child: Image.network(episodeDetailController.episode.value.image,
+                width: getWidth(350), fit: BoxFit.fill),
+          ),
         ),
         SizedBox(
           height: getHeight(24),
@@ -280,37 +370,77 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         Row(
           children: [
             Expanded(
-              child: Obx(
-                  () => Text(episodeDetailController.episode.value.name ?? "")),
+              child: Text(
+                episodeDetailController.episode.value.name,
+                style: TextStyle(
+                  fontSize: getWidth(26),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: getWidth(5),
             ),
             IconButton(
                 onPressed: () {
                   _share();
                 },
-                icon: Icon(Icons.share))
+                icon: Icon(Icons.share_sharp, size: getWidth(30)))
           ],
         ),
-        Obx(() {
-          // if (episodeDetailController.episode.value.price > 0)
-          return Text("VND ${episodeDetailController.episode.value.price}.000");
-          // return Text("0 VND");
-        }),
+        SizedBox(
+          height: getHeight(10),
+        ),
+        Text(
+          "VND ${episodeDetailController.episode.value.price}.000",
+          style: TextStyle(
+            fontSize: getWidth(20),
+            fontWeight: FontWeight.bold,
+            color: Colors.red,
+          ),
+        ),
+        SizedBox(
+          height: getHeight(10),
+        ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(Icons.star),
+            Icon(
+              Icons.star,
+              size: getHeight(16),
+              color: Colors.yellow,
+            ),
             Expanded(
               child: Obx(() {
-                if (episodeDetailController.episode.value.price == null)
+                if (episodeDetailController.episode.value.likes == null)
                   return Text("");
-                else if (episodeDetailController.episode.value.price > 1)
+                else if (episodeDetailController.episode.value.likes > 1)
                   return Text(
-                      "${episodeDetailController.episode.value.price} Likes");
-                return Text("1 Like");
+                      " ${episodeDetailController.episode.value.likes} Likes",
+                      style: TextStyle(
+                        fontSize: getWidth(15),
+                      ));
+                return Text(" 1 Like",
+                    style: TextStyle(
+                      fontSize: getWidth(15),
+                    ));
               }),
             ),
-            Obx(
-              () => Text(
-                  "Sold:${episodeDetailController.episode.value.soldQuantity}"),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                color: Colors.greenAccent[100],
+                padding: EdgeInsets.symmetric(
+                    vertical: getHeight(3), horizontal: getWidth(10)),
+                child: Obx(
+                  () => Text(
+                      "Sold : ${episodeDetailController.episode.value.soldQuantity}",
+                      style: TextStyle(
+                        fontSize: getWidth(15),
+                        color: Colors.teal,
+                      )),
+                ),
+              ),
             ),
           ],
         ),
@@ -325,13 +455,16 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   Column _author() {
     return Column(
       children: [
+        SizedBox(
+          height: getHeight(10),
+        ),
         Row(
           children: [
             Obx(() => CircleAvatar(
-                radius: 30,
+                radius: getWidth(25),
                 backgroundColor: Color(0xffFDCF09),
                 child: CircleAvatar(
-                    radius: 30,
+                    radius: getWidth(25),
                     backgroundImage: NetworkImage(
                         episodeDetailController.episode.value.creatorAvatar)))),
             SizedBox(
@@ -341,28 +474,38 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Obx(() => Text(
-                    episodeDetailController.episode.value.creatorFullName)),
+                Text(episodeDetailController.episode.value.creatorFullName,
+                    style: TextStyle(
+                      fontSize: getWidth(16),
+                      fontWeight: FontWeight.bold,
+                    )),
                 SizedBox(
                   height: getHeight(5),
                 ),
                 Row(
                   children: [
-                    Text("Author"),
-                    Icon(Icons.gpp_good),
+                    Text("Author ",
+                        style: TextStyle(
+                          fontSize: getWidth(14),
+                        )),
+                    Icon(
+                      Icons.gpp_good,
+                      size: getWidth(22),
+                      color: Colors.blue,
+                    ),
                   ],
                 ),
               ],
             )),
             IconButton(
-              iconSize: 20,
+              iconSize: getWidth(20),
               icon: Icon(Icons.arrow_forward_ios),
               onPressed: () {},
             )
           ],
         ),
         SizedBox(
-          height: getHeight(24),
+          height: getHeight(10),
         ),
         Divider(color: Colors.grey[400])
       ],
@@ -373,10 +516,23 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Description Product"),
-        Obx(
-          () => Text(
-              "${episodeDetailController.episode.value.description ?? ""}"),
+        SizedBox(
+          height: getHeight(10),
+        ),
+        Text("Description Product",
+            style: TextStyle(
+              fontSize: getWidth(20),
+              fontWeight: FontWeight.bold,
+            )),
+        SizedBox(
+          height: getHeight(5),
+        ),
+        Text(episodeDetailController.episode.value.description,
+            style: TextStyle(
+              fontSize: getWidth(18),
+            )),
+        SizedBox(
+          height: getHeight(10),
         ),
         Divider(color: Colors.grey[400])
       ],
@@ -386,118 +542,111 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   Column _action() {
     return Column(
       children: [
-        OutlinedButton(
-          style: OutlinedButton.styleFrom(
-              minimumSize: Size.fromHeight(20),
-              backgroundColor: const Color(0xFF3669C9),
-              side: const BorderSide(
-                color: Color(0xFFE6E6E6),
-              ),
-              padding: EdgeInsets.symmetric(vertical: getHeight(16))),
+        SizedBox(
+          height: getHeight(10),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            onPrimary: Colors.black87,
+            primary: Colors.white,
+            minimumSize: Size(getWidth(350), getHeight(60)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
+                side: BorderSide(color: Colors.black)),
+          ),
           onPressed: () {
             _addComment();
           },
-          child: const Text(
-            "Comment",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: Text('Comment',
+              style: TextStyle(
+                fontSize: getWidth(18),
+              )),
         ),
         SizedBox(
           height: getHeight(24),
         ),
         Row(
-          children: <Widget>[
-            Expanded(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3669C9),
-                    side: const BorderSide(
-                      color: Color(0xFFE6E6E6),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: getHeight(16))),
-                onPressed: () async {},
-                child: const Text(
-                  "Add to Favorite",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black87,
+                  primary: Colors.white,
+                  minimumSize: Size(getWidth(160), getHeight(60)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(getWidth(15))),
+                      side: BorderSide(color: Colors.black)),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: getWidth(10),
-            ),
-            Expanded(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3669C9),
-                    side: const BorderSide(
-                      color: Color(0xFFE6E6E6),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: getHeight(16))),
                 onPressed: () {
-                  _addToCart();
+                  if (episodeDetailController.episode.value.alreadyLiked ==
+                      false) {
+                    episodeDetailController.like();
+                    episodeDetailController.episode.value.alreadyLiked = true;
+                    episodeDetailController.episode.value.likes++;
+                  } else {
+                    episodeDetailController.unLike();
+                    episodeDetailController.episode.value.alreadyLiked = false;
+                    episodeDetailController.episode.value.likes--;
+                  }
+                  episodeDetailController.episode.refresh();
                 },
-                child: const Text(
-                  "Add to Cart",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+                child: Obx(() {
+                  if (episodeDetailController.episode.value.alreadyLiked ==
+                      false)
+                    return Text(
+                      "Add to Favorite",
+                      style: TextStyle(
+                        fontSize: getWidth(16),
+                      ),
+                    );
+                  return Text(
+                    "Unlike",
+                    style: TextStyle(
+                      fontSize: getWidth(16),
+                    ),
+                  );
+                })),
+            SizedBox(
+              width: getWidth(25),
             ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black87,
+                  primary: Colors.blue,
+                  minimumSize: Size(getWidth(160), getHeight(60)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(getWidth(15)))),
+                ),
+                onPressed: () {
+                  if (episodeDetailController.episode.value.isBought == false)
+                    _addToCart();
+                },
+                child: Obx(() {
+                  if (episodeDetailController.episode.value.isBought == false)
+                    return Text(
+                      "Add to Cart",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: getWidth(16),
+                      ),
+                    );
+                  else
+                    return Text(
+                      "Enjoy now",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: getWidth(16),
+                      ),
+                    );
+                })),
           ],
         ),
         SizedBox(
-          height: getHeight(10),
-        ),
-        Row(
-          children: <Widget>[
-            Expanded(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3669C9),
-                    side: const BorderSide(
-                      color: Color(0xFFE6E6E6),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: getHeight(16))),
-                onPressed: () {},
-                child: const Text(
-                  "Unlike item",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              width: getWidth(10),
-            ),
-            Expanded(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color(0xFF3669C9),
-                    side: const BorderSide(
-                      color: Color(0xFFE6E6E6),
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: getHeight(16))),
-                onPressed: () {},
-                child: const Text(
-                  "Enjoy now",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ],
+          height: getHeight(20),
         ),
       ],
     );
@@ -506,8 +655,17 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   Column _listComment() {
     return Column(
       children: [
+        SizedBox(
+          height: getHeight(10),
+        ),
         Row(children: [
-          Expanded(child: Text("Review()")),
+          Expanded(
+              child: Obx(() =>
+                  Text("Review(${episodeDetailController.comments.length})",
+                      style: TextStyle(
+                        fontSize: getWidth(20),
+                        fontWeight: FontWeight.bold,
+                      )))),
           TextButton(
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
@@ -518,62 +676,76 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
               },
               child: Obx(() {
                 if (episodeDetailController.seeAll.value == false)
-                  return Text('See All');
-                return Text('See latest');
+                  return Text('See All',
+                      style: TextStyle(
+                        fontSize: getWidth(16),
+                      ));
+                return Text('See latest',
+                    style: TextStyle(
+                      fontSize: getWidth(16),
+                    ));
               })),
         ]),
         SizedBox(
-          height: getHeight(24),
+          height: getHeight(10),
         ),
-        Container(
-            height: getHeight(140),
-            child: Obx(() {
-              if (episodeDetailController.seeAll.value == false &&
-                  episodeDetailController.comments.value.length > 0) {
-                var e = episodeDetailController.comments.value[0];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(child: Text(e["userInfo"]["fullName"])),
-                        Text(differenceTime(e["createdAt"])),
-                      ],
-                    ),
-                    SizedBox(
-                      height: getHeight(5),
-                    ),
-                    Text(e["description"]),
-                    SizedBox(
-                      height: getHeight(10),
-                    ),
-                  ],
+        Obx(() {
+          RxList comments;
+          if (episodeDetailController.seeAll == false &&
+              episodeDetailController.comments.length > 0) {
+            comments = List.empty(growable: true).obs;
+            comments.insert(0, episodeDetailController.comments.value.first);
+          } else
+            comments = episodeDetailController.comments;
+          return Container(
+              height: getHeight(getHeight(300)),
+              child: Obx(() {
+                return ListView(
+                  children: comments.value.map((e) {
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(getWidth(10))),
+                      color: Colors.grey[200],
+                      child: Container(
+                        padding: EdgeInsets.all(getWidth(10)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: Text(e["userInfo"]["fullName"],
+                                        style: TextStyle(
+                                          fontSize: getWidth(18),
+                                          fontWeight: FontWeight.bold,
+                                        ))),
+                                Text(differenceTime(e["createdAt"]),
+                                    style: TextStyle(
+                                      fontSize: getWidth(16),
+                                    )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: getHeight(5),
+                            ),
+                            Text(e["description"],
+                                style: TextStyle(
+                                  fontSize: getWidth(16),
+                                )),
+                            SizedBox(
+                              height: getHeight(10),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 );
-              }
-
-              return ListView(
-                children: episodeDetailController.comments.value.map((e) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(child: Text(e["userInfo"]["fullName"])),
-                          Text(differenceTime(e["createdAt"])),
-                        ],
-                      ),
-                      SizedBox(
-                        height: getHeight(5),
-                      ),
-                      Text(e["description"]),
-                      SizedBox(
-                        height: getHeight(10),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              );
-            }))
+              }));
+        }),
+        SizedBox(
+          height: getHeight(10),
+        ),
       ],
     );
   }
