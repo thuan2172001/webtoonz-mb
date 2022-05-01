@@ -39,7 +39,7 @@ class SideBarMenu extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: getHeight(36),
+                        height: getHeight(12),
                       ),
                       Text(
                         "Profile",
@@ -49,7 +49,7 @@ class SideBarMenu extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: getHeight(24),
+                        height: getHeight(12),
                       ),
                     ],
                   ),
