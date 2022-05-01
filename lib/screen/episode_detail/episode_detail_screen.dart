@@ -701,7 +701,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
               height: getHeight(getHeight(300)),
               child: Obx(() {
                 return ListView(
-                  shrinkWrap: true,  physics: ClampingScrollPhysics(),
+                  //shrinkWrap: true,  physics: ClampingScrollPhysics(),
                   children: comments.value.map((e) {
                     return Card(
                       shape: RoundedRectangleBorder(
