@@ -11,6 +11,7 @@ class Series {
   final String authorName;
   final String authorAvatar;
   final int totalEpisodes;
+  final int price;
   final int likes;
   final String category;
   final List<SeriesEpisode> episodes;
@@ -22,6 +23,7 @@ class Series {
       this.cover,
       this.totalEpisodes,
       this.likes,
+      this.price,
       this.category,
       this.episodes,
       this.authorName,

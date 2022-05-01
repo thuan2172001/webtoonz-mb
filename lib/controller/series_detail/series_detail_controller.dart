@@ -19,6 +19,7 @@ Series buildSerie() {
       "https://nftjapan.s3.ap-southeast-1.amazonaws.com/image/f0c37c95-af79-42d4-bd96-5888181031e8-AriumWeb20x9.004.png",
       60,
       1000,
+      1000,
       "Drama",
       testEpisodes,
       "Author Name",

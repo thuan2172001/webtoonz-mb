@@ -10,7 +10,7 @@ class GlobalController extends GetxController {
   Rx<User> user = User().obs;
   RxList categories = List.empty(growable: true).obs;
 
-  late PageController pageController;
+  PageController pageController = PageController(initialPage: 0, keepPage: true);
   RxInt currentPage = 0.obs;
 
   @override

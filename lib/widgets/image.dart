@@ -6,18 +6,25 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:untitled/model/custom_dio.dart';
 import 'package:untitled/model/unauthorize_dio.dart';
 
-Container getImage(String? src, {Key? key, width, height, fit, BoxDecoration? decoration}) {
+Container getImage(String? src,
+    {Key? key, width, height, fit, BoxDecoration? decoration}) {
   return Container(
       decoration: decoration,
       child: src == null || src == ""
-          ? Container()
+          ? Container(
+              height: height,
+              width: width,
+              child: Image.asset("assets/default.png"),
+            )
           : src.contains(".svg")
-              ? SvgPicture.network(src, height: height, fit: fit ?? BoxFit.contain)
+              ? SvgPicture.network(src,
+                  height: height, fit: fit ?? BoxFit.contain)
               : Image.network(src, height: height, fit: fit ?? BoxFit.contain));
 }
 
 class ImageService {
-  static Future<dynamic> getPreSignedURL(String filename, int contentLength) async {
+  static Future<dynamic> getPreSignedURL(
+      String filename, int contentLength) async {
     try {
       CustomDio customDio = CustomDio();
       var response = await customDio.post("upload-url", {
@@ -34,7 +41,8 @@ class ImageService {
     }
   }
 
-  static Future<String> handleUploadImage(String filename, int contentLength, File file) async {
+  static Future<String> handleUploadImage(
+      String filename, int contentLength, File file) async {
     try {
       UnauthorizedDio customDio = UnauthorizedDio();
       var response = await getPreSignedURL(filename, contentLength);
