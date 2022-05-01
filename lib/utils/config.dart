@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-double designWidth = 375;
-double designHeight = 812;
+double designWidth = 349;
+double designHeight = 651;
 
 double screenWidth() {
   return MediaQuery.of(Get.context!).size.width;

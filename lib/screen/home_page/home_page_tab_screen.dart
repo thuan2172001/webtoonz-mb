@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/main.dart';
+import 'package:untitled/model/Serie.dart';
+import 'package:untitled/screen/home_page/home_page_component.dart';
+import 'package:untitled/screen/series_detail/episode_card.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/app_bar.dart';
+import 'package:untitled/widgets/input.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePageTabScreen extends StatelessWidget {
+  HomePageController homePageController = Get.put(HomePageController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +43,43 @@ class HomePageTabScreen extends StatelessWidget {
         height: double.infinity,
         color: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: getWidth(20)),
-        child: Column(
+        child: ListView(
+          // shrinkWrap: true,
           children: [
+            SizedBox(
+              height: getHeight(50),
+            ),
+            Container(
+              child: inputSearch(
+                context,
+                hintText: "Search product name",
+                textEditingController: homePageController.searchText,
+                onSearch: () {},
+                fillColor: 0xFFFAFAFA,
+                borderColor: 0xFFFAFAFA,
+              ),
+            ),
+            SizedBox(
+              height: getHeight(28),
+            ),
+            CarouselSlider(
+              items: [1, 2, 3, 4]
+                  .map((e) => Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: getWidth(307),
+                            child: Image.asset("assets/naruto.png"),
+                          );
+                        },
+                      ))
+                  .toList(),
+              options: CarouselOptions(
+                height: getHeight(160),
+              ),
+            ),
+            SizedBox(
+              height: getHeight(28),
+            ),
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -49,41 +93,35 @@ class HomePageTabScreen extends StatelessWidget {
             SizedBox(height: getHeight(20)),
             Container(
               height: getHeight(140),
-              child: Expanded(
-                child: ListView(
+              child: Obx(() {
+                return ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   children: globalController.categories.value.map((e) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: getWidth(20)),
-                          child: SvgPicture.asset(
+                    return Container(
+                      margin: EdgeInsets.only(right: getWidth(20)),
+                      child: Column(
+                        children: [
+                          SvgPicture.asset(
                             "assets/icons/sample-category.svg",
                             width: getWidth(60),
                           ),
-                        ),
-                        Container(
-                          width: getWidth(60),
-                          margin: EdgeInsets.only(left: getWidth(20)),
-                          child: Text(
+                          Text(
                             e["categoryName"],
                             textAlign: TextAlign.center,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   }).toList(),
-                ),
-              ),
+                );
+              }),
             ),
             Container(
               alignment: Alignment.centerLeft,
               child: Text(
-                "New release",
+                "New released",
                 style: TextStyle(
                   fontSize: getWidth(15),
                 ),
@@ -91,27 +129,31 @@ class HomePageTabScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: getHeight(20)),
-            Expanded(
-              child: GridView.count(
-                primary: false,
-                padding: const EdgeInsets.all(10),
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                crossAxisCount: 2,
-                children: globalController.categories.value.map((e) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        color: Colors.teal[100],
-                        borderRadius: BorderRadius.circular(6),
-                        border: Border.all(
-                          color: Color(0xFF000000),
-                          width: getWidth(1),
-                        )),
-                    padding: const EdgeInsets.all(8),
-                    child: const Text("He'd have you all unravel at the"),
-                  );
-                }).toList(),
-              ),
+            GridView.count(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              primary: false,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+              crossAxisCount: 2,
+              childAspectRatio: 4/5.7,
+              children: globalController.categories.value.map((e) {
+                return SeriesItem(
+                  seriesInfo: new Series(
+                    "abc",
+                    "abc",
+                    "",
+                    "",
+                    0,
+                    0,
+                    0,
+                    "abc",
+                    [],
+                    "abc",
+                    "",
+                  ),
+                );
+              }).toList(),
             ),
           ],
         ),

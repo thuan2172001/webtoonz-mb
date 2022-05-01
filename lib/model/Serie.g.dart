@@ -13,6 +13,7 @@ Series _$SeriesFromJson(Map<String, dynamic> json) => Series(
       json['cover'] as String,
       json['totalEpisodes'] as int,
       json['likes'] as int,
+      json['price'] as int,
       json['category'] as String,
       (json['episodes'] as List<dynamic>)
           .map((e) => SeriesEpisode.fromJson(e as Map<String, dynamic>))
@@ -29,6 +30,7 @@ Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
       'authorName': instance.authorName,
       'authorAvatar': instance.authorAvatar,
       'totalEpisodes': instance.totalEpisodes,
+      'price': instance.price,
       'likes': instance.likes,
       'category': instance.category,
       'episodes': instance.episodes,
