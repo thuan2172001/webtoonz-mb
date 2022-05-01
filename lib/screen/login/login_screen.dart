@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
+import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/controller/login/login_controller.dart';
 import 'package:untitled/screen/home_page/home_page_screen.dart';
 import 'package:untitled/screen/signup/signup_welcome_screen.dart';
@@ -158,8 +159,8 @@ Container confirmButtonContainer(
                       // controller.isLoading.value = true;
                       var result = await controller.login();
                       if (result) {
+                        await Get.put(HomePageController()).getSeries();
                         Get.to(() => HomePageScreen());
-                        //Get.to(() => HomePageScreen());
                       }
                       controller.isLoading.value = false;
                     },

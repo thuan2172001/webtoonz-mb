@@ -10,6 +10,7 @@ import 'package:untitled/controller/series_detail/series_detail_controller.dart'
 import 'package:untitled/model/Serie.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
 import 'package:untitled/widgets/app_bar.dart';
+import 'package:untitled/widgets/image.dart';
 
 import '../../main.dart';
 import '../../model/custom_dio.dart';
@@ -40,15 +41,17 @@ class SeriesDetailScreen extends StatelessWidget {
               serieData["episodes"][index]["comments"]));
       controller.initEpisodes(serieEpisodes);
       var seriesInfo = Series.fullParam(
-          serieData["serieName"],
-          serieData["description"],
-          serieData["thumbnail"],
-          serieData["cover"],
-          serieData["totalEpisodes"],
-          serieData["likes"],
-          serieData["category"]["categoryName"],
-          serieData["creatorInfo"]["fullName"],
-          serieData["creatorInfo"]["avatar"]);
+        serieData["serieName"],
+        serieData["description"],
+        serieData["thumbnail"],
+        serieData["cover"],
+        serieData["totalEpisodes"],
+        serieData["likes"],
+        serieData["category"]["categoryName"],
+        serieData["creatorInfo"]["fullName"],
+        serieData["creatorInfo"]["avatar"],
+        serieData["serieId"],
+      );
       return seriesInfo;
     } catch (e) {
       print(e);
@@ -99,7 +102,7 @@ class SeriesDetailScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Image.network(seriesInfo.cover,
+                            getImage(seriesInfo.cover,
                                 height: imageHeight.h, fit: BoxFit.cover),
                           ],
                         ),
@@ -169,8 +172,8 @@ class SeriesDetailScreen extends StatelessWidget {
                                   child: Container(
                                     width: authorAvatarWidth.w,
                                     child: CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(seriesInfo.authorAvatar!),
+                                      child: getImage(
+                                          seriesInfo.authorAvatar),
                                     ),
                                   ),
                                 ),

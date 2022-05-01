@@ -14,8 +14,10 @@ Series _$SeriesFromJson(Map<String, dynamic> json) => Series()
   ..authorName = json['authorName'] as String?
   ..authorAvatar = json['authorAvatar'] as String?
   ..totalEpisodes = json['totalEpisodes'] as int?
-  ..totalLikes = json['totalLikes'] as int
-  ..categoryId = json['categoryId'] as String;
+  ..totalLikes = json['totalLikes'] as int?
+  ..likes = json['likes'] as int?
+  ..categoryId = json['categoryId'] as String
+  ..comments = json['comments'] as int?;
 
 Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
       'serieName': instance.serieName,
@@ -26,7 +28,9 @@ Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
       'authorAvatar': instance.authorAvatar,
       'totalEpisodes': instance.totalEpisodes,
       'totalLikes': instance.totalLikes,
+      'likes': instance.likes,
       'categoryId': instance.categoryId,
+      'comments': instance.comments,
     };
 
 SeriesEpisode _$SeriesEpisodeFromJson(Map<String, dynamic> json) =>
