@@ -89,3 +89,10 @@ dynamic getColorOrderStatus(int indexOrder) {
       return Colors.yellow;
   }
 }
+
+String numberShorten(int number) {
+  if (number >= 1000)
+    if ((number % 1000) ~/ 100 != 0) return '${number ~/ 1000}k${(number % 1000) ~/ 100}';
+        else return '${number ~/ 1000}k';
+  return "$number";
+}

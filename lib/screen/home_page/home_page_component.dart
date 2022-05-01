@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:untitled/model/Serie.dart';
+import 'package:untitled/utils/common-function.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/image.dart';
 
@@ -58,7 +59,7 @@ class SeriesItem extends StatelessWidget {
             height: getHeight(4),
           ),
           Text(
-            'VND ${seriesInfo.price}',
+            'VND ',
             style: TextStyle(fontSize: 11, color: Colors.red),
           ),
           SizedBox(
@@ -79,10 +80,10 @@ class SeriesItem extends StatelessWidget {
                       'assets/icons/gold_star.svg',
                       width: getWidth(9),
                     )),
-                    TextSpan(text: ' ${seriesInfo.likes}')
+                    TextSpan(text: ' ${numberShorten(seriesInfo.totalLikes)}')
                   ])),
               Text(
-                ' ${seriesInfo.likes} Comments',
+                ' ${numberShorten(seriesInfo.totalLikes)} Comments',
                 style: TextStyle(
                   fontSize: getWidth(9.5),
                 ),

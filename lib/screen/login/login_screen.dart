@@ -158,7 +158,7 @@ Container confirmButtonContainer(
                       // controller.isLoading.value = true;
                       var result = await controller.login();
                       if (result) {
-                        Get.to(() => EpisodeDetailScreen(episodeId: "1fb20e90-1ea6-11ec-85db-78afa2a06816",));
+                        Get.to(() => HomePageScreen());
                         //Get.to(() => HomePageScreen());
                       }
                       controller.isLoading.value = false;

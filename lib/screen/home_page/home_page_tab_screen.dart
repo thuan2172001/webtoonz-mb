@@ -140,17 +140,7 @@ class HomePageTabScreen extends StatelessWidget {
               children: globalController.categories.value.map((e) {
                 return SeriesItem(
                   seriesInfo: new Series(
-                    "abc",
-                    "abc",
-                    "",
-                    "",
-                    0,
-                    0,
-                    0,
-                    "abc",
-                    [],
-                    "abc",
-                    "",
+
                   ),
                 );
               }).toList(),

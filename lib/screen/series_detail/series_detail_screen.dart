@@ -76,7 +76,7 @@ class SeriesDetailScreen extends StatelessWidget {
               return Text("No data");
             else {
               var seriesInfo = snapshot.data!;
-              var ratio = seriesInfo.totalEpisodes / controller.limit;
+              var ratio = seriesInfo.totalEpisodes! / controller.limit;
               var numberOfPages =
                   ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
               return Scaffold(
@@ -131,7 +131,7 @@ class SeriesDetailScreen extends StatelessWidget {
                                         width: statusFontSize.sp,
                                       )),
                                       TextSpan(
-                                          text: ' ${seriesInfo.likes}',
+                                          text: ' ${seriesInfo.totalLikes}',
                                           style: TextStyle(
                                               fontSize: statusFontSize.sp))
                                     ])),
@@ -145,7 +145,7 @@ class SeriesDetailScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            seriesInfo.category,
+                            seriesInfo.categoryId,
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: categoryFontSize.sp),
@@ -170,12 +170,12 @@ class SeriesDetailScreen extends StatelessWidget {
                                     width: authorAvatarWidth.w,
                                     child: CircleAvatar(
                                       backgroundImage:
-                                          NetworkImage(seriesInfo.authorAvatar),
+                                          NetworkImage(seriesInfo.authorAvatar!),
                                     ),
                                   ),
                                 ),
                                 Text(
-                                  seriesInfo.authorName,
+                                  seriesInfo.authorName!,
                                   style: TextStyle(
                                       fontSize: authorTitleFontSize.sp),
                                 )

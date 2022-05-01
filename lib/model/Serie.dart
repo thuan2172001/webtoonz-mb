@@ -8,11 +8,11 @@ class Series {
   String description;
   String thumbnail;
   String cover;
-  String authorName;
-  String authorAvatar;
-  int totalEpisodes;
-  int likes;
-  String category;
+  String? authorName;
+  String? authorAvatar;
+  int? totalEpisodes;
+  int totalLikes;
+  String categoryId;
 
   Series()
       : serieName = "",
@@ -22,8 +22,8 @@ class Series {
         authorName = "",
         authorAvatar = "",
         totalEpisodes = 0,
-        likes = 0,
-        category = "";
+        totalLikes = 0,
+        categoryId = "";
 
   Series.fullParam(
       this.serieName,
@@ -31,8 +31,8 @@ class Series {
       this.thumbnail,
       this.cover,
       this.totalEpisodes,
-      this.likes,
-      this.category,
+      this.totalLikes,
+      this.categoryId,
       this.authorName,
       this.authorAvatar);
 

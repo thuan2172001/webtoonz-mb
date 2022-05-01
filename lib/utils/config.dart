@@ -11,7 +11,7 @@ String differenceTime(String s) {
   if (sub.inDays > 0) return "${sub.inDays} phút trước";
   if (sub.inHours > 0) return "${sub.inHours} giờ trước";
   if (sub.inMinutes > 0) return "${sub.inMinutes} phút trước";
-  if(sub.inSeconds>0)return "${sub.inSeconds} giây trước";
+  if (sub.inSeconds>0)return "${sub.inSeconds} giây trước";
   return "0 giây trước";
 }
 
