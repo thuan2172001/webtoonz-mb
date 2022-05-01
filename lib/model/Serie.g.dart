@@ -6,21 +6,16 @@ part of 'Serie.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Series _$SeriesFromJson(Map<String, dynamic> json) => Series(
-      json['serieName'] as String,
-      json['description'] as String,
-      json['thumbnail'] as String,
-      json['cover'] as String,
-      json['totalEpisodes'] as int,
-      json['likes'] as int,
-      json['price'] as int,
-      json['category'] as String,
-      (json['episodes'] as List<dynamic>)
-          .map((e) => SeriesEpisode.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      json['authorName'] as String,
-      json['authorAvatar'] as String,
-    );
+Series _$SeriesFromJson(Map<String, dynamic> json) => Series()
+  ..serieName = json['serieName'] as String
+  ..description = json['description'] as String
+  ..thumbnail = json['thumbnail'] as String
+  ..cover = json['cover'] as String
+  ..authorName = json['authorName'] as String
+  ..authorAvatar = json['authorAvatar'] as String
+  ..totalEpisodes = json['totalEpisodes'] as int
+  ..likes = json['likes'] as int
+  ..category = json['category'] as String;
 
 Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
       'serieName': instance.serieName,
@@ -30,26 +25,24 @@ Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
       'authorName': instance.authorName,
       'authorAvatar': instance.authorAvatar,
       'totalEpisodes': instance.totalEpisodes,
-      'price': instance.price,
       'likes': instance.likes,
       'category': instance.category,
-      'episodes': instance.episodes,
     };
 
 SeriesEpisode _$SeriesEpisodeFromJson(Map<String, dynamic> json) =>
     SeriesEpisode(
       json['name'] as String,
-      json['chapter'] as String,
       json['thumbnail'] as String,
       json['price'] as int,
       json['likeInit'] as int,
+      json['comments'] as int,
     );
 
 Map<String, dynamic> _$SeriesEpisodeToJson(SeriesEpisode instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'chapter': instance.chapter,
       'thumbnail': instance.thumbnail,
       'price': instance.price,
       'likeInit': instance.likeInit,
+      'comments': instance.comments,
     };

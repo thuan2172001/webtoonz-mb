@@ -4,47 +4,58 @@ part 'Serie.g.dart';
 
 @JsonSerializable()
 class Series {
-  final String serieName;
-  final String description;
-  final String thumbnail;
-  final String cover;
-  final String authorName;
-  final String authorAvatar;
-  final int totalEpisodes;
-  final int price;
-  final int likes;
-  final String category;
-  final List<SeriesEpisode> episodes;
+  String serieName;
+  String description;
+  String thumbnail;
+  String cover;
+  String authorName;
+  String authorAvatar;
+  int totalEpisodes;
+  int likes;
+  String category;
 
-  Series(
+  Series()
+      : serieName = "",
+        description = "",
+        thumbnail = "",
+        cover = "",
+        authorName = "",
+        authorAvatar = "",
+        totalEpisodes = 0,
+        likes = 0,
+        category = "";
+
+  Series.fullParam(
       this.serieName,
       this.description,
       this.thumbnail,
       this.cover,
       this.totalEpisodes,
       this.likes,
-      this.price,
       this.category,
-      this.episodes,
       this.authorName,
       this.authorAvatar);
 
   factory Series.fromJson(Map<String, dynamic> json) => _$SeriesFromJson(json);
 
   Map<String, dynamic> toJson() => _$SeriesToJson(this);
+
+  @override
+  String toString() {
+    return 'serieName: $serieName, description: $description';
+  }
 }
 
 @JsonSerializable()
 class SeriesEpisode {
   final String name;
-  final String chapter;
   final String thumbnail;
   final int price;
   final int likeInit;
-  final int comments = 83;
+  final int comments;
 
   SeriesEpisode(
-      this.name, this.chapter, this.thumbnail, this.price, this.likeInit);
+      this.name, this.thumbnail, this.price, this.likeInit, this.comments);
 
   factory SeriesEpisode.fromJson(Map<String, dynamic> json) =>
       _$SeriesEpisodeFromJson(json);
