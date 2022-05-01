@@ -10,8 +10,6 @@ import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/i18n.dart';
 import 'package:untitled/screen/series_detail/series_detail_screen.dart';
 
-import 'controller/series_detail/series_detail_controller.dart';
-
 GlobalController globalController = Get.put(GlobalController());
 
 Future<void> main() async {
@@ -41,7 +39,9 @@ class MyApp extends StatelessWidget {
           fontFamily: "DMSans",
         ),
         //home: LoginScreen(),
-        home: SeriesDetailScreen(seriesInfo: buildSerie()),
+        home: SeriesDetailScreen(
+          serieId: "5b81de1c-13a9-11ec-932a-87f66c622227",
+        ),
       );
     });
   }
