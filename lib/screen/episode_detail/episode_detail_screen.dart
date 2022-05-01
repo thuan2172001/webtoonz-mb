@@ -79,10 +79,10 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                         BorderRadius.all(Radius.circular(getWidth(15))),
                   ),
                 ),
-                onPressed: () {
-                  episodeDetailController.addComment(comment.text);
-                  episodeDetailController.getComments();
+                onPressed: () async {
                   Get.back();
+                  await episodeDetailController.addComment(comment.text);
+                  episodeDetailController.getComments();
                 },
                 child: Text('Comment',
                     style: TextStyle(
@@ -701,6 +701,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
               height: getHeight(getHeight(300)),
               child: Obx(() {
                 return ListView(
+                  //shrinkWrap: true,  physics: ClampingScrollPhysics(),
                   children: comments.value.map((e) {
                     return Card(
                       shape: RoundedRectangleBorder(
