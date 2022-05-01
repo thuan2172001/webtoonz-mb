@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/favorite/favorite_series_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
+import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/utils/config.dart';
 
 import 'bounce_button.dart';
@@ -29,8 +30,11 @@ Container bottomNavigator() {
                 children: [
                   Obx(() {
                     return Bouncing(
-                      onPress: () {
-                        globalController.onChangeTab(0);
+                      onPress: () async {
+                        if (globalController.currentPage.value != 0) {
+                          await Get.put(HomePageController()).getSeries();
+                          globalController.onChangeTab(0);
+                        }
                       },
                       child: Container(
                         color: Colors.white,
