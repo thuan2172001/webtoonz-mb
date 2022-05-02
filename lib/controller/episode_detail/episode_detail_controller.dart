@@ -20,14 +20,12 @@ class EpisodeDetailController extends GetxController with StateMixin {
   @override
   void onInit() async {
     super.onInit();
-    change(null, status: RxStatus.loading());
+  }
+
+  Future getApi() async {
     await getEpisodeDetail();
     await getComments();
-    GlobalController globalController = Get.put(GlobalController());
-    inCart=globalController.checkInCart(episodeId).obs;
-    print(inCart);
-    print(episodeId);
-    change(null, status: RxStatus.success());
+    inCart=Get.put(GlobalController()).checkInCart(episodeId).obs;
   }
 
   Future addToCart() async {

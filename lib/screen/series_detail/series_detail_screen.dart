@@ -14,6 +14,7 @@ import 'package:untitled/screen/series_detail/search_episodes.dart';
 import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/image.dart';
 
+import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../main.dart';
 import '../../model/custom_dio.dart';
 
@@ -213,10 +214,11 @@ class SeriesDetailScreen extends StatelessWidget {
                                 itemCount: controller.episodes.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
-                                    onTap: () {
-                                      Get.to(() => EpisodeDetailScreen(
-                                          episodeId: controller
-                                              .episodes[index].episodeId));
+                                    onTap: () async {
+                                       var episodeDetailController=EpisodeDetailController(episodeId: controller
+                                          .episodes[index].episodeId);
+                                       await episodeDetailController.getApi();
+                                      Get.to(() => EpisodeDetailScreen(controller: episodeDetailController));
                                     },
                                     child: EpisodeCard(
                                         episode: controller.episodes[index]),
