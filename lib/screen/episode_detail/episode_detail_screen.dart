@@ -447,7 +447,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
             minimumSize: Size(
-              getWidth(343),
+              getWidth(305),
               getWidth(50),
             ),
             shape: RoundedRectangleBorder(
@@ -470,7 +470,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                   onPrimary: Colors.black87,
                   primary: Colors.white,
                   minimumSize: Size(
-                    getWidth(160),
+                    getWidth(142.5),
                     getWidth(50),
                   ),
                   shape: RoundedRectangleBorder(
@@ -505,7 +505,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
               style: ElevatedButton.styleFrom(
                 onPrimary: Colors.black87,
                 primary: Color(0xFF3669C9),
-                minimumSize: Size(getWidth(160), getWidth(50)),
+                minimumSize: Size(getWidth(142.5), getWidth(50)),
                 shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.all(Radius.circular(getWidth(15)))),
