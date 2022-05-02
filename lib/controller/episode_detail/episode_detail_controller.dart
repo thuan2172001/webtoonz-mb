@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../model/custom_dio.dart';
 import '../../model/espisode.dart';
+import 'package:untitled/controller/global_controller.dart';
 
 class EpisodeDetailController extends GetxController with StateMixin {
   final String episodeId;
@@ -15,6 +15,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
   EpisodeDetailController({required this.episodeId});
 
   RxBool seeAll = false.obs;
+  RxBool inCart = false.obs;
 
   @override
   void onInit() async {
@@ -22,10 +23,14 @@ class EpisodeDetailController extends GetxController with StateMixin {
     change(null, status: RxStatus.loading());
     await getEpisodeDetail();
     await getComments();
+    GlobalController globalController = Get.put(GlobalController());
+    inCart=globalController.checkInCart(episodeId).obs;
+    print(inCart);
+    print(episodeId);
     change(null, status: RxStatus.success());
   }
 
-  Future addToCart(int quantity) async {
+  Future addToCart() async {
     try {
       CustomDio customDio = CustomDio();
       var response = await customDio.get("/user/cart");
@@ -33,11 +38,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
       RxList data = List.empty(growable: true).obs;
       data.value = response["data"];
       var requet = {"cartItems": data.value};
-      while (quantity > 0) {
-        data.add("$episodeId");
-        quantity--;
-      }
-
+      data.add("$episodeId");
       response = await customDio.put("/user/cart", requet);
       return true;
     } catch (e, s) {

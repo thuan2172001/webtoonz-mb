@@ -8,8 +8,11 @@ import 'package:number_paginator/number_paginator.dart';
 import 'package:sizer/sizer.dart';
 import 'package:untitled/controller/series_detail/series_detail_controller.dart';
 import 'package:untitled/model/Serie.dart';
+import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
+import 'package:untitled/screen/series_detail/search_episodes.dart';
 import 'package:untitled/widgets/app_bar.dart';
+import 'package:untitled/widgets/image.dart';
 
 import '../../main.dart';
 import '../../model/custom_dio.dart';
@@ -26,7 +29,7 @@ class SeriesDetailScreen extends StatelessWidget {
       customDio.dio.options.headers["Authorization"] =
           globalController.user.value.certificate.toString();
       var response = await customDio
-          .get("/serie/$serieId?guest=true&page=1&limit=${controller.limit}");
+          .get("/serie/$serieId?page=1&limit=${controller.limit}");
       response = jsonDecode(response.toString());
       if (response["code"] != 200) return Series();
       var serieData = response["data"];
@@ -37,18 +40,23 @@ class SeriesDetailScreen extends StatelessWidget {
               serieData["episodes"][index]["thumbnail"],
               serieData["episodes"][index]["price"],
               serieData["episodes"][index]["likeInit"],
-              serieData["episodes"][index]["comments"]));
-      controller.initEpisodes(serieEpisodes);
+              serieData["episodes"][index]["comments"],
+              serieData["episodes"][index]["episodeId"],
+              serieData["episodes"][index]["chapter"]));
+      controller.initialize(serieEpisodes, serieData["serieId"]);
       var seriesInfo = Series.fullParam(
-          serieData["serieName"],
-          serieData["description"],
-          serieData["thumbnail"],
-          serieData["cover"],
-          serieData["totalEpisodes"],
-          serieData["likes"],
-          serieData["category"]["categoryName"],
-          serieData["creatorInfo"]["fullName"],
-          serieData["creatorInfo"]["avatar"]);
+        serieData["serieName"],
+        serieData["description"],
+        serieData["thumbnail"],
+        serieData["cover"],
+        serieData["totalEpisodes"],
+        serieData["likes"],
+        serieData["categoryId"],
+        serieData["category"]["categoryName"],
+        serieData["creatorInfo"]["fullName"],
+        serieData["creatorInfo"]["avatar"],
+        serieData["serieId"],
+      );
       return seriesInfo;
     } catch (e) {
       print(e);
@@ -65,7 +73,7 @@ class SeriesDetailScreen extends StatelessWidget {
     double authorAvatarWidth = 10;
     double descriptionFontSize = 10;
     double statusFontSize = 10;
-    double categoryFontSize = 7;
+    double categoryFontSize = 9;
     double authorTitleFontSize = 15;
 
     return FutureBuilder<Series>(
@@ -86,7 +94,12 @@ class SeriesDetailScreen extends StatelessWidget {
                     actions: <Widget>[
                       new IconButton(
                         icon: new Icon(Icons.search, color: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchEpisodeScreen()));
+                        },
                       )
                     ]),
                 body: ListView(
@@ -99,7 +112,7 @@ class SeriesDetailScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Image.network(seriesInfo.cover,
+                            getImage(seriesInfo.cover,
                                 height: imageHeight.h, fit: BoxFit.cover),
                           ],
                         ),
@@ -145,7 +158,7 @@ class SeriesDetailScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            seriesInfo.categoryId,
+                            seriesInfo.category!,
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: categoryFontSize.sp),
@@ -169,8 +182,8 @@ class SeriesDetailScreen extends StatelessWidget {
                                   child: Container(
                                     width: authorAvatarWidth.w,
                                     child: CircleAvatar(
-                                      backgroundImage:
-                                          NetworkImage(seriesInfo.authorAvatar!),
+                                      backgroundImage: NetworkImage(
+                                          seriesInfo.authorAvatar!),
                                     ),
                                   ),
                                 ),
@@ -199,8 +212,15 @@ class SeriesDetailScreen extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 itemCount: controller.episodes.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return EpisodeCard(
-                                      episode: controller.episodes[index]);
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => EpisodeDetailScreen(
+                                          episodeId: controller
+                                              .episodes[index].episodeId));
+                                    },
+                                    child: EpisodeCard(
+                                        episode: controller.episodes[index]),
+                                  );
                                 },
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
@@ -238,7 +258,8 @@ class SeriesDetailScreen extends StatelessWidget {
                 ),
               ],
             );
-          return CircularProgressIndicator();
+          //return CircularProgressIndicator();
+          return Container();
         });
   }
 }

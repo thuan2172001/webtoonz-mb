@@ -5,6 +5,7 @@ import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/model/Serie.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';
+import 'package:untitled/screen/home_page/search_result_screen.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/app_bar.dart';
@@ -47,14 +48,19 @@ class HomePageTabScreen extends StatelessWidget {
           // shrinkWrap: true,
           children: [
             SizedBox(
-              height: getHeight(50),
+              height: getHeight(25),
             ),
             Container(
               child: inputSearch(
                 context,
                 hintText: "Search product name",
                 textEditingController: homePageController.searchText,
-                onSearch: () {},
+                onSearch: () {
+                  if (homePageController.searchText.text != "") {
+                    homePageController.search();
+                    Get.to(SearchResultScreen());
+                  }
+                },
                 fillColor: 0xFFFAFAFA,
                 borderColor: 0xFFFAFAFA,
               ),
@@ -129,22 +135,22 @@ class HomePageTabScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: getHeight(20)),
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              primary: false,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-              crossAxisCount: 2,
-              childAspectRatio: 4/5.7,
-              children: globalController.categories.value.map((e) {
-                return SeriesItem(
-                  seriesInfo: new Series(
-
-                  ),
-                );
-              }).toList(),
-            ),
+            Obx(() {
+              return GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                primary: false,
+                crossAxisSpacing: getWidth(20),
+                mainAxisSpacing: getHeight(20),
+                crossAxisCount: 2,
+                childAspectRatio: 4 / 5.7,
+                children: homePageController.seriesList.map((e) {
+                  return SeriesItem(
+                    seriesInfo: e,
+                  );
+                }).toList(),
+              );
+            }),
           ],
         ),
       ),

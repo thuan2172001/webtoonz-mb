@@ -1,15 +1,56 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:untitled/controller/series_detail/series_detail_controller.dart';
+import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 
-class SearchEpisodesScreen extends StatefulWidget {
-  const SearchEpisodesScreen({Key? key}) : super(key: key);
+class SearchEpisodeScreen extends StatelessWidget {
+  final SerieDetailController controller = Get.put(SerieDetailController());
 
-  @override
-  State<SearchEpisodesScreen> createState() => _SearchEpisodesScreenState();
-}
+  SearchEpisodeScreen({Key? key}) : super(key: key);
 
-class _SearchEpisodesScreenState extends State<SearchEpisodesScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: TextField(
+          decoration:
+              new InputDecoration.collapsed(hintText: "Search episodes"),
+          onChanged: (text) => controller.searchEpisodes(text),
+        ),
+        leading: Icon(Icons.search),
+        actions: [
+          IconButton(
+              onPressed: () {
+                controller.searchResults.clear();
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.cancel))
+        ],
+      ),
+      body: Obx(() => ListView.builder(
+            itemCount: controller.searchResults.length,
+            itemBuilder: (BuildContext context, int index) {
+              return GestureDetector(
+                onTap: () {
+                  Get.to(() => EpisodeDetailScreen(
+                      episodeId: controller.searchResults[index].episodeId));
+                },
+                child: ListTile(
+                  leading: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: double.infinity,
+                      maxHeight: double.infinity,
+                    ),
+                    child: Image.network(
+                        controller.searchResults[index].thumbnail),
+                  ),
+                  title: Text(controller.searchResults[index].name),
+                  subtitle: Text(
+                      "Chapter ${controller.searchResults[index].chapter}"),
+                ),
+              );
+            },
+          )),
+    );
   }
 }

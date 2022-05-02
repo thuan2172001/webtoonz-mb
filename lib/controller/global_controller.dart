@@ -10,7 +10,8 @@ class GlobalController extends GetxController {
   Rx<User> user = User().obs;
   RxList categories = List.empty(growable: true).obs;
 
-  PageController pageController = PageController(initialPage: 0, keepPage: true);
+  RxList episodeIdsInCart = List.empty(growable: true).obs;
+  late PageController pageController;
   RxInt currentPage = 0.obs;
 
   @override
@@ -39,6 +40,49 @@ class GlobalController extends GetxController {
       categories.value = data;
     } catch (e, s) {
       return null;
+    }
+  }
+
+  Future getEpisodeIdsInCart() async {
+    try {
+      CustomDio customDio = CustomDio();
+      var response = await customDio.get("/user/cart");
+      response = jsonDecode(response.toString());
+      episodeIdsInCart.value = response["data"]?? [];
+      return true;
+    } catch (e, s) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  bool checkInCart(String episodeId){
+    return episodeIdsInCart.value.contains(episodeId);
+  }
+
+  Future addToCart(String episodeId) async {
+    try {
+      CustomDio customDio = CustomDio();
+      episodeIdsInCart.value.add(episodeId);
+      var data = {"cartItems": episodeIdsInCart.value};
+      var response = await customDio.put("/user/cart", data);
+      return true;
+    } catch (e, s) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future removeFomCart(String episodeId) async {
+    try {
+      CustomDio customDio = CustomDio();
+      episodeIdsInCart.value.remove(episodeId);
+      var data = {"cartItems": episodeIdsInCart.value};
+      var response = await customDio.put("/user/cart", data);
+      return true;
+    } catch (e, s) {
+      print(e.toString());
+      return false;
     }
   }
 }
