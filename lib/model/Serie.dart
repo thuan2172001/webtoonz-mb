@@ -29,7 +29,7 @@ class Series {
         likes = 0,
         comments = 0,
         categoryId = "",
-  serieId = "";
+        serieId = "";
 
   Series.fullParam(
     this.serieName,
