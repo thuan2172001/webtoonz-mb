@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
+import 'package:untitled/service/stripe.dart';
 import 'package:untitled/utils/config.dart';
 
 class SideBarMenu extends StatelessWidget {
@@ -165,7 +167,23 @@ class SideBarMenu extends StatelessWidget {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                // add
+                                // var card = CardDetails.fromJson({
+                                //   "number": "4242424242424242",
+                                //   "expirationYear": 42,
+                                //   "expirationMonth": 6,
+                                //   "cvc": "424"
+                                // });
+                                // var paymentMethod =
+                                //     await StripeService.createSetupIntent(card);
+                                // StripeService.createNewPayment(
+                                //     paymentMethod, context);
+
+                                // delete
+                                // await StripeService.deletePayment(
+                                //     "pm_1Kv1thCkuVKGrqVo4JMUPyAb", context);
+                              },
                               child: Container(
                                 color: Colors.white,
                                 child: Column(
