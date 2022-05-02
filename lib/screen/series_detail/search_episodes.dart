@@ -21,6 +21,7 @@ class SearchEpisodeScreen extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () {
+                controller.searchResults.clear();
                 Navigator.pop(context);
               },
               icon: Icon(Icons.cancel))

@@ -73,7 +73,7 @@ class SeriesDetailScreen extends StatelessWidget {
     double authorAvatarWidth = 10;
     double descriptionFontSize = 10;
     double statusFontSize = 10;
-    double categoryFontSize = 7;
+    double categoryFontSize = 9;
     double authorTitleFontSize = 15;
 
     return FutureBuilder<Series>(
@@ -158,7 +158,7 @@ class SeriesDetailScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            seriesInfo.categoryId,
+                            seriesInfo.category!,
                             style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: categoryFontSize.sp),
