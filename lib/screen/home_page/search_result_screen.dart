@@ -35,7 +35,8 @@ class SearchResultScreen extends StatelessWidget {
                 hintText: "Search product name",
                 textEditingController: homepageController.searchText,
                 onSearch: () {
-                  homepageController.search();
+                  if (homepageController.searchText.text != "")
+                    homepageController.search();
                 },
                 fillColor: 0xFFFAFAFA,
                 borderColor: 0xFFFAFAFA,
@@ -44,7 +45,8 @@ class SearchResultScreen extends StatelessWidget {
             SizedBox(
               height: getHeight(15),
             ),
-            Text("${homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"),
+            Text(
+                "${homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"),
             SizedBox(
               height: getHeight(15),
             ),

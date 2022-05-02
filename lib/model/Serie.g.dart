@@ -7,6 +7,7 @@ part of 'Serie.dart';
 // **************************************************************************
 
 Series _$SeriesFromJson(Map<String, dynamic> json) => Series()
+  ..serieId = json['serieId'] as String
   ..serieName = json['serieName'] as String
   ..description = json['description'] as String
   ..thumbnail = json['thumbnail'] as String
@@ -20,6 +21,7 @@ Series _$SeriesFromJson(Map<String, dynamic> json) => Series()
   ..comments = json['comments'] as int?;
 
 Map<String, dynamic> _$SeriesToJson(Series instance) => <String, dynamic>{
+      'serieId': instance.serieId,
       'serieName': instance.serieName,
       'description': instance.description,
       'thumbnail': instance.thumbnail,

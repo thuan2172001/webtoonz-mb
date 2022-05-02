@@ -56,8 +56,10 @@ class HomePageTabScreen extends StatelessWidget {
                 hintText: "Search product name",
                 textEditingController: homePageController.searchText,
                 onSearch: () {
-                  homePageController.search();
-                  Get.to(SearchResultScreen());
+                  if (homePageController.searchText.text != "") {
+                    homePageController.search();
+                    Get.to(SearchResultScreen());
+                  }
                 },
                 fillColor: 0xFFFAFAFA,
                 borderColor: 0xFFFAFAFA,
