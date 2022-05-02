@@ -218,7 +218,6 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   Widget build(BuildContext context) {
     episodeDetailController =
         Get.put(EpisodeDetailController(episodeId: this.episodeId));
-    episodeDetailController.episode.value.isBought=true;
     return controller.obx(
       (state) {
         return Scaffold(
