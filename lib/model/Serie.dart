@@ -67,7 +67,7 @@ class SeriesEpisode {
   final String chapter;
   final int price;
   final int likeInit;
-  final int comments;
+  final int? comments;
 
   SeriesEpisode(this.name, this.thumbnail, this.price, this.likeInit,
       this.comments, this.episodeId, this.chapter);

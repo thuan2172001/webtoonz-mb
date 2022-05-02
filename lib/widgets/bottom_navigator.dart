@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/favorite/favorite_episode_controller.dart';
 import 'package:untitled/controller/favorite/favorite_series_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
@@ -66,6 +67,7 @@ Container bottomNavigator() {
                     return Bouncing(
                       onPress: () async {
                         await Get.put(FavoriteSeriesController()).getFavoriteSeries();
+                        await Get.put(FavoriteEpisodeController()).getFavoriteEpisode();
                         globalController.onChangeTab(1);
                       },
                       child: Container(

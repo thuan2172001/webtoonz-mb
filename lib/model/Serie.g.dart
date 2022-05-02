@@ -43,7 +43,7 @@ SeriesEpisode _$SeriesEpisodeFromJson(Map<String, dynamic> json) =>
       json['thumbnail'] as String,
       json['price'] as int,
       json['likeInit'] as int,
-      json['comments'] as int,
+      json['comments'] as int?,
       json['episodeId'] as String,
       json['chapter'] as String,
     );
