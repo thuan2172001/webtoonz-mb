@@ -4,6 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:untitled/main.dart';
+import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../utils/config.dart';
@@ -11,7 +13,7 @@ import '../../widgets/app_bar.dart';
 
 class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   final String episodeId;
-
+  final component=EpisodeDetailComponent();
   EpisodeDetailScreen({required this.episodeId});
 
   late EpisodeDetailController episodeDetailController;
@@ -216,7 +218,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
   Widget build(BuildContext context) {
     episodeDetailController =
         Get.put(EpisodeDetailController(episodeId: this.episodeId));
-
+    episodeDetailController.episode.value.isBought=true;
     return controller.obx(
       (state) {
         return Scaffold(
@@ -445,7 +447,10 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
-            minimumSize: Size(getWidth(343), getWidth(50),),
+            minimumSize: Size(
+              getWidth(343),
+              getWidth(50),
+            ),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
                 side: BorderSide(color: Colors.black)),
@@ -453,12 +458,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
           onPressed: () {
             _addComment();
           },
-          child: Text('Comment',
-              style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.bold,
-                fontSize: getWidth(16),
-              )),
+          child: component.commentText,
         ),
         SizedBox(
           height: getWidth(24),
@@ -470,7 +470,10 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 style: ElevatedButton.styleFrom(
                   onPrimary: Colors.black87,
                   primary: Colors.white,
-                  minimumSize: Size(getWidth(160), getWidth(50),),
+                  minimumSize: Size(
+                    getWidth(160),
+                    getWidth(50),
+                  ),
                   shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.all(Radius.circular(getWidth(15))),
@@ -492,59 +495,50 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 child: Obx(() {
                   if (episodeDetailController.episode.value.alreadyLiked ==
                       false)
-                    return Text(
-                      "Add to Favorite",
-                      style: TextStyle(
-                        fontSize: getWidth(16),
-                      ),
-                    );
-                  return Text(
-                    "Unlike",
-                    style: TextStyle(
-                      fontSize: getWidth(16),
-                    ),
-                  );
+                    return component.addToFavoriteText;
+                  return component.unLikeText;
                 })),
             SizedBox(
               width: getWidth(23),
             ),
+
             ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.black87,
-                  primary: Color(0xFF3669C9),
-                  minimumSize: Size(getWidth(160), getWidth(50)),
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(getWidth(15)))),
-                ),
-                onPressed: () {
-                  episodeDetailController.addToCart();
-                },
-                child: Obx(() {
-                  if (episodeDetailController.episode.value.isBought == false)
-                    return Text(
-                      "Add to Cart",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: getWidth(16),
-                      ),
-                    );
-                  else
-                    return Text(
-                      "Enjoy now",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: getWidth(16),
-                      ),
-                    );
-                })),
+              style: ElevatedButton.styleFrom(
+                onPrimary: Colors.black87,
+                primary: Color(0xFF3669C9),
+                minimumSize: Size(getWidth(160), getWidth(50)),
+                shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(getWidth(15)))),
+              ),
+              onPressed: () {
+                if (episodeDetailController.episode.value.isBought == true) {
+                  return;
+                }
+                if (episodeDetailController.inCart.value==true) {
+                  episodeDetailController.inCart.value=false;
+                  globalController.removeFomCart(episodeId);
+                }
+                else {
+                  episodeDetailController.inCart.value = true;
+                  globalController.addToCart(episodeId);
+                }
+                episodeDetailController.inCart.refresh();
+
+              },
+              child: Obx(() {
+                if (episodeDetailController.episode.value.isBought == true) {
+                  return component.readNowText;
+                }
+                if (episodeDetailController.inCart.value==true) {
+                  return component.removeFromCartText;
+                }
+                return component.addToCartText;
+              }),
+            )
           ],
         ),
-        SizedBox(
-          height: getWidth(20)
-        ),
+        SizedBox(height: getWidth(20)),
       ],
     );
   }
@@ -603,7 +597,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _test(index),
+                            _divider(index),
                             Row(
                               children: [
                                 Expanded(
@@ -619,7 +613,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                               ],
                             ),
                             SizedBox(
-                              height:getWidth(5),
+                              height: getWidth(5),
                             ),
                             Text(value["description"],
                                 style: TextStyle(
@@ -628,8 +622,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                           ],
                         )))
                     .values
-                    .toList()
-                ),
+                    .toList()),
           );
         }),
         SizedBox(
@@ -639,7 +632,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
     );
   }
 
-  Widget _test(int index) {
+  Widget _divider(int index) {
     if (index != 0)
       return Divider(color: Colors.grey[400]);
     else

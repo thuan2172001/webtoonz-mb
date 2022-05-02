@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../model/custom_dio.dart';
 import '../../model/espisode.dart';
+import 'package:untitled/controller/global_controller.dart';
 
 class EpisodeDetailController extends GetxController with StateMixin {
   final String episodeId;
@@ -15,6 +15,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
   EpisodeDetailController({required this.episodeId});
 
   RxBool seeAll = false.obs;
+  RxBool inCart = false.obs;
 
   @override
   void onInit() async {
@@ -22,6 +23,10 @@ class EpisodeDetailController extends GetxController with StateMixin {
     change(null, status: RxStatus.loading());
     await getEpisodeDetail();
     await getComments();
+    GlobalController globalController = Get.put(GlobalController());
+    inCart=globalController.checkInCart(episodeId).obs;
+    print(inCart);
+    print(episodeId);
     change(null, status: RxStatus.success());
   }
 
