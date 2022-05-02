@@ -24,9 +24,9 @@ class FavoriteSeriesScreen extends StatelessWidget{
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 20,
+                  crossAxisSpacing: 0,
                   mainAxisSpacing: 20,
-                  childAspectRatio: 4 / 5.7),
+                  childAspectRatio: 4 / 5.5),
             ),
           ],
         )

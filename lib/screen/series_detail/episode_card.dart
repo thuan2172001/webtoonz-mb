@@ -74,7 +74,7 @@ class EpisodeCard extends StatelessWidget {
                       TextSpan(text: ' ${episode.likeInit}')
                     ])),
                 Text(
-                  ' ${episode.comments} Comments',
+                  ' ${episode.comments ?? 0} Comments',
                   style: TextStyle(fontSize: statusFontSize.sp),
                 ),
               ],
