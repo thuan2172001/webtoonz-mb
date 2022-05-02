@@ -25,7 +25,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
     change(null, status: RxStatus.success());
   }
 
-  Future addToCart(int quantity) async {
+  Future addToCart() async {
     try {
       CustomDio customDio = CustomDio();
       var response = await customDio.get("/user/cart");
@@ -33,11 +33,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
       RxList data = List.empty(growable: true).obs;
       data.value = response["data"];
       var requet = {"cartItems": data.value};
-      while (quantity > 0) {
-        data.add("$episodeId");
-        quantity--;
-      }
-
+      data.add("$episodeId");
       response = await customDio.put("/user/cart", requet);
       return true;
     } catch (e, s) {
