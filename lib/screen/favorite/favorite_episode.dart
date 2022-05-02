@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:untitled/controller/favorite/favorite_episode_controller.dart';
+import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
 
 class FavoriteEpisodeScreen extends StatelessWidget{
@@ -20,11 +22,17 @@ class FavoriteEpisodeScreen extends StatelessWidget{
               shrinkWrap: true,
               itemCount: favoriteEpisode.listEpisode.length,
               itemBuilder: (BuildContext context, int index) {
-                return EpisodeCard(episode: favoriteEpisode.listEpisode[index]);
+                return GestureDetector(
+                  onTap: () {
+                    Get.to(() => EpisodeDetailScreen(
+                        episodeId: favoriteEpisode.listEpisode[index].episodeId));
+                  },
+                  child: EpisodeCard(episode: favoriteEpisode.listEpisode[index])
+                );
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 20,
+                  crossAxisSpacing: 0,
                   mainAxisSpacing: 20,
                   childAspectRatio: 4 / 5.7),
             ),

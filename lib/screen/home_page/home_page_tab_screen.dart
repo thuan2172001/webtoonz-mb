@@ -140,10 +140,10 @@ class HomePageTabScreen extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 primary: false,
-                crossAxisSpacing: getWidth(20),
+                crossAxisSpacing: getWidth(0),
                 mainAxisSpacing: getHeight(20),
                 crossAxisCount: 2,
-                childAspectRatio: 4 / 5.7,
+                childAspectRatio: 4 / 5.5,
                 children: homePageController.seriesList.map((e) {
                   return SeriesItem(
                     seriesInfo: e,
