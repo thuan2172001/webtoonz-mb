@@ -23,7 +23,7 @@ class EpisodeDetailComponent{
   );
 
   var addToCartText = Text(
-    "Add to Cart",
+    "   Add to Cart  ",
     style: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,

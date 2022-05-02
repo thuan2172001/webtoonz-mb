@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:untitled/controller/series_detail/series_detail_controller.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 
+import '../../controller/episode_detail/episode_detail_controller.dart';
+
 class SearchEpisodeScreen extends StatelessWidget {
   final SerieDetailController controller = Get.put(SerieDetailController());
 
@@ -31,9 +33,11 @@ class SearchEpisodeScreen extends StatelessWidget {
             itemCount: controller.searchResults.length,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
-                onTap: () {
-                  Get.to(() => EpisodeDetailScreen(
-                      episodeId: controller.searchResults[index].episodeId));
+                onTap: () async {
+                  var episodeDetailController=EpisodeDetailController(episodeId: controller.searchResults[index].episodeId);
+                  await episodeDetailController.getApi();
+                  Get.to(() => EpisodeDetailScreen(controller: episodeDetailController));
+
                 },
                 child: ListTile(
                   leading: ConstrainedBox(

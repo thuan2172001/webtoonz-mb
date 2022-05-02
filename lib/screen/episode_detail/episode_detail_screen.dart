@@ -11,58 +11,67 @@ import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
 
-class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
-  final String episodeId;
-  final component=EpisodeDetailComponent();
-  EpisodeDetailScreen({required this.episodeId});
+class EpisodeDetailScreen extends StatelessWidget {
+  final EpisodeDetailController controller;
+  final component = EpisodeDetailComponent();
 
-  late EpisodeDetailController episodeDetailController;
+  EpisodeDetailScreen({required this.controller});
 
   void _addComment() {
     TextEditingController comment = TextEditingController();
+    var onTap=false.obs;
     Get.bottomSheet(
         Container(
-          height: getHeight(600),
           margin: EdgeInsets.symmetric(horizontal: getHeight(16)),
           child: Column(
             children: [
               SizedBox(
                 height: getHeight(10),
               ),
-              Text("What do you think?",
-                  style: TextStyle(
-                    fontSize: getHeight(20),
-                  )),
-              SizedBox(
-                height: getHeight(15),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: getWidth(30)),
-                child: Center(
-                  child: Text("Please share your opinion about the product",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: getHeight(20),
-                      )),
-                ),
-              ),
-              SizedBox(
-                height: getHeight(10),
-              ),
+              Obx((){
+                if(onTap.value==false){
+                  return Column( children: [
+                    Text("What do you think?",
+                        style: TextStyle(
+                          fontSize: getHeight(16),
+                        )),
+                    SizedBox(
+                      height: getHeight(10),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: getWidth(30)),
+                      child: Center(
+                        child: Text("Please share your opinion about the product",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: getHeight(16),
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      height: getHeight(10),
+                    ),
+                  ],);
+                }
+                return Container();
+              }),
               Expanded(
                 child: TextFormField(
+                  onTap:(){
+                    onTap.value=true;
+                  },
                   textAlignVertical: TextAlignVertical.top,
                   expands: true,
                   maxLines: null,
                   style: TextStyle(
-                    fontSize: getHeight(20),
+                    fontSize: getHeight(14),
                   ),
                   controller: comment,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
                     hintText: 'Your preview',
                     hintStyle:
-                        TextStyle(color: Colors.grey, fontSize: getHeight(20)),
+                        TextStyle(color: Colors.grey, fontSize: getHeight(14)),
                     border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.all(Radius.circular(getWidth(10))),
@@ -77,7 +86,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 style: ElevatedButton.styleFrom(
                   onPrimary: Colors.black87,
                   primary: Color(0xFF3669C9),
-                  minimumSize: Size(getWidth(300), getHeight(60)),
+                  minimumSize: Size(getWidth(300), getHeight(50)),
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.all(Radius.circular(getHeight(15))),
@@ -85,18 +94,18 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 ),
                 onPressed: () async {
                   Get.back();
-                  await episodeDetailController.addComment(comment.text);
-                  episodeDetailController.getComments();
+                  await controller.addComment(comment.text);
+                  controller.getComments();
                 },
                 child: Text('Comment',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: getHeight(16),
+                      fontSize: getHeight(14),
                     )),
               ),
               SizedBox(
-                height: getHeight(15),
+                height: getHeight(10),
               ),
             ],
           ),
@@ -122,7 +131,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
               child: Text("Share",
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: getHeight(30),
+                    fontSize: getHeight(25),
                   )),
             ),
             SizedBox(
@@ -187,7 +196,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 style: ElevatedButton.styleFrom(
                   onPrimary: Colors.black87,
                   primary: Color(0xFF3669C9),
-                  minimumSize: Size(getWidth(350), getHeight(60)),
+                  minimumSize: Size(getWidth(350), getHeight(50)),
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.all(Radius.circular(getHeight(10))),
@@ -216,43 +225,37 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    episodeDetailController =
-        Get.put(EpisodeDetailController(episodeId: this.episodeId));
-    return controller.obx(
-      (state) {
-        return Scaffold(
-          appBar: appBar(
-              title: "Product Detail",
-              centerTitle: true,
-              elevation: 1.0,
-              actions: [
-                SizedBox(
-                  width: getWidth(20),
-                ),
-                SvgPicture.asset(
-                  "assets/icons/cart.svg",
-                  width: getWidth(24),
-                ),
-                SizedBox(
-                  width: getWidth(20),
-                ),
-              ]),
-          body: Container(
-            padding: EdgeInsets.symmetric(horizontal: getWidth(16)),
-            color: Colors.white,
-            child: ListView(
-              children: [
-                _episode_info(),
-                _author(),
-                _description(),
-                _listComment(),
-                _action(),
-              ],
+    return Scaffold(
+      floatingActionButton: _action(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      appBar: appBar(
+          title: "Product Detail",
+          centerTitle: true,
+          elevation: 1.0,
+          actions: [
+            SizedBox(
+              width: getWidth(20),
             ),
-          ),
-        );
-      },
-      onLoading: CircularProgressIndicator(),
+            SvgPicture.asset(
+              "assets/icons/cart.svg",
+              width: getWidth(24),
+            ),
+            SizedBox(
+              width: getWidth(20),
+            ),
+          ]),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: getWidth(16)),
+        color: Colors.white,
+        child: ListView(
+          children: [
+            _episode_info(),
+            _author(),
+            _description(),
+            _listComment(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -266,7 +269,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         Center(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(getWidth(12)),
-            child: Image.network(episodeDetailController.episode.value.image,
+            child: Image.network(controller.episode.value.image,
                 width: getWidth(350), fit: BoxFit.fill),
           ),
         ),
@@ -281,7 +284,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
               icon: Icon(Icons.share_sharp)),
         ),
         Text(
-          episodeDetailController.episode.value.name,
+          controller.episode.value.name,
           style: TextStyle(
             fontSize: getWidth(26),
             fontWeight: FontWeight.bold,
@@ -291,7 +294,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
           height: getWidth(10),
         ),
         Text(
-          "VND ${episodeDetailController.episode.value.price}.000",
+          "VND ${controller.episode.value.price}.000",
           style: TextStyle(
             fontSize: getWidth(20),
             fontWeight: FontWeight.bold,
@@ -311,11 +314,10 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
             ),
             Expanded(
               child: Obx(() {
-                if (episodeDetailController.episode.value.likes == null)
+                if (controller.episode.value.likes == null)
                   return Text("");
-                else if (episodeDetailController.episode.value.likes > 1)
-                  return Text(
-                      " ${episodeDetailController.episode.value.likes} Likes",
+                else if (controller.episode.value.likes > 1)
+                  return Text(" ${controller.episode.value.likes} Likes",
                       style: TextStyle(
                         fontSize: getWidth(15),
                       ));
@@ -331,8 +333,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 color: Colors.greenAccent[100],
                 padding: EdgeInsets.symmetric(horizontal: getWidth(10)),
                 child: Obx(
-                  () => Text(
-                      "Sold : ${episodeDetailController.episode.value.soldQuantity}",
+                  () => Text("Sold : ${controller.episode.value.soldQuantity}",
                       style: TextStyle(
                         fontSize: getWidth(15),
                         color: Colors.teal,
@@ -363,8 +364,8 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 backgroundColor: Color(0xffFDCF09),
                 child: CircleAvatar(
                     radius: getWidth(25),
-                    backgroundImage: NetworkImage(
-                        episodeDetailController.episode.value.creatorAvatar)))),
+                    backgroundImage:
+                        NetworkImage(controller.episode.value.creatorAvatar)))),
             SizedBox(
               width: getWidth(15),
             ),
@@ -372,7 +373,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(episodeDetailController.episode.value.creatorFullName,
+                Text(controller.episode.value.creatorFullName,
                     style: TextStyle(
                       fontSize: getWidth(16),
                       fontWeight: FontWeight.bold,
@@ -425,7 +426,7 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         SizedBox(
           height: getWidth(10),
         ),
-        Text(episodeDetailController.episode.value.description,
+        Text(controller.episode.value.description,
             style: TextStyle(
               fontSize: getWidth(18),
             )),
@@ -437,108 +438,102 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
     );
   }
 
-  Column _action() {
-    return Column(
-      children: [
-        SizedBox(
-          height: getWidth(10),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            minimumSize: Size(
-              getWidth(305),
-              getWidth(50),
+  Widget _action() {
+    return SizedBox(
+      height: getWidth(120),
+      child: Column(
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              minimumSize: Size(
+                getWidth(305),
+                getWidth(50),
+              ),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
+                  side: BorderSide(color: Colors.black)),
             ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
-                side: BorderSide(color: Colors.black)),
+            onPressed: () {
+              _addComment();
+            },
+            child: component.commentText,
           ),
-          onPressed: () {
-            _addComment();
-          },
-          child: component.commentText,
-        ),
-        SizedBox(
-          height: getWidth(24),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
+          SizedBox(
+            height: getWidth(15),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.black87,
+                    primary: Colors.white,
+                    minimumSize: Size(
+                      getWidth(142.5),
+                      getWidth(50),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(getWidth(15))),
+                        side: BorderSide(color: Colors.black)),
+                  ),
+                  onPressed: () {
+                    if (controller.episode.value.alreadyLiked == false) {
+                      controller.like();
+                      controller.episode.value.alreadyLiked = true;
+                      controller.episode.value.likes++;
+                    } else {
+                      controller.unLike();
+                      controller.episode.value.alreadyLiked = false;
+                      controller.episode.value.likes--;
+                    }
+                    controller.episode.refresh();
+                  },
+                  child: Obx(() {
+                    if (controller.episode.value.alreadyLiked == false)
+                      return component.addToFavoriteText;
+                    return component.unLikeText;
+                  })),
+              SizedBox(
+                width: getWidth(20),
+              ),
+              ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   onPrimary: Colors.black87,
-                  primary: Colors.white,
-                  minimumSize: Size(
-                    getWidth(142.5),
-                    getWidth(50),
-                  ),
+                  primary: Color(0xFF3669C9),
+                  minimumSize: Size(getWidth(142.5), getWidth(50)),
                   shape: RoundedRectangleBorder(
                       borderRadius:
-                          BorderRadius.all(Radius.circular(getWidth(15))),
-                      side: BorderSide(color: Colors.black)),
+                          BorderRadius.all(Radius.circular(getWidth(15)))),
                 ),
                 onPressed: () {
-                  if (episodeDetailController.episode.value.alreadyLiked ==
-                      false) {
-                    episodeDetailController.like();
-                    episodeDetailController.episode.value.alreadyLiked = true;
-                    episodeDetailController.episode.value.likes++;
-                  } else {
-                    episodeDetailController.unLike();
-                    episodeDetailController.episode.value.alreadyLiked = false;
-                    episodeDetailController.episode.value.likes--;
+                  if (controller.episode.value.isBought == true) {
+                    return;
                   }
-                  episodeDetailController.episode.refresh();
+                  if (controller.inCart.value == true) {
+                    controller.inCart.value = false;
+                    globalController.removeFomCart(controller.episodeId);
+                  } else {
+                    controller.inCart.value = true;
+                    globalController.addToCart(controller.episodeId);
+                  }
+                  controller.inCart.refresh();
                 },
                 child: Obx(() {
-                  if (episodeDetailController.episode.value.alreadyLiked ==
-                      false)
-                    return component.addToFavoriteText;
-                  return component.unLikeText;
-                })),
-            SizedBox(
-              width: getWidth(23),
-            ),
-
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                onPrimary: Colors.black87,
-                primary: Color(0xFF3669C9),
-                minimumSize: Size(getWidth(142.5), getWidth(50)),
-                shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(getWidth(15)))),
-              ),
-              onPressed: () {
-                if (episodeDetailController.episode.value.isBought == true) {
-                  return;
-                }
-                if (episodeDetailController.inCart.value==true) {
-                  episodeDetailController.inCart.value=false;
-                  globalController.removeFomCart(episodeId);
-                }
-                else {
-                  episodeDetailController.inCart.value = true;
-                  globalController.addToCart(episodeId);
-                }
-                episodeDetailController.inCart.refresh();
-
-              },
-              child: Obx(() {
-                if (episodeDetailController.episode.value.isBought == true) {
-                  return component.readNowText;
-                }
-                if (episodeDetailController.inCart.value==true) {
-                  return component.removeFromCartText;
-                }
-                return component.addToCartText;
-              }),
-            )
-          ],
-        ),
-        SizedBox(height: getWidth(20)),
-      ],
+                  if (controller.episode.value.isBought == true) {
+                    return component.readNowText;
+                  }
+                  if (controller.inCart.value == true) {
+                    return component.removeFromCartText;
+                  }
+                  return component.addToCartText;
+                }),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -547,12 +542,11 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
       children: [
         Row(children: [
           Expanded(
-              child: Obx(() =>
-                  Text("Review (${episodeDetailController.comments.length})",
-                      style: TextStyle(
-                        fontSize: getWidth(20),
-                        fontWeight: FontWeight.bold,
-                      )))),
+              child: Obx(() => Text("Review (${controller.comments.length})",
+                  style: TextStyle(
+                    fontSize: getWidth(20),
+                    fontWeight: FontWeight.bold,
+                  )))),
           TextButton(
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all<Color>(
@@ -560,11 +554,10 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
                 ),
               ),
               onPressed: () {
-                episodeDetailController.seeAll.value =
-                    !episodeDetailController.seeAll.value;
+                controller.seeAll.value = !controller.seeAll.value;
               },
               child: Obx(() {
-                if (episodeDetailController.seeAll.value == false)
+                if (controller.seeAll.value == false)
                   return Text('See All',
                       style: TextStyle(
                         fontSize: getWidth(16),
@@ -580,52 +573,48 @@ class EpisodeDetailScreen extends GetView<EpisodeDetailController> {
         ),
         Obx(() {
           RxList comments;
-          if (episodeDetailController.seeAll == false &&
-              episodeDetailController.comments.length > 0) {
+          if (controller.seeAll == false && controller.comments.length > 0) {
             comments = List.empty(growable: true).obs;
-            comments.insert(0, episodeDetailController.comments.value.first);
+            comments.insert(0, controller.comments.value.first);
           } else
-            comments = episodeDetailController.comments;
-          return Container(
-            height: getHeight(getWidth(300)),
-            child: ListView(
-                children: comments.value
-                    .asMap()
-                    .map((index, value) => MapEntry(
-                        index,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _divider(index),
-                            Row(
-                              children: [
-                                Expanded(
-                                    child: Text(value["userInfo"]["fullName"],
-                                        style: TextStyle(
-                                          fontSize: getWidth(18),
-                                          fontWeight: FontWeight.bold,
-                                        ))),
-                                Text(differenceTime(value["createdAt"]),
-                                    style: TextStyle(
-                                      fontSize: getWidth(16),
-                                    )),
-                              ],
-                            ),
-                            SizedBox(
-                              height: getWidth(5),
-                            ),
-                            Text(value["description"],
+            comments = controller.comments;
+          return ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: comments.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _divider(index),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Text(
+                                comments[index]["userInfo"]["fullName"],
                                 style: TextStyle(
-                                  fontSize: getWidth(16),
-                                )),
-                          ],
-                        )))
-                    .values
-                    .toList()),
-          );
+                                  fontSize: getWidth(18),
+                                  fontWeight: FontWeight.bold,
+                                ))),
+                        Text(differenceTime(comments[index]["createdAt"]),
+                            style: TextStyle(
+                              fontSize: getWidth(16),
+                            )),
+                      ],
+                    ),
+                    SizedBox(
+                      height: getWidth(5),
+                    ),
+                    Text(comments[index]["description"],
+                        style: TextStyle(
+                          fontSize: getWidth(16),
+                        )),
+                  ],
+                );
+              });
         }),
         SizedBox(
-          height: getHeight(5),
+          height: getWidth(150),
         ),
       ],
     );
