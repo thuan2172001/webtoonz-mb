@@ -258,7 +258,8 @@ class SeriesDetailScreen extends StatelessWidget {
                 ),
               ],
             );
-          return CircularProgressIndicator();
+          //return CircularProgressIndicator();
+          return Container();
         });
   }
 }
