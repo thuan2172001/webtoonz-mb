@@ -4,6 +4,8 @@ import 'package:untitled/controller/favorite/favorite_episode_controller.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
 
+import '../../controller/episode_detail/episode_detail_controller.dart';
+
 class FavoriteEpisodeScreen extends StatelessWidget{
   final FavoriteEpisode favoriteEpisode;
 
@@ -23,9 +25,11 @@ class FavoriteEpisodeScreen extends StatelessWidget{
               itemCount: favoriteEpisode.listEpisode.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () {
-                    Get.to(() => EpisodeDetailScreen(
-                        episodeId: favoriteEpisode.listEpisode[index].episodeId));
+                  onTap: () async {
+
+                    var episodeDetailController=EpisodeDetailController(episodeId: favoriteEpisode.listEpisode[index].episodeId);
+                    await episodeDetailController.getApi();
+                    Get.to(() => EpisodeDetailScreen(controller: episodeDetailController));
                   },
                   child: EpisodeCard(episode: favoriteEpisode.listEpisode[index])
                 );
