@@ -17,6 +17,7 @@ class User {
     this.certificate,
     this.role,
     this.fullName,
+    this.age,
   });
 
   @HiveField(0)
@@ -41,6 +42,8 @@ class User {
   String? role;
   @HiveField(10)
   String? fullName;
+  @HiveField(10)
+  String? age;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

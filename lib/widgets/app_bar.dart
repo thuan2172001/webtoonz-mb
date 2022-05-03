@@ -32,7 +32,7 @@ AppBar appBar(
     title: Text(
       title ?? "",
       style: TextStyle(
-        fontSize: getHeight(24),
+        fontSize: getHeight(18),
         fontWeight: FontWeight.w500,
         color: Color(0xFF3669C9),
       ),

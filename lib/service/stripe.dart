@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:untitled/main.dart';
 import 'package:untitled/model/custom_dio.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:untitled/widgets/dialog.dart';

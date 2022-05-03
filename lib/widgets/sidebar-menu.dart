@@ -3,6 +3,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
+import 'package:untitled/screen/account/user_account.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
@@ -116,7 +117,9 @@ class SideBarMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                Get.to(UserAccountScreen());
+                              },
                               child: Container(
                                 color: Colors.white,
                                 child: Column(
