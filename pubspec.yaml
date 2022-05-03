@@ -58,6 +58,7 @@ dependencies:
   expandable_text:
   number_paginator: ^0.0.2
   sizer: ^2.0.15
+  floating_pullup_card:
 
 dev_dependencies:
   flutter_test:
@@ -104,6 +105,7 @@ flutter:
   assets:
     - assets/
     - assets/icons/
+    - assets/images/
     - .env
   fonts:
     - family: TTNorm

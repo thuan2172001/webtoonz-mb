@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/screen/account/user_account.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
+import 'package:untitled/screen/payment/payment_method.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
-import 'package:untitled/service/stripe.dart';
 import 'package:untitled/utils/config.dart';
 
 class SideBarMenu extends StatelessWidget {
@@ -186,6 +185,7 @@ class SideBarMenu extends StatelessWidget {
                                 // delete
                                 // await StripeService.deletePayment(
                                 //     "pm_1Kv1thCkuVKGrqVo4JMUPyAb", context);
+                                Get.to(() => PaymentMethodScreen());
                               },
                               child: Container(
                                 color: Colors.white,
