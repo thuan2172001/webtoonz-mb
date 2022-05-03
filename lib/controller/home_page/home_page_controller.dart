@@ -31,8 +31,24 @@ class HomePageController extends GetxController {
     }
   }
 
+  Future getCreatorSeries() async {
+    try {
+      CustomDio customDio = CustomDio();
+      print(Get.put(GlobalController()).user.value.certificate.toString());
+      customDio.dio.options.headers["Authorization"] =
+          Get.put(GlobalController()).user.value.certificate.toString();
+      var response = await customDio.get("/serie", {"isCreator": true});
+      var json = jsonDecode(response.toString());
+      print(json);
+
+      seriesList.value = FavoriteSeries.fromJson(json).listSeries;
+      return true;
+    } catch (e, s) {
+      return false;
+    }
+  }
+
   search() async {
-    // await getSeries();
     searchList.clear();
     print(seriesList[0].serieName);
 

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:untitled/controller/favorite/favorite_episode_controller.dart';
-import 'package:untitled/controller/favorite/favorite_series_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/utils/config.dart';
 
 import 'bounce_button.dart';
 
-Container bottomNavigator() {
+Container creatorBottomNavigator() {
   GlobalController globalController = Get.put(GlobalController());
   return Container(
     height: getHeight(60),
@@ -33,7 +31,8 @@ Container bottomNavigator() {
                     return Bouncing(
                       onPress: () async {
                         if (globalController.currentPage.value != 0) {
-                          await Get.put(HomePageController()).getSeries();
+                          await Get.put(HomePageController())
+                              .getCreatorSeries();
                           globalController.onChangeTab(0);
                         }
                       },
@@ -53,7 +52,7 @@ Container bottomNavigator() {
                             Text(
                               "Home",
                               style: TextStyle(
-                                  fontSize: getWidth(12),
+                                  fontSize: getWidth(10),
                                   color: globalController.currentPage.value == 0
                                       ? Color(0xFF3669C9)
                                       : Color(0xFF999999)),
@@ -66,10 +65,6 @@ Container bottomNavigator() {
                   Obx(() {
                     return Bouncing(
                       onPress: () async {
-                        await Get.put(FavoriteSeriesController())
-                            .getFavoriteSeries();
-                        await Get.put(FavoriteEpisodeController())
-                            .getFavoriteEpisode();
                         globalController.onChangeTab(1);
                       },
                       child: Container(
@@ -79,16 +74,16 @@ Container bottomNavigator() {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              "assets/icons/ic_menu_wishlist.svg",
-                              width: getWidth(24),
+                              "assets/icons/ic_menu_new.svg",
+                              width: getWidth(20),
                               color: globalController.currentPage.value == 1
                                   ? Color(0xFF3669C9)
                                   : Color(0xFF999999),
                             ),
                             Text(
-                              "Favorite",
+                              "New series",
                               style: TextStyle(
-                                  fontSize: getWidth(12),
+                                  fontSize: getWidth(10),
                                   color: globalController.currentPage.value == 1
                                       ? Color(0xFF3669C9)
                                       : Color(0xFF999999)),
@@ -110,16 +105,16 @@ Container bottomNavigator() {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              "assets/icons/ic_menu_order.svg",
-                              width: getWidth(24),
+                              "assets/icons/ic_menu_transaction.svg",
+                              width: getWidth(18),
                               color: globalController.currentPage.value == 2
                                   ? Color(0xFF3669C9)
                                   : Color(0xFF999999),
                             ),
                             Text(
-                              "Order",
+                              "Transaction",
                               style: TextStyle(
-                                  fontSize: getWidth(12),
+                                  fontSize: getWidth(10),
                                   color: globalController.currentPage.value == 2
                                       ? Color(0xFF3669C9)
                                       : Color(0xFF999999)),
@@ -150,7 +145,7 @@ Container bottomNavigator() {
                               child: Text(
                                 "Profile",
                                 style: TextStyle(
-                                    fontSize: getWidth(12),
+                                    fontSize: getWidth(10),
                                     color:
                                         globalController.currentPage.value == 3
                                             ? Color(0xFF3669C9)

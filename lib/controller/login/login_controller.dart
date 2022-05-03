@@ -114,7 +114,9 @@ class LoginPageController extends GetxController {
             userInfo.phone = jsonResponse["data"]["phoneNumber"];
             userInfo.certificate = certificateList[0];
             globalController.user.value = userInfo;
-            await globalController.getEpisodeIdsInCart();
+            if (userInfo.role != "creator") {
+              await globalController.getEpisodeIdsInCart();
+            }
             return true;
           } else {
             messValidatePassword.value = "invalid_password";

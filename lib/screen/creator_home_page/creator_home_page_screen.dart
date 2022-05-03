@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/screen/creator_home_page/creator_home_page_tab_screen.dart';
 import 'package:untitled/widgets/bottom_navigator.dart';
+import 'package:untitled/widgets/creator_bottom_navigator.dart';
 import 'package:untitled/widgets/sidebar-menu.dart';
 
 class CreatorHomePageScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class CreatorHomePageScreen extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        bottomNavigationBar: bottomNavigator(),
+        bottomNavigationBar: creatorBottomNavigator(),
         body: PageView(
           controller: Get.put(GlobalController()).pageController,
           children: [
