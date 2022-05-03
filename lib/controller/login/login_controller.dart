@@ -12,8 +12,6 @@ import 'package:untitled/screen/login/login_screen.dart';
 import 'package:untitled/service/date_format.dart';
 import 'package:untitled/service/response_validator.dart';
 
-import '../global_controller.dart';
-
 class LoginPageController extends GetxController {
   Rx<LoginOption> loginOption = LoginOption.customer.obs;
 

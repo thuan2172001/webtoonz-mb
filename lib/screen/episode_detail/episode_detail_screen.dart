@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
 
@@ -19,7 +16,7 @@ class EpisodeDetailScreen extends StatelessWidget {
 
   void _addComment() {
     TextEditingController comment = TextEditingController();
-    var onTap=false.obs;
+    var onTap = false.obs;
     Get.bottomSheet(
         Container(
           margin: EdgeInsets.symmetric(horizontal: getHeight(16)),
@@ -28,37 +25,40 @@ class EpisodeDetailScreen extends StatelessWidget {
               SizedBox(
                 height: getHeight(10),
               ),
-              Obx((){
-                if(onTap.value==false){
-                  return Column( children: [
-                    Text("What do you think?",
-                        style: TextStyle(
-                          fontSize: getHeight(16),
-                        )),
-                    SizedBox(
-                      height: getHeight(10),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: getWidth(30)),
-                      child: Center(
-                        child: Text("Please share your opinion about the product",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: getHeight(16),
-                            )),
+              Obx(() {
+                if (onTap.value == false) {
+                  return Column(
+                    children: [
+                      Text("What do you think?",
+                          style: TextStyle(
+                            fontSize: getHeight(16),
+                          )),
+                      SizedBox(
+                        height: getHeight(10),
                       ),
-                    ),
-                    SizedBox(
-                      height: getHeight(10),
-                    ),
-                  ],);
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: getWidth(30)),
+                        child: Center(
+                          child: Text(
+                              "Please share your opinion about the product",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: getHeight(16),
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        height: getHeight(10),
+                      ),
+                    ],
+                  );
                 }
                 return Container();
               }),
               Expanded(
                 child: TextFormField(
-                  onTap:(){
-                    onTap.value=true;
+                  onTap: () {
+                    onTap.value = true;
                   },
                   textAlignVertical: TextAlignVertical.top,
                   expands: true,
@@ -227,7 +227,7 @@ class EpisodeDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _action(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: appBar(
           title: "Product Detail",
           centerTitle: true,
@@ -273,36 +273,48 @@ class EpisodeDetailScreen extends StatelessWidget {
                 width: getWidth(350), fit: BoxFit.fill),
           ),
         ),
+        SizedBox(
+          height: getHeight(10),
+        ),
         Container(
-          alignment: Alignment.centerRight,
-          padding: EdgeInsets.only(right: getWidth(5)),
-          child: IconButton(
-              onPressed: () {
-                _share();
-              },
-              iconSize: getWidth(35),
-              icon: Icon(Icons.share_sharp)),
-        ),
-        Text(
-          controller.episode.value.name,
-          style: TextStyle(
-            fontSize: getWidth(26),
-            fontWeight: FontWeight.bold,
+          alignment: Alignment.center,
+          child: Text(
+            controller.episode.value.name,
+            style: TextStyle(
+              fontSize: getWidth(24),
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         SizedBox(
-          height: getWidth(10),
+          height: getHeight(4),
         ),
-        Text(
-          "VND ${controller.episode.value.price}.000",
-          style: TextStyle(
-            fontSize: getWidth(20),
-            fontWeight: FontWeight.bold,
-            color: Colors.red,
-          ),
-        ),
-        SizedBox(
-          height: getWidth(10),
+        Stack(
+          children: [
+            Positioned(
+              top: getHeight(10),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "${controller.episode.value.price}.000 VND ",
+                  style: TextStyle(
+                    fontSize: getWidth(18),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                  onPressed: () {
+                    _share();
+                  },
+                  iconSize: getWidth(20),
+                  icon: Icon(Icons.share_sharp)),
+            ),
+          ],
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -420,7 +432,7 @@ class EpisodeDetailScreen extends StatelessWidget {
         ),
         Text("Description Product",
             style: TextStyle(
-              fontSize: getWidth(20),
+              fontSize: getWidth(18),
               fontWeight: FontWeight.bold,
             )),
         SizedBox(
@@ -428,7 +440,7 @@ class EpisodeDetailScreen extends StatelessWidget {
         ),
         Text(controller.episode.value.description,
             style: TextStyle(
-              fontSize: getWidth(18),
+              fontSize: getWidth(14),
             )),
         SizedBox(
           height: getWidth(10),
@@ -439,8 +451,11 @@ class EpisodeDetailScreen extends StatelessWidget {
   }
 
   Widget _action() {
-    return SizedBox(
-      height: getWidth(120),
+    return Container(
+      color: Colors.white,
+      width: double.infinity,
+      height: getHeight(130),
+      padding: EdgeInsets.only(top: getHeight(10)),
       child: Column(
         children: [
           ElevatedButton(
@@ -544,7 +559,7 @@ class EpisodeDetailScreen extends StatelessWidget {
           Expanded(
               child: Obx(() => Text("Review (${controller.comments.length})",
                   style: TextStyle(
-                    fontSize: getWidth(20),
+                    fontSize: getWidth(18),
                     fontWeight: FontWeight.bold,
                   )))),
           TextButton(
@@ -590,8 +605,7 @@ class EpisodeDetailScreen extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                            child: Text(
-                                comments[index]["userInfo"]["fullName"],
+                            child: Text(comments[index]["userInfo"]["fullName"],
                                 style: TextStyle(
                                   fontSize: getWidth(18),
                                   fontWeight: FontWeight.bold,

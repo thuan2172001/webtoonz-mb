@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../utils/config.dart';
 
-class EpisodeDetailComponent{
+class EpisodeDetailComponent {
   var removeFromCartText = Text(
     "Remove from Cart",
     style: TextStyle(
@@ -40,14 +39,14 @@ class EpisodeDetailComponent{
     ),
   );
 
-  var addToFavoriteText=Text(
+  var addToFavoriteText = Text(
     "Add to Favorite",
     style: TextStyle(
       fontSize: getWidth(14),
     ),
   );
 
-  var unLikeText=Text(
+  var unLikeText = Text(
     "Unlike",
     style: TextStyle(
       fontSize: getWidth(14),

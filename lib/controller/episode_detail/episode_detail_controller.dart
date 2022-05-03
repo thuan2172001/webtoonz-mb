@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
 import '../../model/custom_dio.dart';
 import '../../model/espisode.dart';
 import 'package:untitled/controller/global_controller.dart';
@@ -25,24 +23,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
   Future getApi() async {
     await getEpisodeDetail();
     await getComments();
-    inCart=Get.put(GlobalController()).checkInCart(episodeId).obs;
-  }
-
-  Future addToCart() async {
-    try {
-      CustomDio customDio = CustomDio();
-      var response = await customDio.get("/user/cart");
-      response = jsonDecode(response.toString());
-      RxList data = List.empty(growable: true).obs;
-      data.value = response["data"];
-      var requet = {"cartItems": data.value};
-      data.add("$episodeId");
-      response = await customDio.put("/user/cart", requet);
-      return true;
-    } catch (e, s) {
-      print(e.toString());
-      return false;
-    }
+    inCart = Get.put(GlobalController()).checkInCart(episodeId).obs;
   }
 
   Future getEpisodeDetail() async {

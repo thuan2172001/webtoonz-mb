@@ -419,6 +419,8 @@ class SideBarMenu extends StatelessWidget {
                                           ),
                                           GestureDetector(
                                             onTap: () {
+                                              GlobalController().dispose();
+                                              GlobalController().onChangeTab(0);
                                               Get.offAll(() => LoginScreen());
                                             },
                                             child: Container(

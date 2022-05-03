@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/controller/login/login_controller.dart';
+import 'package:untitled/main.dart';
+import 'package:untitled/screen/creator_home_page/creator_home_page_screen.dart';
 import 'package:untitled/screen/home_page/home_page_screen.dart';
 import 'package:untitled/screen/signup/signup_welcome_screen.dart';
 import 'package:untitled/utils/config.dart';
@@ -10,8 +11,6 @@ import 'package:untitled/widgets/bounce_button.dart';
 import 'package:untitled/widgets/input.dart';
 import 'package:untitled/widgets/app_name.dart';
 import 'package:untitled/widgets/layout.dart';
-
-import '../episode_detail/episode_detail_screen.dart';
 
 enum LoginOption { customer, professional }
 
@@ -132,7 +131,6 @@ class LoginScreen extends StatelessWidget {
 
 Container confirmButtonContainer(
     BuildContext context, LoginPageController controller) {
-  GlobalController globalController = Get.put(GlobalController());
   return bottomContainerLayout(
     height: 120,
     child: Column(
@@ -156,11 +154,16 @@ Container confirmButtonContainer(
                       ),
                     ),
                     onPressed: () async {
-                      // controller.isLoading.value = true;
+                      controller.isLoading.value = true;
                       var result = await controller.login();
                       if (result) {
-                        await Get.put(HomePageController()).getSeries();
-                        Get.to(() => HomePageScreen());
+                        globalController.onChangeTab(0);
+                        if (globalController.user.value.role == "creator") {
+                          Get.to(() => CreatorHomePageScreen());
+                        } else {
+                          await Get.put(HomePageController()).getSeries();
+                          Get.to(() => HomePageScreen());
+                        }
                       }
                       controller.isLoading.value = false;
                     },
