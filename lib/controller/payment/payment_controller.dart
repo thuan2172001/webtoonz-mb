@@ -37,9 +37,4 @@ class PaymentController extends GetxController {
     });
     paymentMethods.refresh();
   }
-
-  Future deletePaymentMethod(int index) async {
-    paymentMethods.removeAt(index);
-    paymentMethods.refresh();
-  }
 }

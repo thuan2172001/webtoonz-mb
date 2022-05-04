@@ -7,6 +7,10 @@ class AddPaymentSuccessScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double buttonHeight =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 20 : 10;
+    double buttonWidth =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 60 : 30;
     return Scaffold(
       body: Center(
         child: Column(
@@ -27,8 +31,8 @@ class AddPaymentSuccessScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: Container(
-        width: 60.w,
-        height: 20.h,
+        width: buttonWidth.w,
+        height: buttonHeight.h,
         child: FittedBox(
           child: FloatingActionButton.extended(
             onPressed: () {
