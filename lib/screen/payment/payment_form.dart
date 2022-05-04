@@ -10,6 +10,7 @@ import 'package:tuple/tuple.dart';
 import 'package:untitled/controller/payment/payment_controller.dart';
 import 'package:untitled/screen/payment/payment_method.dart';
 import 'package:untitled/screen/payment/success_screen.dart';
+import 'package:untitled/widgets/dialog.dart';
 
 import '../../main.dart';
 import '../../model/custom_dio.dart';
@@ -87,9 +88,14 @@ class _PaymentFormState extends State<PaymentForm> {
                       });
                       var paymentMethod =
                           await StripeService.createSetupIntent(card);
-                      var response = StripeService.createNewPayment(
+                      var response = await StripeService.createNewPayment(
                           paymentMethod, context, cardHolderName);
-                      print(response);
+                      if (response == null) {
+                        CustomDialog(context, "FAILED")
+                            .show({"message": "Add card failed !"});
+
+                        return;
+                      }
                       await controller.fetchPaymentMethods();
                       Get.to(() => AddPaymentSuccessScreen());
                     } catch (e) {
