@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:tuple/tuple.dart';
 
 String convertLongString(
     {required String string,
-      required int firstLength,
-      required int lastLength}) {
+    required int firstLength,
+    required int lastLength}) {
   if (string.length <= firstLength) return string;
   if (firstLength + lastLength >= string.length) return string;
   var firstPattern = string.toString().substring(0, firstLength);
@@ -91,8 +92,26 @@ dynamic getColorOrderStatus(int indexOrder) {
 }
 
 String numberShorten(int number) {
-  if (number >= 1000)
-    if ((number % 1000) ~/ 100 != 0) return '${number ~/ 1000}k${(number % 1000) ~/ 100}';
-        else return '${number ~/ 1000}k';
+  if (number >= 1000) if ((number % 1000) ~/ 100 != 0)
+    return '${number ~/ 1000}k${(number % 1000) ~/ 100}';
+  else
+    return '${number ~/ 1000}k';
   return "$number";
+}
+
+String getExpireDate(int expireMonth, int expireYear) {
+  var expireMonthString = "";
+  if (expireMonth < 10)
+    expireMonthString = "0$expireMonth";
+  else
+    expireMonthString = "$expireMonth";
+
+  return "$expireMonthString/${expireYear % 100}";
+}
+
+Tuple2 extractDate(String expireDate) {
+  final splitted = expireDate.split('/');
+  int month = int.parse(splitted[0]);
+  int year = 2000 + int.parse(splitted[1]);
+  return Tuple2<int, int>(month, year);
 }

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:untitled/model/custom_dio.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:untitled/model/custom_dio.dart';
 import 'package:untitled/widgets/dialog.dart';
 
 class StripeService {
@@ -47,15 +47,15 @@ class StripeService {
     }
   }
 
-  static Future createNewPayment(
-      SetupIntent? paymentMethod, BuildContext context) async {
+  static Future createNewPayment(SetupIntent? paymentMethod,
+      BuildContext context, String cardHolder) async {
     try {
       if (paymentMethod == null) {
         return;
       }
       CustomDio customDio = CustomDio();
       var response = await customDio.post("/payment", {
-        "nameOnCard": "Trinh Van Thuan",
+        "nameOnCard": cardHolder,
         "futureUsage": true,
         "paymentMethodInfo": {
           "payment_method": paymentMethod.paymentMethodId,

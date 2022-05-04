@@ -1,13 +1,20 @@
 import 'package:floating_pullup_card/floating_pullup_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:tuple/tuple.dart';
 import 'package:untitled/controller/payment/payment_controller.dart';
-import 'package:untitled/model/PaymentMethod.dart';
 import 'package:untitled/screen/payment/payment_method.dart';
 import 'package:untitled/screen/payment/success_screen.dart';
+
+import '../../main.dart';
+import '../../model/custom_dio.dart';
+import '../../service/stripe.dart';
+import '../../utils/common-function.dart';
 
 class PaymentForm extends StatefulWidget {
   const PaymentForm({Key? key}) : super(key: key);
@@ -21,7 +28,6 @@ class _PaymentFormState extends State<PaymentForm> {
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
-  bool isCvvFocused = false;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   PaymentController controller = Get.put(PaymentController());
 
@@ -66,11 +72,29 @@ class _PaymentFormState extends State<PaymentForm> {
                     ),
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    controller.addPaymentMethod(PaymentMethod(cardHolderName,
-                        cardNumber, expiryDate, cvvCode, false));
-                    Get.to(() => AddPaymentSuccessScreen());
+                    try {
+                      CustomDio customDio = CustomDio();
+                      customDio.dio.options.headers["Authorization"] =
+                          globalController.user.value.certificate.toString();
+                      Tuple2 date = extractDate(expiryDate);
+                      var card = CardDetails.fromJson({
+                        "number": cardNumber,
+                        "expirationYear": date.item2,
+                        "expirationMonth": date.item1,
+                        "cvc": cvvCode
+                      });
+                      var paymentMethod =
+                          await StripeService.createSetupIntent(card);
+                      var response = StripeService.createNewPayment(
+                          paymentMethod, context, cardHolderName);
+                      print(response);
+                      await controller.fetchPaymentMethods();
+                      Get.to(() => AddPaymentSuccessScreen());
+                    } catch (e) {
+                      print(e);
+                    }
                   } else {
                     print("invalid");
                   }

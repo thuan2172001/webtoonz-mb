@@ -6,6 +6,8 @@ import 'package:untitled/controller/payment/payment_controller.dart';
 import 'package:untitled/screen/payment/payment_form.dart';
 import 'package:untitled/widgets/app_bar.dart';
 
+import '../../service/stripe.dart';
+
 class PaymentMethodScreen extends StatelessWidget {
   final PaymentController controller = Get.put(PaymentController());
 
@@ -64,8 +66,12 @@ class PaymentMethodScreen extends StatelessWidget {
                                   color: Colors.black,
                                   size: 10.sp,
                                 ),
-                                onPressed: () {
-                                  controller.deletePaymentMethod(index);
+                                onPressed: () async {
+                                  await StripeService.deletePayment(
+                                      controller
+                                          .paymentMethods[index].paymentId,
+                                      context);
+                                  await controller.fetchPaymentMethods();
                                 },
                               ),
                             ),

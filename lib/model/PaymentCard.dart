@@ -1,12 +1,13 @@
-class PaymentMethod {
+class PaymentCard {
+  String paymentId;
   String cardHolder;
   String cardNumber;
   String expireDate;
   String cvv;
   bool defaultMethod;
 
-  PaymentMethod(this.cardHolder, this.cardNumber, this.expireDate, this.cvv,
-      this.defaultMethod);
+  PaymentCard(this.paymentId, this.cardHolder, this.cardNumber, this.expireDate,
+      this.cvv, this.defaultMethod);
 
   @override
   String toString() {
