@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 class AddPaymentSuccessScreen extends StatelessWidget {
@@ -31,8 +32,8 @@ class AddPaymentSuccessScreen extends StatelessWidget {
         child: FittedBox(
           child: FloatingActionButton.extended(
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              Get.back();
+              Get.back();
             },
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),

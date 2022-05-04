@@ -1,5 +1,4 @@
 import 'package:floating_pullup_card/floating_pullup_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
@@ -30,52 +29,56 @@ class _PaymentFormState extends State<PaymentForm> {
   String cardHolderName = '';
   String cvvCode = '';
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isLoading = false;
   PaymentController controller = Get.put(PaymentController());
 
   @override
   Widget build(BuildContext context) {
-    return FloatingPullUpCardLayout(
-        withOverlay: true,
-        state: FloatingPullUpState.uncollapsed,
-        child: PaymentMethodScreen(),
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 5.h),
-              child: CreditCardForm(
-                expiryDate: expiryDate,
-                cardHolderName: cardHolderName,
-                onCreditCardModelChange: onCreditCardModelChange,
-                themeColor: Colors.white,
-                cardNumber: cardNumber,
-                formKey: formKey,
-                cvvCode: cvvCode,
+    return AbsorbPointer(
+      absorbing: isLoading,
+      child: FloatingPullUpCardLayout(
+          withOverlay: true,
+          state: FloatingPullUpState.uncollapsed,
+          child: PaymentMethodScreen(),
+          body: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 5.h),
+                child: CreditCardForm(
+                  expiryDate: expiryDate,
+                  cardHolderName: cardHolderName,
+                  onCreditCardModelChange: onCreditCardModelChange,
+                  themeColor: Colors.white,
+                  cardNumber: cardNumber,
+                  formKey: formKey,
+                  cvvCode: cvvCode,
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 1.h),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  primary: const Color(0xff1b447b),
-                ),
-                child: Container(
-                  margin: const EdgeInsets.all(12),
-                  child: const Text(
-                    'Add New Card',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'halter',
-                      fontSize: 14,
-                      package: 'flutter_credit_card',
+              Padding(
+                padding: EdgeInsets.only(bottom: 1.h),
+                child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
+                    primary: const Color(0xff1b447b),
                   ),
-                ),
-                onPressed: () async {
-                  if (formKey.currentState!.validate()) {
-                    try {
+                  icon: isLoading
+                      ? Container(
+                          width: 24,
+                          height: 24,
+                          padding: const EdgeInsets.all(2.0),
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 3,
+                          ),
+                        )
+                      : const Icon(Icons.add),
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      setState(() {
+                        isLoading = true;
+                      });
                       CustomDio customDio = CustomDio();
                       customDio.dio.options.headers["Authorization"] =
                           globalController.user.value.certificate.toString();
@@ -93,45 +96,51 @@ class _PaymentFormState extends State<PaymentForm> {
                       if (response == null) {
                         CustomDialog(context, "FAILED")
                             .show({"message": "Add card failed !"});
-
                         return;
                       }
                       await controller.fetchPaymentMethods();
                       Get.to(() => AddPaymentSuccessScreen());
-                    } catch (e) {
-                      print(e);
+                    } else {
+                      print("invalid");
                     }
-                  } else {
-                    print("invalid");
-                  }
-                },
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                primary: const Color(0xff1b447b),
-              ),
-              child: Container(
-                margin: const EdgeInsets.all(12),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'halter',
-                    fontSize: 14,
-                    package: 'flutter_credit_card',
+                  },
+                  label: const Text(
+                    'Add New Card',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'halter',
+                      fontSize: 14,
+                      package: 'flutter_credit_card',
+                    ),
                   ),
                 ),
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          ],
-        ));
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  primary: const Color(0xff1b447b),
+                ),
+                child: Container(
+                  margin: const EdgeInsets.all(12),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'halter',
+                      fontSize: 14,
+                      package: 'flutter_credit_card',
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+              )
+            ],
+          )),
+    );
   }
 
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {

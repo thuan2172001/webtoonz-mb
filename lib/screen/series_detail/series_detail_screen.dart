@@ -96,10 +96,7 @@ class SeriesDetailScreen extends StatelessWidget {
                       new IconButton(
                         icon: new Icon(Icons.search, color: Colors.black),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SearchEpisodeScreen()));
+                          Get.to(() => SearchEpisodeScreen());
                         },
                       )
                     ]),
@@ -215,10 +212,13 @@ class SeriesDetailScreen extends StatelessWidget {
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
                                     onTap: () async {
-                                       var episodeDetailController=EpisodeDetailController(episodeId: controller
-                                          .episodes[index].episodeId);
-                                       await episodeDetailController.getApi();
-                                      Get.to(() => EpisodeDetailScreen(controller: episodeDetailController));
+                                      var episodeDetailController =
+                                          EpisodeDetailController(
+                                              episodeId: controller
+                                                  .episodes[index].episodeId);
+                                      await episodeDetailController.getApi();
+                                      Get.to(() => EpisodeDetailScreen(
+                                          controller: episodeDetailController));
                                     },
                                     child: EpisodeCard(
                                         episode: controller.episodes[index]),

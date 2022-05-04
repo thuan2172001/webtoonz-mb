@@ -24,7 +24,7 @@ class SearchEpisodeScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 controller.searchResults.clear();
-                Navigator.pop(context);
+                Get.back();
               },
               icon: Icon(Icons.cancel))
         ],
@@ -34,10 +34,11 @@ class SearchEpisodeScreen extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () async {
-                  var episodeDetailController=EpisodeDetailController(episodeId: controller.searchResults[index].episodeId);
+                  var episodeDetailController = EpisodeDetailController(
+                      episodeId: controller.searchResults[index].episodeId);
                   await episodeDetailController.getApi();
-                  Get.to(() => EpisodeDetailScreen(controller: episodeDetailController));
-
+                  Get.to(() =>
+                      EpisodeDetailScreen(controller: episodeDetailController));
                 },
                 child: ListTile(
                   leading: ConstrainedBox(
