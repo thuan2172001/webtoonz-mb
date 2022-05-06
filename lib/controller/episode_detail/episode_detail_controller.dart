@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import '../../model/custom_dio.dart';
 import '../../model/espisode.dart';
-import 'package:untitled/controller/global_controller.dart';
 
 class EpisodeDetailController extends GetxController with StateMixin {
   final String episodeId;
@@ -13,7 +12,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
   EpisodeDetailController({required this.episodeId});
 
   RxBool seeAll = false.obs;
-  RxBool inCart = false.obs;
+  // RxBool inCart = false.obs;
 
   @override
   void onInit() async {
@@ -23,7 +22,7 @@ class EpisodeDetailController extends GetxController with StateMixin {
   Future getApi() async {
     await getEpisodeDetail();
     await getComments();
-    inCart = Get.put(GlobalController()).checkInCart(episodeId).obs;
+    // inCart = Get.put(GlobalController()).checkInCart(episodeId).obs;
   }
 
   Future getEpisodeDetail() async {
@@ -140,6 +139,37 @@ class EpisodeDetailController extends GetxController with StateMixin {
       var json = jsonDecode(response.toString());
       var result = json["data"];
       return result ?? json;
+    } catch (e, s) {
+      return null;
+    }
+  }
+
+  Future changeStatus(String status) async {
+    try {
+      CustomDio customDio = CustomDio();
+      var data = {
+        "episodeId": episodeId,
+        "type": status
+      };
+      var response = await customDio.post(
+        "/episode/status",
+        data,
+      );
+      var json = jsonDecode(response.toString());
+      return json;
+    } catch (e, s) {
+      return null;
+    }
+  }
+
+  Future deleteItem() async {
+    try {
+      CustomDio customDio = CustomDio();
+      var response = await customDio.delete(
+        "/episode/$episodeId",
+      );
+      var json = jsonDecode(response.toString());
+      return json;
     } catch (e, s) {
       return null;
     }

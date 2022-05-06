@@ -462,7 +462,7 @@ class EpisodeDetailScreen extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               primary: Colors.white,
               minimumSize: Size(
-                getWidth(305),
+                getWidth(315),
                 getWidth(50),
               ),
               shape: RoundedRectangleBorder(
@@ -477,76 +477,129 @@ class EpisodeDetailScreen extends StatelessWidget {
           SizedBox(
             height: getWidth(15),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.black87,
-                    primary: Colors.white,
-                    minimumSize: Size(
-                      getWidth(142.5),
-                      getWidth(50),
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.all(Radius.circular(getWidth(15))),
-                        side: BorderSide(color: Colors.black)),
+          Obx(() {
+            if (globalController.user.value.role == "creator") {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        onPrimary: Colors.black87,
+                        primary: Colors.white,
+                        minimumSize: Size(
+                          getWidth(148),
+                          getWidth(50),
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(getWidth(15))),
+                            side: BorderSide(color: Colors.black)),
+                      ),
+                      onPressed: () async {
+                        if(controller.episode.value.isPublished==true){
+                          await controller.changeStatus("UNPUBLISH");
+                          await controller.getEpisodeDetail();
+                        }
+                        else{
+                          await controller.changeStatus("PUBLISH");
+                          await controller.getEpisodeDetail();
+                        }
+                      },
+                      child: Obx((){
+                        if(controller.episode.value.isPublished==true){
+                          return component.publishItemText;
+                        }
+                        else{
+                          return component.unPublishItemText;
+                        }
+                      }
+                      )
                   ),
-                  onPressed: () {
-                    if (controller.episode.value.alreadyLiked == false) {
-                      controller.like();
-                      controller.episode.value.alreadyLiked = true;
-                      controller.episode.value.likes++;
-                    } else {
-                      controller.unLike();
-                      controller.episode.value.alreadyLiked = false;
-                      controller.episode.value.likes--;
-                    }
-                    controller.episode.refresh();
-                  },
-                  child: Obx(() {
-                    if (controller.episode.value.alreadyLiked == false)
-                      return component.addToFavoriteText;
-                    return component.unLikeText;
-                  })),
-              SizedBox(
-                width: getWidth(20),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.black87,
-                  primary: Color(0xFF3669C9),
-                  minimumSize: Size(getWidth(142.5), getWidth(50)),
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(getWidth(15)))),
-                ),
-                onPressed: () {
-                  if (controller.episode.value.isBought == true) {
-                    return;
-                  }
-                  if (controller.inCart.value == true) {
-                    controller.inCart.value = false;
-                    globalController.removeFomCart(controller.episodeId);
-                  } else {
-                    controller.inCart.value = true;
-                    globalController.addToCart(controller.episodeId);
-                  }
-                  controller.inCart.refresh();
-                },
-                child: Obx(() {
-                  if (controller.episode.value.isBought == true) {
-                    return component.readNowText;
-                  }
-                  if (controller.inCart.value == true) {
-                    return component.removeFromCartText;
-                  }
-                  return component.addToCartText;
-                }),
-              )
-            ],
-          ),
+                  SizedBox(
+                    width: getWidth(16),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.black87,
+                      primary: Color(0xFF3669C9),
+                      minimumSize: Size(getWidth(148), getWidth(50)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(getWidth(15)))),
+                    ),
+                    onPressed: () async {
+                      await controller.deleteItem();
+                    },
+                    child: component.deleteItemText,
+                  )
+                ],
+              );
+            } else
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        onPrimary: Colors.black87,
+                        primary: Colors.white,
+                        minimumSize: Size(
+                          getWidth(148),
+                          getWidth(50),
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(getWidth(15))),
+                            side: BorderSide(color: Colors.black)),
+                      ),
+                      onPressed: () async {
+                        if (controller.episode.value.alreadyLiked == false) {
+                          await controller.like();
+                        } else {
+                          await controller.unLike();
+                        }
+                        await controller.getEpisodeDetail();
+                      },
+                      child: Obx(() {
+                        if (controller.episode.value.alreadyLiked == false)
+                          return component.addToFavoriteText;
+                        return component.unLikeText;
+                      })),
+                  SizedBox(
+                    width: getWidth(16),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.black87,
+                      primary: Color(0xFF3669C9),
+                      minimumSize: Size(getWidth(148), getWidth(50)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(getWidth(15)))),
+                    ),
+                    onPressed: () async {
+                      if (controller.episode.value.isBought == true) {
+                        return;
+                      }
+                      if (globalController.checkInCart(controller.episodeId) == true) {
+                        await globalController.removeFomCart(controller.episodeId);
+                      } else {
+                        await globalController.addToCart(controller.episodeId);
+                      }
+                      await globalController.getEpisodeIdsInCart();
+                    },
+                    child: Obx(() {
+                      if (controller.episode.value.isBought == true) {
+                        return component.readNowText;
+                      }
+                      if (globalController.checkInCart(controller.episodeId)  == true) {
+                        return component.removeFromCartText;
+                      }
+                      return component.addToCartText;
+                    }),
+                  )
+                ],
+              );
+          }),
         ],
       ),
     );
