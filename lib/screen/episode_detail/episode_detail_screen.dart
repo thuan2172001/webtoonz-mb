@@ -456,86 +456,86 @@ class EpisodeDetailScreen extends StatelessWidget {
       width: double.infinity,
       height: getHeight(130),
       padding: EdgeInsets.only(top: getHeight(10)),
-      child: Column(
-        children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Colors.white,
-              minimumSize: Size(
-                getWidth(315),
-                getWidth(50),
-              ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
-                  side: BorderSide(color: Colors.black)),
-            ),
-            onPressed: () {
-              _addComment();
-            },
-            child: component.commentText,
-          ),
-          SizedBox(
-            height: getWidth(15),
-          ),
-          Obx(() {
-            if (globalController.user.value.role == "creator") {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        onPrimary: Colors.black87,
-                        primary: Colors.white,
-                        minimumSize: Size(
-                          getWidth(148),
-                          getWidth(50),
-                        ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(getWidth(15))),
-                            side: BorderSide(color: Colors.black)),
-                      ),
-                      onPressed: () async {
-                        if(controller.episode.value.isPublished==true){
-                          await controller.changeStatus("UNPUBLISH");
-                          await controller.getEpisodeDetail();
-                        }
-                        else{
-                          await controller.changeStatus("PUBLISH");
-                          await controller.getEpisodeDetail();
-                        }
-                      },
-                      child: Obx((){
-                        if(controller.episode.value.isPublished==true){
-                          return component.publishItemText;
-                        }
-                        else{
-                          return component.unPublishItemText;
-                        }
-                      }
-                      )
-                  ),
-                  SizedBox(
-                    width: getWidth(16),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.black87,
-                      primary: Color(0xFF3669C9),
-                      minimumSize: Size(getWidth(148), getWidth(50)),
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(getWidth(15)))),
+      child: Obx(() {
+        if (globalController.user.value.role == "creator") {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    onPrimary: Colors.black87,
+                    primary: Colors.white,
+                    minimumSize: Size(
+                      getWidth(148),
+                      getWidth(50),
                     ),
-                    onPressed: () async {
-                      await controller.deleteItem();
-                    },
-                    child: component.deleteItemText,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(getWidth(15))),
+                        side: BorderSide(color: Colors.black)),
+                  ),
+                  onPressed: () async {
+                    if(controller.episode.value.isPublished==true){
+                      await controller.changeStatus("UNPUBLISH");
+                      await controller.getEpisodeDetail();
+                    }
+                    else{
+                      await controller.changeStatus("PUBLISH");
+                      await controller.getEpisodeDetail();
+                    }
+                  },
+                  child: Obx((){
+                    if(controller.episode.value.isPublished==true){
+                      return component.publishItemText;
+                    }
+                    else{
+                      return component.unPublishItemText;
+                    }
+                  }
                   )
-                ],
-              );
-            } else
-              return Row(
+              ),
+              SizedBox(
+                width: getWidth(16),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.black87,
+                  primary: Color(0xFF3669C9),
+                  minimumSize: Size(getWidth(148), getWidth(50)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(getWidth(15)))),
+                ),
+                onPressed: () async {
+                  await controller.deleteItem();
+                },
+                child: component.deleteItemText,
+              )
+            ],
+          );
+        } else
+          return Column(
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(
+                    getWidth(315),
+                    getWidth(50),
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
+                      side: BorderSide(color: Colors.black)),
+                ),
+                onPressed: () {
+                  _addComment();
+                },
+                child: component.commentText,
+              ),
+              SizedBox(
+                height: getWidth(15),
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
@@ -548,7 +548,7 @@ class EpisodeDetailScreen extends StatelessWidget {
                         ),
                         shape: RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(getWidth(15))),
+                            BorderRadius.all(Radius.circular(getWidth(15))),
                             side: BorderSide(color: Colors.black)),
                       ),
                       onPressed: () async {
@@ -574,7 +574,7 @@ class EpisodeDetailScreen extends StatelessWidget {
                       minimumSize: Size(getWidth(148), getWidth(50)),
                       shape: RoundedRectangleBorder(
                           borderRadius:
-                              BorderRadius.all(Radius.circular(getWidth(15)))),
+                          BorderRadius.all(Radius.circular(getWidth(15)))),
                     ),
                     onPressed: () async {
                       if (controller.episode.value.isBought == true) {
@@ -598,10 +598,10 @@ class EpisodeDetailScreen extends StatelessWidget {
                     }),
                   )
                 ],
-              );
-          }),
-        ],
-      ),
+              ),
+            ],
+          );
+      }),
     );
   }
 
