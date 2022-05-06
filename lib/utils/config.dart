@@ -8,7 +8,7 @@ String differenceTime(String s) {
   var today = DateTime.now();
   var date = DateTime.parse(s);
   var sub = today.difference(date);
-  if (sub.inDays > 0) return "${sub.inDays} phút trước";
+  if (sub.inDays > 0) return "${sub.inDays} ngày trước";
   if (sub.inHours > 0) return "${sub.inHours} giờ trước";
   if (sub.inMinutes > 0) return "${sub.inMinutes} phút trước";
   if (sub.inSeconds>0)return "${sub.inSeconds} giây trước";
