@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
+import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
 import 'package:untitled/screen/home_page/home_page_tab_screen.dart';
 import 'package:untitled/screen/favorite/favorite_screen.dart';
 import 'package:untitled/widgets/bottom_navigator.dart';
@@ -20,7 +22,8 @@ class HomePageScreen extends StatelessWidget {
           children: [
             HomePageTabScreen(),
             FavoriteScreen(),
-            Container(),
+            //Container(),
+            BookshelfScreen(),
             SideBarMenu()
           ],
         ),
