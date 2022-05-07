@@ -59,6 +59,7 @@ dependencies:
   number_paginator: ^0.0.2
   sizer: ^2.0.15
   floating_pullup_card:
+  syncfusion_flutter_pdfviewer:
 
 dev_dependencies:
   flutter_test:

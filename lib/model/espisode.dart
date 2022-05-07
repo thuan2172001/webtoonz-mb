@@ -28,21 +28,23 @@ class Episode {
 
   var isPublished;
 
-  Episode({
-    this.id,
-    this.name,
-    this.description,
-    this.image,
-    this.price,
-    this.likes,
-    this.creatorFullName,
-    this.creatorAvatar,
-    this.creatorId,
-    this.soldQuantity,
-    this.alreadyLiked,
-    this.isBought,
-    this.isPublished,
-  });
+  var key;
+
+  Episode(
+      {this.id,
+      this.name,
+      this.description,
+      this.image,
+      this.price,
+      this.likes,
+      this.creatorFullName,
+      this.creatorAvatar,
+      this.creatorId,
+      this.soldQuantity,
+      this.alreadyLiked,
+      this.isBought,
+      this.isPublished,
+      this.key});
 
   factory Episode.fromJson(Map<String, dynamic> json) {
     return Episode(
@@ -56,9 +58,9 @@ class Episode {
         creatorFullName: json["data"]["data"]["creatorInfo"]["fullName"],
         creatorAvatar: json["data"]["data"]["creatorInfo"]["avatar"],
         creatorId: json["data"]["data"]["serie"]["creatorId"],
-        alreadyLiked:json["data"]["data"]["alreadyLiked"],
-        isBought:json["data"]["data"]["isBought"],
-        isPublished:json["data"]["data"]["isPublished"],
-    );
+        alreadyLiked: json["data"]["data"]["alreadyLiked"],
+        isBought: json["data"]["data"]["isBought"],
+        isPublished: json["data"]["data"]["isPublished"],
+        key: json["data"]["data"]["key"]);
   }
 }
