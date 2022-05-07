@@ -52,7 +52,7 @@ dependencies:
   flutter_credit_card: ^3.0.1
   http: ^0.13.3
   uni_links: ^0.5.1
-  textfield_tags: ^1.4.4
+  textfield_tags: ^2.0.0+1
   multi_select_flutter: ^4.1.2
   flutter_masked_text2: ^0.9.1
   expandable_text:
@@ -60,6 +60,11 @@ dependencies:
   sizer: ^2.0.15
   floating_pullup_card:
   syncfusion_flutter_pdfviewer:
+  internet_file:
+  epub_viewer:
+  epub_view: ^3.0.0
+  permission_handler:
+  epubx:
 
 dev_dependencies:
   flutter_test:

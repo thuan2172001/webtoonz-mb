@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
-import 'package:untitled/screen/episode_detail/read_episode.dart';
+import 'package:untitled/screen/episode_detail/read_epub_episode.dart';
+import 'package:untitled/screen/episode_detail/read_pdf_episode.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../utils/config.dart';
@@ -576,10 +577,18 @@ class EpisodeDetailScreen extends StatelessWidget {
                     ),
                     onPressed: () async {
                       if (controller.episode.value.isBought == true) {
-                        Get.to(() => ReadEpisodeScreen(
-                              episodeKey: controller.episode.value.key,
-                              episodeTitle: controller.episode.value.name,
-                            ));
+                        String fileType = controller.episode.value.key
+                            .substring(controller.episode.value.key.length - 4);
+                        if (fileType == 'epub')
+                          Get.to(() => ReadEpubScreen(
+                                episodeKey: controller.episode.value.key,
+                                episodeTitle: controller.episode.value.name,
+                              ));
+                        else
+                          Get.to(() => ReadPDFScreen(
+                                episodeKey: controller.episode.value.key,
+                                episodeTitle: controller.episode.value.name,
+                              ));
                         return;
                       }
                       if (globalController.checkInCart(controller.episodeId) ==
