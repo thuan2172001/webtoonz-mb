@@ -31,9 +31,11 @@ class HomePageTabScreen extends StatelessWidget {
             SizedBox(
               width: getWidth(20),
             ),
-            SvgPicture.asset(
-              "assets/icons/cart.svg",
-              width: getWidth(24),
+            GestureDetector(
+              child: SvgPicture.asset(
+                "assets/icons/cart.svg",
+                width: getWidth(24),
+              ),
             ),
             SizedBox(
               width: getWidth(20),
@@ -124,15 +126,32 @@ class HomePageTabScreen extends StatelessWidget {
                 );
               }),
             ),
-            Container(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "New released",
-                style: TextStyle(
-                  fontSize: getWidth(15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "New released",
+                    style: TextStyle(
+                      fontSize: getWidth(15),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
                 ),
-                textAlign: TextAlign.left,
-              ),
+                GestureDetector(
+                  onTap: () {
+                    homePageController.searchList = homePageController.seriesList;
+                    Get.to(SearchResultScreen());
+                  },
+                  child: Text(
+                    "See all >>",
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: getHeight(20)),
             Obx(() {
@@ -144,7 +163,52 @@ class HomePageTabScreen extends StatelessWidget {
                 mainAxisSpacing: getHeight(20),
                 crossAxisCount: 2,
                 childAspectRatio: 4 / 5.5,
-                children: homePageController.seriesList.map((e) {
+                children: homePageController.newReleased.map((e) {
+                  return SeriesItem(
+                    seriesInfo: e,
+                  );
+                }).toList(),
+              );
+            }),
+            SizedBox(height: getHeight(30)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Popular Series",
+                    style: TextStyle(
+                      fontSize: getWidth(15),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    homePageController.searchList = homePageController.seriesList;
+                    Get.to(SearchResultScreen());
+                  },
+                  child: Text(
+                    "See all >>",
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: getHeight(20)),
+            Obx(() {
+              return GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                primary: false,
+                crossAxisSpacing: getWidth(0),
+                mainAxisSpacing: getHeight(20),
+                crossAxisCount: 2,
+                childAspectRatio: 4 / 5.5,
+                children: homePageController.popular.map((e) {
                   return SeriesItem(
                     seriesInfo: e,
                   );
