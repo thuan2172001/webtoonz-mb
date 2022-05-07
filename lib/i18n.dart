@@ -38,7 +38,10 @@ class Messages extends Translations {
           "cfpassword_not_match":
               "Your confirm password not match with your new password",
           "missing_field": "You must fill all required fields",
-          "USER.CREATE_USER.EXISTED_EMAIL": "This email is existed"
+          "USER.CREATE_USER.EXISTED_EMAIL": "This email is existed",
+          "CREATOR.CREATE_ACCOUNT.EXISTED_USERNAME": "Username is existed !",
+          "CREATOR.CREATE_ACCOUNT.EXISTED_EMAIL": "Email is existed !",
+          "SIGNUP_FAILED": "Signup failed ! Please try again later."
         },
       };
 }
