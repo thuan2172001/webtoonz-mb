@@ -148,10 +148,7 @@ class SeriesDetailScreen extends StatelessWidget {
                                     ])),
                                 Container(
                                     width: statusFontSize.sp,
-                                    child: SvgPicture.asset(
-                                      'assets/icons/share.svg',
-                                      width: statusFontSize.sp,
-                                    ))
+                                    child: Icon(Icons.share_sharp))
                               ],
                             ),
                           ),

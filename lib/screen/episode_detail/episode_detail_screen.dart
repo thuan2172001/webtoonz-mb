@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
+import 'package:untitled/screen/episode_detail/read_episode.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../utils/config.dart';
@@ -471,29 +472,25 @@ class EpisodeDetailScreen extends StatelessWidget {
                     ),
                     shape: RoundedRectangleBorder(
                         borderRadius:
-                        BorderRadius.all(Radius.circular(getWidth(15))),
+                            BorderRadius.all(Radius.circular(getWidth(15))),
                         side: BorderSide(color: Colors.black)),
                   ),
                   onPressed: () async {
-                    if(controller.episode.value.isPublished==true){
+                    if (controller.episode.value.isPublished == true) {
                       await controller.changeStatus("UNPUBLISH");
                       await controller.getEpisodeDetail();
-                    }
-                    else{
+                    } else {
                       await controller.changeStatus("PUBLISH");
                       await controller.getEpisodeDetail();
                     }
                   },
-                  child: Obx((){
-                    if(controller.episode.value.isPublished==true){
+                  child: Obx(() {
+                    if (controller.episode.value.isPublished == true) {
                       return component.publishItemText;
-                    }
-                    else{
+                    } else {
                       return component.unPublishItemText;
                     }
-                  }
-                  )
-              ),
+                  })),
               SizedBox(
                 width: getWidth(16),
               ),
@@ -504,7 +501,7 @@ class EpisodeDetailScreen extends StatelessWidget {
                   minimumSize: Size(getWidth(148), getWidth(50)),
                   shape: RoundedRectangleBorder(
                       borderRadius:
-                      BorderRadius.all(Radius.circular(getWidth(15)))),
+                          BorderRadius.all(Radius.circular(getWidth(15)))),
                 ),
                 onPressed: () async {
                   await controller.deleteItem();
@@ -524,7 +521,8 @@ class EpisodeDetailScreen extends StatelessWidget {
                     getWidth(50),
                   ),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(getWidth(15))),
                       side: BorderSide(color: Colors.black)),
                 ),
                 onPressed: () {
@@ -548,7 +546,7 @@ class EpisodeDetailScreen extends StatelessWidget {
                         ),
                         shape: RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(getWidth(15))),
+                                BorderRadius.all(Radius.circular(getWidth(15))),
                             side: BorderSide(color: Colors.black)),
                       ),
                       onPressed: () async {
@@ -574,14 +572,20 @@ class EpisodeDetailScreen extends StatelessWidget {
                       minimumSize: Size(getWidth(148), getWidth(50)),
                       shape: RoundedRectangleBorder(
                           borderRadius:
-                          BorderRadius.all(Radius.circular(getWidth(15)))),
+                              BorderRadius.all(Radius.circular(getWidth(15)))),
                     ),
                     onPressed: () async {
                       if (controller.episode.value.isBought == true) {
+                        Get.to(() => ReadEpisodeScreen(
+                              episodeKey: controller.episode.value.key,
+                              episodeTitle: controller.episode.value.name,
+                            ));
                         return;
                       }
-                      if (globalController.checkInCart(controller.episodeId) == true) {
-                        await globalController.removeFomCart(controller.episodeId);
+                      if (globalController.checkInCart(controller.episodeId) ==
+                          true) {
+                        await globalController
+                            .removeFomCart(controller.episodeId);
                       } else {
                         await globalController.addToCart(controller.episodeId);
                       }
@@ -591,7 +595,8 @@ class EpisodeDetailScreen extends StatelessWidget {
                       if (controller.episode.value.isBought == true) {
                         return component.readNowText;
                       }
-                      if (globalController.checkInCart(controller.episodeId)  == true) {
+                      if (globalController.checkInCart(controller.episodeId) ==
+                          true) {
                         return component.removeFromCartText;
                       }
                       return component.addToCartText;

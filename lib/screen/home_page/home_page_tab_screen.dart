@@ -31,9 +31,11 @@ class HomePageTabScreen extends StatelessWidget {
             SizedBox(
               width: getWidth(20),
             ),
-            SvgPicture.asset(
-              "assets/icons/cart.svg",
-              width: getWidth(24),
+            GestureDetector(
+              child: SvgPicture.asset(
+                "assets/icons/cart.svg",
+                width: getWidth(24),
+              ),
             ),
             SizedBox(
               width: getWidth(20),

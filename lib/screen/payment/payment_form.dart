@@ -76,9 +76,7 @@ class _PaymentFormState extends State<PaymentForm> {
                       : const Icon(Icons.add),
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      setState(() {
-                        isLoading = true;
-                      });
+                      setState(() => isLoading = true);
                       CustomDio customDio = CustomDio();
                       customDio.dio.options.headers["Authorization"] =
                           globalController.user.value.certificate.toString();
@@ -94,6 +92,7 @@ class _PaymentFormState extends State<PaymentForm> {
                       var response = await StripeService.createNewPayment(
                           paymentMethod, context, cardHolderName);
                       if (response == null) {
+                        setState(() => isLoading = false);
                         CustomDialog(context, "FAILED")
                             .show({"message": "Add card failed !"});
                         return;
