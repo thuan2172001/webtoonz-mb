@@ -456,8 +456,8 @@ class EpisodeDetailScreen extends StatelessWidget {
     return Container(
       color: Colors.white,
       width: double.infinity,
-      height: getHeight(130),
-      padding: EdgeInsets.only(top: getHeight(10)),
+      height: getWidth(130),
+      padding: EdgeInsets.only(top: getWidth(10)),
       child: Obx(() {
         if (globalController.user.value.role == "creator") {
           return Row(
