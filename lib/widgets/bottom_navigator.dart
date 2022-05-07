@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/cart/cart_controller.dart';
 import 'package:untitled/controller/favorite/favorite_episode_controller.dart';
 import 'package:untitled/controller/favorite/favorite_series_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
@@ -100,7 +101,8 @@ Container bottomNavigator() {
                   }),
                   Obx(() {
                     return Bouncing(
-                      onPress: () {
+                      onPress: () async {
+                        await Get.put(CartController()).getCartList();
                         globalController.onChangeTab(2);
                       },
                       child: Container(

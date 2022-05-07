@@ -13,6 +13,8 @@ class HomePageController extends GetxController {
 
   RxList<Series> seriesList = <Series>[].obs;
   RxList<Series> searchList = <Series>[].obs;
+  RxList<Series> newReleased = <Series>[].obs;
+  RxList<Series> popular = <Series>[].obs;
 
   Future getSeries() async {
     try {
@@ -25,6 +27,8 @@ class HomePageController extends GetxController {
       print(json);
 
       seriesList.value = FavoriteSeries.fromJson(json).listSeries;
+      newReleased.value = seriesList.sublist(0, 10);
+      popular.value = seriesList.sublist(11, 20);
       return true;
     } catch (e, s) {
       return false;
