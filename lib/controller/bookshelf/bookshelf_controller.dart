@@ -10,7 +10,7 @@ class BookshelfController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getBookshelf();
+    // await getBookshelf();
   }
 
   Future getBookshelf() async {
