@@ -293,7 +293,7 @@ class SeriesDetailScreen extends StatelessWidget {
                                               BorderRadius.all(Radius.circular(getWidth(15))),),
                                         ),
                                         onPressed: () {
-                                          Get.to(() =>CreateEpisodeScreen());
+                                          Get.to(() =>CreateEpisodeScreen(seriesId: serieId));
                                         },
                                         child: Text("Create episode",style: TextStyle(
                                           color: Colors.white,
