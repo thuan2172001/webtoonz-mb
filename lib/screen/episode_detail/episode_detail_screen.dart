@@ -487,9 +487,9 @@ class EpisodeDetailScreen extends StatelessWidget {
                   },
                   child: Obx(() {
                     if (controller.episode.value.isPublished == true) {
-                      return component.publishItemText;
-                    } else {
                       return component.unPublishItemText;
+                    } else {
+                      return component.publishItemText;
                     }
                   })),
               SizedBox(

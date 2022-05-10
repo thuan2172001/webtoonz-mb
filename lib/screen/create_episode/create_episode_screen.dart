@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,13 +12,12 @@ import '../../widgets/app_bar.dart';
 import '../../widgets/input.dart';
 
 class CreateEpisodeScreen extends StatelessWidget {
-  RxString _logoPath = "".obs;
-  RxString _filePath = "".obs;
-  RxString _fileName = "".obs;
-
+  late CreateEpisodeController controller;
+  final String seriesId;
+  CreateEpisodeScreen({required this.seriesId});
   @override
   Widget build(BuildContext context) {
-    CreateEpisodeController controller = Get.put(CreateEpisodeController());
+    controller= Get.put(CreateEpisodeController(seriesId: seriesId));
     return Scaffold(
       appBar: appBar(title: "Create episode", centerTitle: true),
       body: Container(
@@ -51,15 +49,17 @@ class CreateEpisodeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
+                  width: getWidth(133),
+                  height: getWidth(130),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
                   child: Stack(children: <Widget>[
                     Obx(() {
-                      if (_logoPath.value.isNotEmpty) {
+                      if (controller.logo.value.path.isNotEmpty) {
                         return ClipRRect(
                           child: Image.file(
-                            File(_logoPath.value),
+                            controller.logo.value,
                             width: getWidth(133),
                             height: getWidth(130),
                             fit: BoxFit.cover,
@@ -73,20 +73,19 @@ class CreateEpisodeScreen extends StatelessWidget {
                         );
                       }
                     }),
-                    Positioned(
-                        top: getWidth(45),
-                        left: getWidth(43.5),
-                        child: IconButton(
-                          onPressed: () {
-                            pickLogo();
-                          },
-                          icon: SvgPicture.asset(
-                            "assets/icons/share.svg",
-                            color: Colors.black,
-                            width: getWidth(34),
-                            height: getWidth(24.95),
-                          ),
-                        )),
+                    Center(
+                      child: IconButton(
+                        onPressed: () {
+                          pickLogo();
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/icons/share.svg",
+                          color: Colors.black,
+                          width: getWidth(34),
+                          height: getWidth(24.95),
+                        ),
+                      ),
+                    ),
                   ]),
                 ),
               ],
@@ -127,7 +126,7 @@ class CreateEpisodeScreen extends StatelessWidget {
                   color: Color(0xFFF8F9FA),
                 ),
                 Obx(() {
-                  if (_filePath.value.isNotEmpty) {
+                  if (controller.file.value.path.isNotEmpty) {
                     return Center(
                       child: Column(
                         children: [
@@ -148,7 +147,7 @@ class CreateEpisodeScreen extends StatelessWidget {
                           SizedBox(
                             height: getWidth(8),
                           ),
-                          Text(_fileName.value),
+                          Text(controller.fileName.value),
                         ],
                       ),
                     );
@@ -156,20 +155,19 @@ class CreateEpisodeScreen extends StatelessWidget {
                     return Container();
                   }
                 }),
-                Positioned(
-                    top: getWidth(50),
-                    left: getWidth(124.55),
-                    child: IconButton(
-                      onPressed: () {
-                        pickFile();
-                      },
-                      icon: SvgPicture.asset(
-                        "assets/icons/share.svg",
-                        color: Colors.black,
-                        width: getWidth(34),
-                        height: getWidth(24.95),
-                      ),
-                    )),
+                Center(
+                  child: IconButton(
+                    onPressed: () {
+                      pickFile();
+                    },
+                    icon: SvgPicture.asset(
+                      "assets/icons/share.svg",
+                      color: Colors.black,
+                      width: getWidth(34),
+                      height: getWidth(24.95),
+                    ),
+                  ),
+                ),
               ]),
             ),
             SizedBox(
@@ -249,8 +247,49 @@ class CreateEpisodeScreen extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
                 ),
               ),
-              onPressed: () {},
-              child: Text("Save"),
+              onPressed: () async {
+                controller.isLoading.value=true;
+                var result=await controller.createEpisode();
+                controller.isLoading.value=false;
+                if(result==null){
+                  Get.snackbar(
+                    "Create Episode",
+                    "Failed",
+                    icon: Icon(Icons.sms_failed, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.red,
+                    borderRadius: 20,
+                    margin: EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 2),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  );
+                }
+                else{
+                  controller.reset();
+                  Get.snackbar(
+                    "Create Episode",
+                    "Success",
+                    icon: Icon(Icons.done_outlined, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.green,
+                    borderRadius: 20,
+                    margin: EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 2),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  );
+                }
+              },
+              child: Obx((){
+                if(controller.isLoading.value==false)
+                  return Text("Save");
+                return  Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
             ),
             SizedBox(
               height: getWidth(16),
@@ -264,8 +303,8 @@ class CreateEpisodeScreen extends StatelessWidget {
   Future pickLogo() async {
     try {
       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (file == null) return;
-      this._logoPath.value = file.path;
+      if(file==null)return;
+      controller.logo.value=File(file.path);
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }
@@ -275,12 +314,14 @@ class CreateEpisodeScreen extends StatelessWidget {
     try {
       final result = await FilePicker.platform.pickFiles();
       if (result == null) return;
-      this._filePath.value = result.files.first.path!;
-      this._fileName.value = result.files.first.name;
-      if (this._fileName.value.length > 30) {
-        this._fileName.value = "..." +
-            this._fileName.value.substring(
-                this._fileName.value.length - 27, this._fileName.value.length);
+      final file=result.files.first;
+      if(file==null||file.path==null)return;
+      controller.file.value = File(file.path!);
+      controller.fileName.value=file.name;
+      if (controller.fileName.value.length > 30) {
+        controller.fileName.value = "..." +
+            controller.fileName.value.substring(
+                controller.fileName.value.length - 27, controller.fileName.value.length);
       }
     } on PlatformException catch (e) {
       print("Failed to pick file: $e");

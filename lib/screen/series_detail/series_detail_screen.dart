@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,7 @@ class SeriesDetailScreen extends StatelessWidget {
               var ratio = seriesInfo.totalEpisodes! / controller.limit;
               var numberOfPages =
               ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
+              numberOfPages=max(numberOfPages,1);
               return Scaffold(
                 appBar: appBar(
                     title: seriesInfo.serieName,
@@ -293,7 +295,7 @@ class SeriesDetailScreen extends StatelessWidget {
                                               BorderRadius.all(Radius.circular(getWidth(15))),),
                                         ),
                                         onPressed: () {
-                                          Get.to(() =>CreateEpisodeScreen());
+                                          Get.to(() =>CreateEpisodeScreen(seriesId: serieId));
                                         },
                                         child: Text("Create episode",style: TextStyle(
                                           color: Colors.white,
