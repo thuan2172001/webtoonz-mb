@@ -6,18 +6,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:untitled/main.dart';
 import '../../controller/create_series/create_series_controller.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/input.dart';
 
 class CreateSeriesScreen extends StatelessWidget {
-  RxString _logoPath = "".obs;
-  RxString _bannerPath = "".obs;
-
+  late CreateSeriesController controller;
   @override
   Widget build(BuildContext context) {
-    CreateSeriesController controller = Get.put(CreateSeriesController ());
+   controller = Get.put(CreateSeriesController());
     return Scaffold(
       appBar: appBar(title: "Create series", centerTitle: true),
       body: Container(
@@ -49,15 +48,17 @@ class CreateSeriesScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
+                  width: getWidth(133),
+                  height: getWidth(130),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
                   child: Stack(children: <Widget>[
                     Obx(() {
-                      if (_logoPath.value.isNotEmpty) {
+                      if (controller.logo.value.path.isNotEmpty) {
                         return ClipRRect(
                           child: Image.file(
-                            File(_logoPath.value),
+                            File(controller.logo.value.path),
                             width: getWidth(133),
                             height: getWidth(130),
                             fit: BoxFit.cover,
@@ -71,20 +72,19 @@ class CreateSeriesScreen extends StatelessWidget {
                         );
                       }
                     }),
-                    Positioned(
-                        top: getWidth(45),
-                        left: getWidth(43.5),
-                        child: IconButton(
-                          onPressed: () {
-                            pickLogo();
-                          },
-                          icon: SvgPicture.asset(
-                            "assets/icons/share.svg",
-                            color: Colors.black,
-                            width: getWidth(34),
-                            height: getWidth(24.95),
-                          ),
-                        )),
+                    Center(
+                      child: IconButton(
+                        onPressed: () {
+                          pickLogo();
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/icons/share.svg",
+                          color: Colors.black,
+                          width: getWidth(34),
+                          height: getWidth(24.95),
+                        ),
+                      ),
+                    ),
                   ]),
                 ),
               ],
@@ -108,10 +108,10 @@ class CreateSeriesScreen extends StatelessWidget {
               ),
               child: Stack(children: <Widget>[
                 Obx(() {
-                  if (_bannerPath.value.isNotEmpty) {
+                  if (controller.banner.value.path.isNotEmpty) {
                     return ClipRRect(
                       child: Image.file(
-                        File(_bannerPath.value),
+                        File(controller.banner.value.path),
                         width: getWidth(299),
                         height: getWidth(150),
                         fit: BoxFit.cover,
@@ -153,13 +153,55 @@ class CreateSeriesScreen extends StatelessWidget {
             SizedBox(
               height: getWidth(16),
             ),
-            inputRegular(
-              context,
-              label: "Series category",
-              hintText: "Categories",
-              textEditingController: controller.seriesCategory,
-              required: true,
+
+            Container(
+              margin: EdgeInsets.only(
+                left: getWidth(16),
+                right: getWidth(16),
+              ),
+              width: double.infinity,
+              child: Row(children: [
+                Text("Series category",
+                    style: TextStyle(
+                        fontSize: getHeight(12),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500)),
+                Text("*", style: TextStyle(color: Colors.red))
+              ]),
             ),
+            SizedBox(height: getWidth(5),),
+            DropdownButtonFormField(
+              hint: Text("Categories",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: getWidth(12),
+              ),),
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.only(
+                  top: getWidth(10),
+                  left: getWidth(18),
+                  bottom: getHeight(20),
+                ),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFE6E6E6), width: getHeight(1),),
+                  borderRadius: BorderRadius.circular(getHeight(6)),
+                ),
+              ),
+              dropdownColor: Colors.white,
+              onChanged: (String? newValue) {
+                controller.seriesCategory=newValue!;
+                print(controller.seriesCategory);
+              },
+              items: globalController.categories.value
+                  .map<DropdownMenuItem<String>>((e) {
+                return DropdownMenuItem<String>(
+                  value: e["categoryId"],
+                  child: Text(e["categoryName"],style:
+                    TextStyle(color: Colors.black,fontSize: getWidth(12)),),
+                );
+              }).toList(),
+            ),
+
             SizedBox(
               height: getWidth(16),
             ),
@@ -217,8 +259,50 @@ class CreateSeriesScreen extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(getWidth(15))),
                 ),
               ),
-              onPressed: () {},
-              child: Text("Save"),
+              onPressed: () async {
+                controller.isLoading.value=true;
+                var result=await controller.createSeries();
+                controller.isLoading.value=false;
+                if(result==null){
+                  Get.snackbar(
+                    "Create Series",
+                    "Failed",
+                    icon: Icon(Icons.sms_failed, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.red,
+                    borderRadius: 20,
+                    margin: EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 2),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  );
+                }
+                else{
+                  controller.reset();
+                  Get.snackbar(
+                    "Create Series",
+                    "Success",
+                    icon: Icon(Icons.done_outlined, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.green,
+                    borderRadius: 20,
+                    margin: EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 2),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+
+                  );
+                }
+              },
+              child: Obx((){
+                if(controller.isLoading.value==false)
+                  return Text("Save");
+                return  Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
             ),
             SizedBox(
               height: getWidth(16),
@@ -233,7 +317,7 @@ class CreateSeriesScreen extends StatelessWidget {
     try {
       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (file == null) return;
-      this._logoPath.value = file.path;
+      controller.logo.value = File(file.path);
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }
@@ -243,7 +327,7 @@ class CreateSeriesScreen extends StatelessWidget {
     try {
       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (file == null) return;
-      this._bannerPath.value = file.path;
+      controller.banner.value= File(file.path);
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }

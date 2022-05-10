@@ -49,6 +49,8 @@ class CreateEpisodeScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
+                  width: getWidth(133),
+                  height: getWidth(130),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                   ),
@@ -71,20 +73,19 @@ class CreateEpisodeScreen extends StatelessWidget {
                         );
                       }
                     }),
-                    Positioned(
-                        top: getWidth(45),
-                        left: getWidth(43.5),
-                        child: IconButton(
-                          onPressed: () {
-                            pickLogo();
-                          },
-                          icon: SvgPicture.asset(
-                            "assets/icons/share.svg",
-                            color: Colors.black,
-                            width: getWidth(34),
-                            height: getWidth(24.95),
-                          ),
-                        )),
+                    Center(
+                      child: IconButton(
+                        onPressed: () {
+                          pickLogo();
+                        },
+                        icon: SvgPicture.asset(
+                          "assets/icons/share.svg",
+                          color: Colors.black,
+                          width: getWidth(34),
+                          height: getWidth(24.95),
+                        ),
+                      ),
+                    ),
                   ]),
                 ),
               ],
@@ -154,20 +155,19 @@ class CreateEpisodeScreen extends StatelessWidget {
                     return Container();
                   }
                 }),
-                Positioned(
-                    top: getWidth(50),
-                    left: getWidth(124.55),
-                    child: IconButton(
-                      onPressed: () {
-                        pickFile();
-                      },
-                      icon: SvgPicture.asset(
-                        "assets/icons/share.svg",
-                        color: Colors.black,
-                        width: getWidth(34),
-                        height: getWidth(24.95),
-                      ),
-                    )),
+                Center(
+                  child: IconButton(
+                    onPressed: () {
+                      pickFile();
+                    },
+                    icon: SvgPicture.asset(
+                      "assets/icons/share.svg",
+                      color: Colors.black,
+                      width: getWidth(34),
+                      height: getWidth(24.95),
+                    ),
+                  ),
+                ),
               ]),
             ),
             SizedBox(
@@ -248,14 +248,48 @@ class CreateEpisodeScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                if(controller.episodeName.text.isEmpty)return;
-                if(controller.price.text.isEmpty)return;
-                if(controller.description.text.isEmpty)return;
-                //if(controller.logo.value.path.isEmpty)return;
-                //if(controller.file.value.path.isEmpty)return;
-                controller.createEpisode();
+                controller.isLoading.value=true;
+                var result=await controller.createEpisode();
+                controller.isLoading.value=false;
+                if(result==null){
+                  Get.snackbar(
+                    "Create Episode",
+                    "Failed",
+                    icon: Icon(Icons.sms_failed, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.red,
+                    borderRadius: 20,
+                    margin: EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 2),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  );
+                }
+                else{
+                  controller.reset();
+                  Get.snackbar(
+                    "Create Episode",
+                    "Success",
+                    icon: Icon(Icons.done_outlined, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.green,
+                    borderRadius: 20,
+                    margin: EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 2),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  );
+                }
               },
-              child: Text("Save"),
+              child: Obx((){
+                if(controller.isLoading.value==false)
+                  return Text("Save");
+                return  Center(
+                  child: CircularProgressIndicator(),
+                );
+              }),
             ),
             SizedBox(
               height: getWidth(16),
