@@ -10,6 +10,8 @@ import '../../model/custom_dio.dart';
 class PaymentController extends GetxController {
   RxList<PaymentCard> paymentMethods = <PaymentCard>[].obs;
 
+  RxBool isPickCard = false.obs;
+
   @override
   void onInit() async {
     super.onInit();
