@@ -65,6 +65,7 @@ class CustomDio {
   }
 
   Future post(String url, dynamic params, {Options? options}) async {
+    print(params);
     return _dio.post(url, data: params, options: options);
   }
 

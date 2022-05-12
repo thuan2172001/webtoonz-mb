@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
 import '../../model/custom_dio.dart';
 import '../../model/espisode.dart';
 
@@ -15,35 +12,17 @@ class EpisodeDetailController extends GetxController with StateMixin {
   EpisodeDetailController({required this.episodeId});
 
   RxBool seeAll = false.obs;
+  // RxBool inCart = false.obs;
 
   @override
   void onInit() async {
     super.onInit();
-    change(null, status: RxStatus.loading());
-    await getEpisodeDetail();
-    await getComments();
-    change(null, status: RxStatus.success());
   }
 
-  Future addToCart(int quantity) async {
-    try {
-      CustomDio customDio = CustomDio();
-      var response = await customDio.get("/user/cart");
-      response = jsonDecode(response.toString());
-      RxList data = List.empty(growable: true).obs;
-      data.value = response["data"];
-      var requet = {"cartItems": data.value};
-      while (quantity > 0) {
-        data.add("$episodeId");
-        quantity--;
-      }
-
-      response = await customDio.put("/user/cart", requet);
-      return true;
-    } catch (e, s) {
-      print(e.toString());
-      return false;
-    }
+  Future getApi() async {
+    await getEpisodeDetail();
+    await getComments();
+    // inCart = Get.put(GlobalController()).checkInCart(episodeId).obs;
   }
 
   Future getEpisodeDetail() async {
@@ -160,6 +139,37 @@ class EpisodeDetailController extends GetxController with StateMixin {
       var json = jsonDecode(response.toString());
       var result = json["data"];
       return result ?? json;
+    } catch (e, s) {
+      return null;
+    }
+  }
+
+  Future changeStatus(String status) async {
+    try {
+      CustomDio customDio = CustomDio();
+      var data = {
+        "episodeId": episodeId,
+        "type": status
+      };
+      var response = await customDio.post(
+        "/episode/status",
+        data,
+      );
+      var json = jsonDecode(response.toString());
+      return json;
+    } catch (e, s) {
+      return null;
+    }
+  }
+
+  Future deleteItem() async {
+    try {
+      CustomDio customDio = CustomDio();
+      var response = await customDio.delete(
+        "/episode/$episodeId",
+      );
+      var json = jsonDecode(response.toString());
+      return json;
     } catch (e, s) {
       return null;
     }

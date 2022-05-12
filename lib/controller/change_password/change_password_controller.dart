@@ -12,9 +12,6 @@ import 'package:untitled/service/date_format.dart';
 import 'package:untitled/service/response_validator.dart';
 import 'package:untitled/widgets/dialog.dart';
 
-// import 'package:untitled/utils/utils.dart';
-// import 'package:untitled/widgets/dialog.dart';
-
 class ChangePasswordController extends GetxController {
   GlobalController globalController = Get.put(GlobalController());
   LoginPageController loginPageController = Get.put(LoginPageController());

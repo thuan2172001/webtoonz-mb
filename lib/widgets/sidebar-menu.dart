@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
+import 'package:untitled/controller/payment/payment_controller.dart';
+import 'package:untitled/screen/account/user_account.dart';
+import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
+import 'package:untitled/screen/payment/payment_method.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
 import 'package:untitled/utils/config.dart';
 
@@ -114,7 +119,9 @@ class SideBarMenu extends StatelessWidget {
                         child: Column(
                           children: [
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                Get.to(UserAccountScreen());
+                              },
                               child: Container(
                                 color: Colors.white,
                                 child: Column(
@@ -165,7 +172,25 @@ class SideBarMenu extends StatelessWidget {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                // add
+                                // var card = CardDetails.fromJson({
+                                //   "number": "4242424242424242",
+                                //   "expirationYear": 42,
+                                //   "expirationMonth": 6,
+                                //   "cvc": "424"
+                                // });
+                                // var paymentMethod =
+                                //     await StripeService.createSetupIntent(card);
+                                // StripeService.createNewPayment(
+                                //     paymentMethod, context);
+
+                                // delete
+                                // await StripeService.deletePayment(
+                                //     "pm_1Kv1thCkuVKGrqVo4JMUPyAb", context);
+                                Get.put(PaymentController()).isPickCard.value = false;
+                                Get.to(() => PaymentMethodScreen());
+                              },
                               child: Container(
                                 color: Colors.white,
                                 child: Column(
@@ -269,7 +294,10 @@ class SideBarMenu extends StatelessWidget {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () async {},
+                              onTap: () async {
+                                Get.put(BookshelfController()).getBookshelf();
+                                Get.to(BookshelfScreen());
+                              },
                               child: Container(
                                 color: Colors.white,
                                 child: Column(
@@ -398,6 +426,8 @@ class SideBarMenu extends StatelessWidget {
                                           ),
                                           GestureDetector(
                                             onTap: () {
+                                              GlobalController().dispose();
+                                              GlobalController().onChangeTab(0);
                                               Get.offAll(() => LoginScreen());
                                             },
                                             child: Container(

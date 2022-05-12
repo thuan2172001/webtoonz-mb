@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable()
@@ -27,20 +26,25 @@ class Episode {
 
   var isBought;
 
-  Episode({
-    this.id,
-    this.name,
-    this.description,
-    this.image,
-    this.price,
-    this.likes,
-    this.creatorFullName,
-    this.creatorAvatar,
-    this.creatorId,
-    this.soldQuantity,
-    this.alreadyLiked,
-    this.isBought,
-  });
+  var isPublished;
+
+  var key;
+
+  Episode(
+      {this.id,
+      this.name,
+      this.description,
+      this.image,
+      this.price,
+      this.likes,
+      this.creatorFullName,
+      this.creatorAvatar,
+      this.creatorId,
+      this.soldQuantity,
+      this.alreadyLiked,
+      this.isBought,
+      this.isPublished,
+      this.key});
 
   factory Episode.fromJson(Map<String, dynamic> json) {
     return Episode(
@@ -54,8 +58,9 @@ class Episode {
         creatorFullName: json["data"]["data"]["creatorInfo"]["fullName"],
         creatorAvatar: json["data"]["data"]["creatorInfo"]["avatar"],
         creatorId: json["data"]["data"]["serie"]["creatorId"],
-        alreadyLiked:json["data"]["data"]["alreadyLiked"],
-        isBought:json["data"]["data"]["isBought"]
-    );
+        alreadyLiked: json["data"]["data"]["alreadyLiked"],
+        isBought: json["data"]["data"]["isBought"],
+        isPublished: json["data"]["data"]["isPublished"],
+        key: json["data"]["data"]["key"]);
   }
 }

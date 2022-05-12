@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:untitled/model/custom_dio.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:untitled/model/custom_dio.dart';
 import 'package:untitled/widgets/dialog.dart';
 
 class StripeService {
   static Future<String> getPubKey() async {
     try {
       CustomDio customDio = CustomDio();
-      var response = await customDio.get("stripe/key");
+      var response = await customDio.get("/user/api-key");
       var json = jsonDecode(response.toString());
-      return json["data"]["key"];
+      return json["data"]["apiKey"];
     } catch (e, s) {
       print(e);
       return "";
@@ -21,8 +21,7 @@ class StripeService {
   static Future<SetupIntent?> createSetupIntent(CardDetails _card) async {
     try {
       CustomDio customDio = CustomDio();
-      var response =
-          await customDio.post("businesses/payment-method/setup", {"data": {}});
+      var response = await customDio.get("/payment/create-setup-intent");
       var json = jsonDecode(response.toString());
 
       var publishedKey = await getPubKey();
@@ -39,8 +38,8 @@ class StripeService {
           paymentMethodId: paymentMethod.id, cvc: _card.cvc);
 
       SetupIntent confirmPayment = await Stripe.instance
-          .confirmSetupIntent(json["data"]["clientSecret"], params);
-      
+          .confirmSetupIntent(json["data"]["client_secret"], params);
+
       return confirmPayment;
     } catch (e, s) {
       print(e);
@@ -48,15 +47,19 @@ class StripeService {
     }
   }
 
-  static Future createNewPayment(SetupIntent? paymentMethod, BuildContext context) async {
+  static Future createNewPayment(SetupIntent? paymentMethod,
+      BuildContext context, String cardHolder) async {
     try {
       if (paymentMethod == null) {
         return;
       }
       CustomDio customDio = CustomDio();
-      var response = await customDio.post("businesses/payment-method", {
-        "data": {
-          "paymentMethodId": paymentMethod.paymentMethodId
+      var response = await customDio.post("/payment", {
+        "nameOnCard": cardHolder,
+        "futureUsage": true,
+        "paymentMethodInfo": {
+          "payment_method": paymentMethod.paymentMethodId,
+          "status": "succeeded"
         }
       });
       var json = jsonDecode(response.toString());
@@ -67,4 +70,17 @@ class StripeService {
     }
   }
 
+  static Future deletePayment(
+      String paymentMethodId, BuildContext context) async {
+    try {
+      CustomDio customDio = CustomDio();
+      var response = await customDio.delete("/payment/$paymentMethodId");
+      var json = jsonDecode(response.toString());
+      print(json["data"]);
+      return json["data"];
+    } catch (e, s) {
+      CustomDialog(context, "FAILED").show({"message": e.toString()});
+      return null;
+    }
+  }
 }

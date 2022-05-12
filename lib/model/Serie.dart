@@ -15,6 +15,7 @@ class Series {
   int? totalLikes;
   int? likes;
   String categoryId;
+  String? category;
   int? comments;
 
   Series()
@@ -29,6 +30,7 @@ class Series {
         likes = 0,
         comments = 0,
         categoryId = "",
+        category = "",
         serieId = "";
 
   Series.fullParam(
@@ -39,6 +41,7 @@ class Series {
     this.totalEpisodes,
     this.totalLikes,
     this.categoryId,
+    this.category,
     this.authorName,
     this.authorAvatar,
     this.serieId,
@@ -58,14 +61,16 @@ class Series {
 
 @JsonSerializable()
 class SeriesEpisode {
+  final String episodeId;
   final String name;
   final String thumbnail;
+  final String chapter;
   final int price;
   final int likeInit;
-  final int comments;
+  final int? comments;
 
-  SeriesEpisode(
-      this.name, this.thumbnail, this.price, this.likeInit, this.comments);
+  SeriesEpisode(this.name, this.thumbnail, this.price, this.likeInit,
+      this.comments, this.episodeId, this.chapter);
 
   factory SeriesEpisode.fromJson(Map<String, dynamic> json) =>
       _$SeriesEpisodeFromJson(json);

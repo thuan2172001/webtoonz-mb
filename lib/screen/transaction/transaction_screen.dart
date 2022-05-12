@@ -76,27 +76,6 @@ class TransactionScreen extends StatelessWidget {
                     SizedBox(
                       height: getHeight(15),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: getWidth(20)),
-                      height: getHeight(48),
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: BorderSide(color: Colors.black),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20))),
-                        ),
-                        onPressed: () {},
-                        child: Text(
-                          "Enjoy",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
                   ]),
                 ),
               );

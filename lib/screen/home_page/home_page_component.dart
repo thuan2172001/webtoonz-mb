@@ -15,7 +15,7 @@ class SeriesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(SeriesDetailScreen(serieId: seriesInfo.serieId));
+        Get.to(() => SeriesDetailScreen(serieId: seriesInfo.serieId));
       },
       child: Container(
         width: getWidth(160),
@@ -51,9 +51,9 @@ class SeriesItem extends StatelessWidget {
               height: getWidth(121),
               width: getWidth(121),
             ),
-            // SizedBox(
-            //   height: getHeight(19),
-            // ),
+            SizedBox(
+              height: getHeight(8),
+            ),
             Text(
               seriesInfo.serieName,
               style: TextStyle(fontSize: getWidth(13)),
@@ -61,14 +61,14 @@ class SeriesItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             SizedBox(
-              height: getHeight(4),
+              height: getHeight(3),
             ),
             Text(
               'VND ',
               style: TextStyle(fontSize: 11, color: Colors.red),
             ),
             SizedBox(
-              height: getHeight(5),
+              height: getHeight(8),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +85,9 @@ class SeriesItem extends StatelessWidget {
                         'assets/icons/gold_star.svg',
                         width: getWidth(9),
                       )),
-                      TextSpan(text: ' ${numberShorten(seriesInfo.likes ?? seriesInfo.totalLikes ?? 0)}')
+                      TextSpan(
+                          text:
+                              ' ${numberShorten(seriesInfo.likes ?? seriesInfo.totalLikes ?? 0)}')
                     ])),
                 Text(
                   ' ${numberShorten(seriesInfo.comments ?? 0)} Comments',

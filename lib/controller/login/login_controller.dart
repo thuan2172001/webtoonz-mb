@@ -12,8 +12,6 @@ import 'package:untitled/screen/login/login_screen.dart';
 import 'package:untitled/service/date_format.dart';
 import 'package:untitled/service/response_validator.dart';
 
-import '../global_controller.dart';
-
 class LoginPageController extends GetxController {
   Rx<LoginOption> loginOption = LoginOption.customer.obs;
 
@@ -116,6 +114,9 @@ class LoginPageController extends GetxController {
             userInfo.phone = jsonResponse["data"]["phoneNumber"];
             userInfo.certificate = certificateList[0];
             globalController.user.value = userInfo;
+            if (userInfo.role != "creator") {
+              await globalController.getEpisodeIdsInCart();
+            }
             return true;
           } else {
             messValidatePassword.value = "invalid_password";
