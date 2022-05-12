@@ -11,6 +11,9 @@ class CartController extends GetxController {
   RxList episodeIds = [].obs;
   RxList<Episode> episodeList = <Episode>[].obs;
 
+  RxString cardId = "".obs;
+  RxString cardNumber = "".obs;
+
   Future getCartList() async {
     try {
       episodeList.clear();
@@ -64,6 +67,29 @@ class CartController extends GetxController {
       if (json["success"]) {
         await getCartList();
       }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future checkout() async {
+    try {
+      CustomDio customDio = CustomDio();
+      customDio.dio.options.headers["Authorization"] =
+          Get.put(GlobalController()).user.value.certificate.toString();
+      var response = await customDio.post(
+        "/payment/checkout",
+        {
+          "cartList": episodeIds.value,
+          "payment": cardId.value,
+          "currency": "USD",
+        },
+      );
+      var json = jsonDecode(response.toString());
+      print(json);
+
+      return json["success"];
     } catch (e) {
       print(e);
       return false;
