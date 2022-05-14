@@ -75,8 +75,31 @@ class SignupController extends GetxController {
         data,
       );
       var json = jsonDecode(response.toString());
-      var result = json["data"];
-      return result ?? json;
+      return json;
+    } catch (e, s) {
+      return null;
+    }
+  }
+
+  Future signupCreator() async {
+    try {
+      var keyPair = generateKeyPairAndEncrypt(password.text);
+      CustomDio customDio = CustomDio();
+      var data = {
+        "email": email.text,
+        "username": email.text,
+        "phoneNumber": phoneNumber.text,
+        "encryptedPrivateKey": keyPair["encryptedPrivateKey"],
+        "publicKey": keyPair["publicKey"],
+        "fullName": fullName.text,
+      };
+
+      var response = await customDio.post(
+        "/creator",
+        data,
+      );
+      var json = jsonDecode(response.toString());
+      return json;
     } catch (e, s) {
       return null;
     }

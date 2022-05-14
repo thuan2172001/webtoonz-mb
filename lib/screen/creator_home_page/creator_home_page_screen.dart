@@ -6,6 +6,8 @@ import 'package:untitled/widgets/bottom_navigator.dart';
 import 'package:untitled/widgets/creator_bottom_navigator.dart';
 import 'package:untitled/widgets/sidebar-menu.dart';
 
+import '../create_series/create_series_screen.dart';
+
 class CreatorHomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class CreatorHomePageScreen extends StatelessWidget {
           controller: Get.put(GlobalController()).pageController,
           children: [
             CreatorHomePageTabScreen(),
-            Container(),
+            CreateSeriesScreen(),
             Container(),
             SideBarMenu()
           ],

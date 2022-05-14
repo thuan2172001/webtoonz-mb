@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:untitled/model/User.dart';
 import 'package:untitled/model/custom_dio.dart';
+import 'package:dio/src/form_data.dart';
+import 'package:dio/dio.dart';
 
 class GlobalController extends GetxController {
   var db;
@@ -81,6 +84,21 @@ class GlobalController extends GetxController {
     } catch (e, s) {
       print(e.toString());
       return false;
+    }
+  }
+
+  Future uploadFile(File file) async {
+    try {
+      CustomDio customDio = CustomDio();
+      var filePost = await MultipartFile.fromFile(file.path);
+      FormData formData = FormData.fromMap({
+        "file": filePost,
+      });
+      var response = await customDio.post("/uploadv3", formData);
+      response = jsonDecode(response.toString());
+      return response["data"]["key"];
+    } catch (e, s) {
+      return null;
     }
   }
 }

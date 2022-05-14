@@ -9,9 +9,6 @@ import 'package:sizer/sizer.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/i18n.dart';
 import 'package:untitled/screen/login/login_screen.dart';
-import 'package:untitled/screen/series_detail/series_detail_screen.dart';
-
-import 'controller/series_detail/series_detail_controller.dart';
 
 GlobalController globalController = Get.put(GlobalController());
 
@@ -41,7 +38,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: "DMSans",
         ),
-        //home: LoginScreen(),
         home: LoginScreen(),
       );
     });

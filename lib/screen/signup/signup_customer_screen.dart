@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/signup/signup_controller.dart';
 import 'package:untitled/screen/login/login_screen.dart';
-import 'package:untitled/screen/signup/signup_welcome_screen.dart';
 import 'package:untitled/screen/signup/verified-page.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/dialog.dart';
 import 'package:untitled/widgets/input.dart';
 import 'package:untitled/widgets/app_name.dart';
-import 'package:untitled/widgets/layout.dart';
 
 class SignupCustomerScreen extends StatelessWidget {
   @override
@@ -16,9 +14,9 @@ class SignupCustomerScreen extends StatelessWidget {
     SignupController signupController = Get.put(SignupController());
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      bottomNavigationBar: Padding(
-          padding: EdgeInsets.only(top: getHeight(0)),
-          child: confirmButtonContainer(context, signupController)),
+      // bottomNavigationBar: Padding(
+      //     padding: EdgeInsets.only(top: getHeight(0)),
+      //     child: confirmButtonContainer(context, signupController)),
       body: Container(
         color: Colors.white,
         padding: EdgeInsets.only(
@@ -30,7 +28,7 @@ class SignupCustomerScreen extends StatelessWidget {
           children: [
             getAppName(),
             SizedBox(
-              height: getHeight(24),
+              height: getHeight(20),
             ),
             Text(
               "Customer - Sign up",
@@ -40,7 +38,7 @@ class SignupCustomerScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(
-              height: getHeight(16),
+              height: getHeight(4),
             ),
             inputRegular(
               context,
@@ -50,7 +48,7 @@ class SignupCustomerScreen extends StatelessWidget {
               required: true,
             ),
             SizedBox(
-              height: getHeight(12),
+              height: getHeight(4),
             ),
             inputRegular(
               context,
@@ -60,7 +58,7 @@ class SignupCustomerScreen extends StatelessWidget {
               required: true,
             ),
             SizedBox(
-              height: getHeight(12),
+              height: getHeight(4),
             ),
             inputRegular(
               context,
@@ -70,7 +68,7 @@ class SignupCustomerScreen extends StatelessWidget {
               required: true,
             ),
             SizedBox(
-              height: getHeight(12),
+              height: getHeight(4),
             ),
             Obx(() => inputPassword(
                   context,
@@ -82,7 +80,7 @@ class SignupCustomerScreen extends StatelessWidget {
                   required: true,
                 )),
             SizedBox(
-              height: getHeight(12),
+              height: getHeight(4),
             ),
             Obx(() => inputPassword(
                   context,
@@ -94,7 +92,7 @@ class SignupCustomerScreen extends StatelessWidget {
                   changeHide: signupController.changeHideCfPassword,
                 )),
             SizedBox(
-              height: getHeight(12),
+              height: getHeight(4),
             ),
             Row(
               children: [
@@ -111,20 +109,7 @@ class SignupCustomerScreen extends StatelessWidget {
                       fontSize: getHeight(14), fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  "Term of Use",
-                  style: TextStyle(
-                      fontSize: getHeight(14),
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF3864FF),
-                      decoration: TextDecoration.underline),
-                ),
-                Text(
-                  " and ",
-                  style: TextStyle(
-                      fontSize: getHeight(14), fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  "Privacy Policy",
+                  "Term of Use and Policy",
                   style: TextStyle(
                       fontSize: getHeight(14),
                       fontWeight: FontWeight.w500,
@@ -132,7 +117,8 @@ class SignupCustomerScreen extends StatelessWidget {
                       decoration: TextDecoration.underline),
                 ),
               ],
-            )
+            ),
+            confirmButtonContainer(context, signupController),
           ],
         ),
       ),
@@ -140,64 +126,53 @@ class SignupCustomerScreen extends StatelessWidget {
   }
 }
 
-Container confirmButtonContainer(
+Widget confirmButtonContainer(
     BuildContext context, SignupController signupController) {
-  return bottomContainerLayout(
-    height: 108,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              backgroundColor: const Color(0xFF3669C9),
-              side: const BorderSide(
-                color: Color(0xFF3669C9),
-              ),
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      OutlinedButton(
+        style: OutlinedButton.styleFrom(
+            backgroundColor: const Color(0xFF3669C9),
+            side: const BorderSide(
+              color: Color(0xFF3669C9),
             ),
-            onPressed: () async {
-              if (signupController.email.text != "" &&
-                  signupController.phoneNumber.text != "" &&
-                  signupController.password.text != "" &&
-                  signupController.isAgree.value == true &&
-                  signupController.confirmPassword.text != "") {
-                var result = await signupController.signup();
-                if (result["success"] == true) {
-                  Get.to(() => VerifiedPage());
-                } else {
-                  CustomDialog(context, "FAILED")
-                      .show({"message": result["reason"].toString().tr});
-                }
-              }
-            },
-            child: Text("continue".tr,
-                style: const TextStyle(color: Colors.white)),
+            padding: EdgeInsets.symmetric(vertical: getHeight(14))),
+        onPressed: () async {
+          if (signupController.email.text != "" &&
+              signupController.phoneNumber.text != "" &&
+              signupController.password.text != "" &&
+              signupController.isAgree.value == true &&
+              signupController.confirmPassword.text != "") {
+            var result = await signupController.signup();
+            if (result["success"] == true) {
+              Get.to(() => VerifiedPage());
+            } else {
+              CustomDialog(context, "FAILED")
+                  .show({"message": result["reason"] ?? "SIGNUP_FAILED"});
+            }
+          }
+        },
+        child: Text("continue".tr, style: const TextStyle(color: Colors.white)),
+      ),
+      OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(
+            color: Colors.white,
           ),
         ),
-        SizedBox(
-          height: getHeight(12),
-        ),
-        Expanded(
-          child: OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () {
-              Get.offAll(() => LoginScreen());
-            },
-            child: const Text(
-              "Already have account? Back to Sign-in",
-              style: TextStyle(
-                color: Color(0xFF3669C9),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+        onPressed: () {
+          Get.offAll(() => LoginScreen());
+        },
+        child: const Text(
+          "Already have account? Back to Sign-in",
+          style: TextStyle(
+            color: Color(0xFF3669C9),
+            fontWeight: FontWeight.bold,
           ),
         ),
-      ],
-    ),
+      ),
+    ],
   );
 }

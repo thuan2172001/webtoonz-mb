@@ -18,14 +18,14 @@ Container inputPassword(
         label != null
             ? Container(
                 margin: EdgeInsets.only(
-                  left: getWidth(16),
-                  right: getWidth(16),
+                  left: getWidth(14),
+                  right: getWidth(14),
                 ),
                 width: double.infinity,
                 child: Row(children: [
                   Text(label,
                       style: TextStyle(
-                          fontSize: getHeight(14),
+                          fontSize: getHeight(12),
                           color:
                               enabled ? Colors.black : const Color(0xFF999999),
                           fontWeight: FontWeight.w500)),
@@ -57,7 +57,7 @@ Container inputPassword(
             children: [
               Expanded(
                 child: TextFormField(
-                    style: TextStyle(fontSize: getHeight(14)),
+                    style: TextStyle(fontSize: getHeight(12)),
                     controller: controller,
                     obscureText: isHide,
                     readOnly: !enabled,
@@ -75,7 +75,7 @@ Container inputPassword(
                           color: enabled
                               ? const Color(0xFF9E9E9E)
                               : const Color(0xFF999999),
-                          fontSize: getHeight(14)),
+                          fontSize: getHeight(12)),
                     )),
               ),
               IconButton(
@@ -84,7 +84,7 @@ Container inputPassword(
                   },
                   icon: Icon(
                     isHide ? Icons.visibility_off : Icons.visibility,
-                    size: 16,
+                    size: 14,
                   ))
             ],
           ),
@@ -118,14 +118,14 @@ Container inputRegular(
         label != null
             ? Container(
                 margin: EdgeInsets.only(
-                  left: getWidth(16),
-                  right: getWidth(16),
+                  left: getWidth(14),
+                  right: getWidth(14),
                 ),
                 width: double.infinity,
                 child: Row(children: [
                   Text(label,
                       style: TextStyle(
-                          fontSize: getHeight(14),
+                          fontSize: getHeight(12),
                           color:
                               enabled ? Colors.black : const Color(0xFF999999),
                           fontWeight: FontWeight.w500)),
@@ -166,7 +166,7 @@ Container inputRegular(
                   maxLength: maxLength,
                   onChanged: onChange,
                   style: TextStyle(
-                      fontSize: getHeight(14),
+                      fontSize: getHeight(12),
                       color: enabled ? Colors.black : const Color(0xFF999999)),
                   decoration: InputDecoration(
                     suffixIcon: null,
@@ -184,7 +184,7 @@ Container inputRegular(
                     ),
                     labelStyle: TextStyle(
                         color: const Color(0xFF9E9E9E),
-                        fontSize: getHeight(14)),
+                        fontSize: getHeight(12)),
                   ),
                 ),
               ),
@@ -255,11 +255,11 @@ Container inputSearch(
               disabledBorder: InputBorder.none,
               hintText: hintText,
               contentPadding: EdgeInsets.only(
-                right: getWidth(16),
+                right: getWidth(14),
                 top: getHeight(4),
               ),
               labelStyle:
-                  TextStyle(color: Color(0xFF878C92), fontSize: getHeight(16)),
+                  TextStyle(color: Color(0xFF878C92), fontSize: getHeight(14)),
             ),
           ),
         )
@@ -293,7 +293,7 @@ Container inputWithHint(BuildContext context,
               onchange == null ? null : onchange();
             },
             controller: textEditingController,
-            style: TextStyle(fontSize: getHeight(16)),
+            style: TextStyle(fontSize: getHeight(14)),
             decoration: InputDecoration(
               floatingLabelBehavior: FloatingLabelBehavior.always,
               border: InputBorder.none,
@@ -304,9 +304,9 @@ Container inputWithHint(BuildContext context,
               labelText: labelText,
               hintText: hintText,
               contentPadding:
-                  EdgeInsets.only(left: getWidth(16), right: getWidth(16)),
+                  EdgeInsets.only(left: getWidth(14), right: getWidth(14)),
               labelStyle:
-                  TextStyle(color: Color(0xFF878C92), fontSize: getHeight(16)),
+                  TextStyle(color: Color(0xFF878C92), fontSize: getHeight(14)),
             ),
           ),
         ),
@@ -339,7 +339,7 @@ Container inputSignup(BuildContext context,
         Expanded(
           child: TextFormField(
             controller: textEditingController,
-            style: TextStyle(fontSize: getHeight(16)),
+            style: TextStyle(fontSize: getHeight(14)),
             decoration: InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -348,9 +348,9 @@ Container inputSignup(BuildContext context,
               disabledBorder: InputBorder.none,
               labelText: hintText,
               contentPadding:
-                  EdgeInsets.only(left: getWidth(16), right: getWidth(16)),
+                  EdgeInsets.only(left: getWidth(14), right: getWidth(14)),
               labelStyle:
-                  TextStyle(color: Color(0xFF878C92), fontSize: getHeight(16)),
+                  TextStyle(color: Color(0xFF878C92), fontSize: getHeight(14)),
             ),
           ),
         ),
@@ -389,7 +389,7 @@ Container inputPasswordSignup(
               onChanged: (e) {
                 onchange != null ? onchange() : null;
               },
-              style: TextStyle(fontSize: getHeight(16)),
+              style: TextStyle(fontSize: getHeight(14)),
               controller: controller,
               obscureText: isHide,
               decoration: InputDecoration(
@@ -399,9 +399,9 @@ Container inputPasswordSignup(
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
                 labelText: hintText,
-                contentPadding: EdgeInsets.only(left: getWidth(16)),
+                contentPadding: EdgeInsets.only(left: getWidth(14)),
                 labelStyle:
-                    TextStyle(color: Color(0xFF878C92), fontSize: getWidth(16)),
+                    TextStyle(color: Color(0xFF878C92), fontSize: getWidth(14)),
               )),
         ),
         IconButton(
@@ -437,7 +437,7 @@ Container inputOnChange(BuildContext context,
           child: TextFormField(
             onChanged: (text) => {function()},
             controller: textEditingController,
-            style: TextStyle(fontSize: getWidth(16)),
+            style: TextStyle(fontSize: getWidth(14)),
             decoration: InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
@@ -446,9 +446,9 @@ Container inputOnChange(BuildContext context,
               disabledBorder: InputBorder.none,
               labelText: hintText,
               contentPadding:
-                  EdgeInsets.only(left: getWidth(16), right: getWidth(16)),
+                  EdgeInsets.only(left: getWidth(14), right: getWidth(14)),
               labelStyle:
-                  TextStyle(color: Color(0xFF878C92), fontSize: getWidth(16)),
+                  TextStyle(color: Color(0xFF878C92), fontSize: getWidth(14)),
             ),
           ),
         ),
@@ -469,7 +469,7 @@ Container inputSelect(
   final GlobalKey _autocompleteKey = GlobalKey();
   return Container(
     padding:
-        EdgeInsets.symmetric(vertical: getWidth(16), horizontal: getWidth(16)),
+        EdgeInsets.symmetric(vertical: getWidth(14), horizontal: getWidth(14)),
     decoration: BoxDecoration(
       border: Border.all(width: 1, color: Color.fromARGB(255, 242, 239, 244)),
       borderRadius: BorderRadius.circular(8),
@@ -489,7 +489,7 @@ Container inputSelect(
                 focusNode: _focusNode,
                 controller: textEditingController,
                 style: TextStyle(
-                  fontSize: getHeight(14),
+                  fontSize: getHeight(12),
                 ),
                 onEditingComplete: () {
                   FocusScope.of(context).unfocus();
@@ -527,12 +527,12 @@ Container inputSelect(
                   disabledBorder: InputBorder.none,
                   hintText: hintText,
                   contentPadding: EdgeInsets.only(
-                    right: getWidth(16),
+                    right: getWidth(14),
                     top: getHeight(2),
                   ),
                   labelStyle: TextStyle(
                       color: Color.fromARGB(255, 195, 196, 197),
-                      fontSize: getHeight(16)),
+                      fontSize: getHeight(14)),
                 ),
               );
             },
@@ -591,14 +591,14 @@ Container inputDate(BuildContext context,
         label != null
             ? Container(
                 margin: EdgeInsets.only(
-                  left: getWidth(16),
-                  right: getWidth(16),
+                  left: getWidth(14),
+                  right: getWidth(14),
                 ),
                 width: double.infinity,
                 child: Row(children: [
                   Text(label,
                       style: TextStyle(
-                          fontSize: getHeight(14),
+                          fontSize: getHeight(12),
                           color:
                               enabled ? Colors.black : const Color(0xFF999999),
                           fontWeight: FontWeight.w500)),
@@ -639,7 +639,7 @@ Container inputDate(BuildContext context,
                   onChanged: onChange,
                   onTap: onTap,
                   style: TextStyle(
-                      fontSize: getHeight(14),
+                      fontSize: getHeight(12),
                       color: enabled ? Colors.black : const Color(0xFF999999)),
                   decoration: InputDecoration(
                     border: InputBorder.none,
@@ -657,7 +657,7 @@ Container inputDate(BuildContext context,
                     ),
                     labelStyle: TextStyle(
                         color: const Color(0xFF9E9E9E),
-                        fontSize: getHeight(14)),
+                        fontSize: getHeight(12)),
                     suffixIconConstraints: BoxConstraints(
                       maxHeight: getHeight(30),
                       maxWidth: getWidth(30),

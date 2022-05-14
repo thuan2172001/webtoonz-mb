@@ -27,7 +27,7 @@ class SignupWelcomeScreen extends StatelessWidget {
         child: ListView(
           children: [
             Container(
-                height: getHeight(480),
+                height: getHeight(360),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(

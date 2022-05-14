@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/chat/chat_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/controller/login/login_controller.dart';
 import 'package:untitled/main.dart';
+import 'package:untitled/screen/chat/chat_page.dart';
 import 'package:untitled/screen/creator_home_page/creator_home_page_screen.dart';
 import 'package:untitled/screen/home_page/home_page_screen.dart';
 import 'package:untitled/screen/signup/signup_welcome_screen.dart';
