@@ -8,6 +8,7 @@ import '../global_controller.dart';
 
 class ChatController extends GetxController {
   RxList<MessageModel> messages = <MessageModel>[].obs;
+  RxList<dynamic> conversations = <dynamic>[].obs;
   TextEditingController chatBody = TextEditingController();
   RxBool flag = false.obs;
   RxString conversationId = "".obs;
@@ -32,6 +33,25 @@ class ChatController extends GetxController {
       }
       return true;
     } catch (e) {
+      messages.value = [];
+      return false;
+    }
+  }
+
+  Future getConversations() async {
+    try {
+      CustomDio customDio = CustomDio();
+      customDio.dio.options.headers["Authorization"] =
+          Get.put(GlobalController()).user.value.certificate.toString();
+      var response = await customDio.get("/conversation");
+      var json = jsonDecode(response.toString());
+      if (json["success"] == true) {
+        conversations.clear();
+        conversations.value = json["data"]["data"];
+      }
+      return true;
+    } catch (e) {
+      conversations.value = [];
       return false;
     }
   }

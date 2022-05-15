@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
+import 'package:untitled/controller/chat/chat_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
+import 'package:untitled/screen/chat/conversation_page.dart';
 import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';
 import 'package:untitled/screen/home_page/search_result_screen.dart';
@@ -27,12 +29,12 @@ class HomePageTabScreen extends StatelessWidget {
           actions: [
             GestureDetector(
               child: SvgPicture.asset(
-                "assets/icons/bell.svg",
+                "assets/icons/chat.svg",
                 width: getWidth(24),
               ),
               onTap: () async {
-                await Get.put(BookshelfController()).getBookshelf();
-                Get.to(() => BookshelfScreen());
+                await Get.put(ChatController()).getConversations();
+                Get.to(() => ConversationPage());
               },
             ),
             SizedBox(
@@ -83,13 +85,13 @@ class HomePageTabScreen extends StatelessWidget {
             CarouselSlider(
               items: [1, 2, 3, 4]
                   .map((e) => Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: getWidth(307),
-                    child: Image.asset("assets/naruto.png"),
-                  );
-                },
-              ))
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: getWidth(307),
+                            child: Image.asset("assets/naruto.png"),
+                          );
+                        },
+                      ))
                   .toList(),
               options: CarouselOptions(
                 height: getHeight(160),
@@ -151,7 +153,8 @@ class HomePageTabScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    homePageController.searchList = homePageController.seriesList;
+                    homePageController.searchList =
+                        homePageController.seriesList;
                     Get.to(SearchResultScreen());
                   },
                   child: Text(
@@ -196,7 +199,8 @@ class HomePageTabScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    homePageController.searchList = homePageController.seriesList;
+                    homePageController.searchList =
+                        homePageController.seriesList;
                     Get.to(SearchResultScreen());
                   },
                   child: Text(
