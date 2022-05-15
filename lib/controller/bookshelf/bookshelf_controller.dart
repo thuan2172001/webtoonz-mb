@@ -7,12 +7,6 @@ import 'package:untitled/controller/favorite/favorite_episode_controller.dart';
 class BookshelfController extends GetxController {
   Rx<FavoriteEpisode> bookshelf = FavoriteEpisode(listEpisode: []).obs;
 
-  @override
-  void onInit() async {
-    super.onInit();
-    // await getBookshelf();
-  }
-
   Future getBookshelf() async {
     try {
       CustomDio customDio = CustomDio();

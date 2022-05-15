@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/main.dart';
+import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
 import 'package:untitled/screen/episode_detail/read_epub_episode.dart';
 import 'package:untitled/screen/episode_detail/read_pdf_episode.dart';
@@ -413,7 +414,9 @@ class EpisodeDetailScreen extends StatelessWidget {
             IconButton(
               iconSize: getWidth(20),
               icon: Icon(Icons.arrow_forward_ios),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => CreatorDetailScreen());
+              },
             )
           ],
         ),
