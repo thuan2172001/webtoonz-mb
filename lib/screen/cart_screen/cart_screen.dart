@@ -104,9 +104,11 @@ class CartScreen extends StatelessWidget {
                       Text(
                         "Items",
                       ),
-                      Text(
-                        "${cartController.episodeList.length}",
-                      )
+                      Obx(() {
+                        return Text(
+                          "${cartController.episodeList.length}",
+                        );
+                      })
                     ],
                   ),
                   SizedBox(
@@ -118,12 +120,14 @@ class CartScreen extends StatelessWidget {
                       Text(
                         "Payment",
                       ),
-                      Text(
-                        "${cartController.episodeList.reduce((previousValue, element) {
-                          element.price += previousValue.price;
-                          return element;
-                        }).price}\$",
-                      )
+                      Obx(() {
+                        return Text(
+                          "${cartController.episodeList.length > 0 ? cartController.episodeList.reduce((previousValue, element) {
+                            element.price += previousValue.price;
+                            return element;
+                          }).price : 0}\$",
+                        );
+                      })
                     ],
                   ),
                   SizedBox(

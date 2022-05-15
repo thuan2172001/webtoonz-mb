@@ -101,4 +101,17 @@ class CreatorInfo {
         seriesQuantity: json["data"]["seriesQuantity"],
         episodeQuantity: json["data"]["episodeQuantity"]);
   }
+
+  factory CreatorInfo.fromJsonInList(Map<String, dynamic> json) {
+    return CreatorInfo(
+        id: json["_id"],
+        fullName: json["fullName"],
+        avatar: json["avatar"],
+        description: json["description"],
+        sns: json["sns"],
+        createdAt: json["createdAt"],
+        mediaLinks: json["mediaLinks"],
+        seriesQuantity: json["seriesQuantity"],
+        episodeQuantity: json["episodeQuantity"]);
+  }
 }
