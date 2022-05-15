@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/main.dart';
-import 'package:untitled/model/Serie.dart';
+import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
+import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';
 import 'package:untitled/screen/home_page/search_result_screen.dart';
-import 'package:untitled/screen/series_detail/episode_card.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/input.dart';
@@ -24,9 +25,15 @@ class HomePageTabScreen extends StatelessWidget {
           centerTitle: true,
           elevation: 1.0,
           actions: [
-            SvgPicture.asset(
-              "assets/icons/bell.svg",
-              width: getWidth(24),
+            GestureDetector(
+              child: SvgPicture.asset(
+                "assets/icons/bell.svg",
+                width: getWidth(24),
+              ),
+              onTap: () async {
+                await Get.put(BookshelfController()).getBookshelf();
+                Get.to(() => BookshelfScreen());
+              },
             ),
             SizedBox(
               width: getWidth(20),
@@ -36,6 +43,9 @@ class HomePageTabScreen extends StatelessWidget {
                 "assets/icons/cart.svg",
                 width: getWidth(24),
               ),
+              onTap: () {
+                Get.to(() => CreatorDetailScreen());
+              },
             ),
             SizedBox(
               width: getWidth(20),
@@ -73,13 +83,13 @@ class HomePageTabScreen extends StatelessWidget {
             CarouselSlider(
               items: [1, 2, 3, 4]
                   .map((e) => Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: getWidth(307),
-                            child: Image.asset("assets/naruto.png"),
-                          );
-                        },
-                      ))
+                builder: (BuildContext context) {
+                  return Container(
+                    width: getWidth(307),
+                    child: Image.asset("assets/naruto.png"),
+                  );
+                },
+              ))
                   .toList(),
               options: CarouselOptions(
                 height: getHeight(160),
