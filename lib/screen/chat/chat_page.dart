@@ -21,17 +21,20 @@ class MessagesPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey[100],
         appBar: appBar(
-          elevation: 0,
-          title: "Thuan",
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.more_horiz),
-              iconSize: 30,
-              color: Colors.white,
-              onPressed: () {},
-            )
-          ],
-        ),
+            elevation: 0,
+            title: "Thuan",
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.more_horiz),
+                iconSize: 30,
+                color: Colors.white,
+                onPressed: () {},
+              )
+            ],
+            backFunction: () {
+              chatController.conversationId.value = "";
+              chatController.stopFetchDetail();
+            }),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Column(

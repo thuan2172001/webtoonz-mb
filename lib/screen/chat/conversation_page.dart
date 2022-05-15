@@ -20,18 +20,21 @@ class ConversationPage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.grey[100],
         appBar: appBar(
-          elevation: 0,
-          title: "Messages",
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.more_horiz),
-              iconSize: 30,
-              color: Colors.white,
-              onPressed: () {},
-            )
-          ],
-        ),
+            elevation: 0,
+            title: "Messages",
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.more_horiz),
+                iconSize: 30,
+                color: Colors.white,
+                onPressed: () {},
+              )
+            ],
+            backFunction: () {
+              chatController.stopFetchConversations();
+              Get.delete<ChatController>();
+            }),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Container(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,45 @@ class ChatController extends GetxController {
   RxBool flag = false.obs;
   RxString conversationId = "".obs;
   RxString receiverId = "8770eb81-d2e5-4c3e-ab68-f5beed99bcd8".obs;
+  late Timer fetchConversations;
+  late Timer fetchDetail;
+
+  void onInit() async {
+    super.onInit();
+    startFetchConversations();
+    startFetchDetail();
+  }
+
+  void onDispose() {
+    fetchConversations.cancel();
+    fetchDetail.cancel();
+  }
+
+  void stopFetchConversations() {
+    fetchConversations.cancel();
+  }
+
+  void stopFetchDetail() {
+    fetchDetail.cancel();
+  }
+
+  void startFetchConversations() {
+    fetchConversations = Timer.periodic(new Duration(seconds: 2), (timer) {
+      print("fetch conversation");
+      getConversations();
+    });
+    ;
+  }
+
+  void startFetchDetail() {
+    fetchDetail = Timer.periodic(new Duration(seconds: 1), (timer) {
+      if (conversationId.value != "") {
+        print("fetch ${conversationId.value}");
+        getConversation();
+      }
+    });
+    ;
+  }
 
   Future getConversation() async {
     try {
