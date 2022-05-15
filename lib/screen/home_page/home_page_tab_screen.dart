@@ -229,6 +229,53 @@ class HomePageTabScreen extends StatelessWidget {
                 }).toList(),
               );
             }),
+            SizedBox(height: getHeight(30)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Shop",
+                    style: TextStyle(
+                      fontSize: getWidth(15),
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    homePageController.searchCreatorList =
+                        homePageController.creatorList;
+                    homePageController.isSearchCreator = true;
+                    Get.to(SearchResultScreen());
+                  },
+                  child: Text(
+                    "See all >>",
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: getHeight(20)),
+            Obx(() {
+              return GridView.count(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                primary: false,
+                crossAxisSpacing: getWidth(0),
+                mainAxisSpacing: getHeight(20),
+                crossAxisCount: 2,
+                childAspectRatio: 4 / 5.5,
+                children: homePageController.creatorList.map((e) {
+                  return CreatorItem(
+                    creatorInfo: e,
+                  );
+                }).toList(),
+              );
+            }),
           ],
         ),
       ),

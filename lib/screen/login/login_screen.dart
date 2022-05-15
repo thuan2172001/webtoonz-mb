@@ -164,6 +164,7 @@ Container confirmButtonContainer(
                           Get.to(() => CreatorHomePageScreen());
                         } else {
                           await Get.put(HomePageController()).getSeries();
+                          await Get.put(HomePageController()).getAllCreators();
                           Get.to(() => HomePageScreen());
                         }
                       }

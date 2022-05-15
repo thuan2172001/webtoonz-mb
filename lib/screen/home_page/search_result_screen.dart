@@ -46,7 +46,8 @@ class SearchResultScreen extends StatelessWidget {
               height: getHeight(15),
             ),
             Text(
-                "${homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"),
+                "${homepageController.isSearchCreator
+                    ? homepageController.searchCreatorList.length : homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"),
             SizedBox(
               height: getHeight(15),
             ),
@@ -59,11 +60,17 @@ class SearchResultScreen extends StatelessWidget {
                 mainAxisSpacing: 20,
                 crossAxisCount: 2,
                 childAspectRatio: 4 / 5.7,
-                children: homepageController.searchList.map((e) {
-                  return SeriesItem(
-                    seriesInfo: e,
-                  );
-                }).toList(),
+                children: homepageController.isSearchCreator
+                    ? homepageController.searchCreatorList.map((e) {
+                        return CreatorItem(
+                          creatorInfo: e,
+                        );
+                      }).toList()
+                    : homepageController.searchList.map((e) {
+                        return SeriesItem(
+                          seriesInfo: e,
+                        );
+                      }).toList(),
               );
             }),
           ],
