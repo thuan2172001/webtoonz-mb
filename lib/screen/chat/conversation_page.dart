@@ -57,6 +57,8 @@ class ConversationPage extends StatelessWidget {
                       onTap: () async {
                         chatController.conversationId.value =
                             data["conversationId"];
+                        chatController.receiverId.value =
+                            data["friendInfo"]["_id"];
                         Get.to(MessagesPage());
                       },
                       child: Container(

@@ -13,7 +13,7 @@ class ChatController extends GetxController {
   TextEditingController chatBody = TextEditingController();
   RxBool flag = false.obs;
   RxString conversationId = "".obs;
-  RxString receiverId = "8770eb81-d2e5-4c3e-ab68-f5beed99bcd8".obs;
+  RxString receiverId = "".obs;
   late Timer fetchConversations;
   late Timer fetchDetail;
 
