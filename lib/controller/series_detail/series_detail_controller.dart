@@ -11,10 +11,13 @@ class SerieDetailController extends GetxController {
   final int limit = 8;
   RxList<SeriesEpisode> episodes = <SeriesEpisode>[].obs;
   RxList<SeriesEpisode> searchResults = <SeriesEpisode>[].obs;
-
-  void initialize(List<SeriesEpisode> initEpisodes, String _serieId) {
+  RxBool isChangingStatus=false.obs;
+  RxBool isDeleting=false.obs;
+  RxBool isPublished=false.obs;
+  void initialize(List<SeriesEpisode> initEpisodes, String _serieId,bool _isPublished) {
     episodes.value = initEpisodes;
     serieId = _serieId;
+    isPublished.value = _isPublished;
   }
 
   Future getEpisodes(String _serieId, int page) async {
@@ -57,5 +60,36 @@ class SerieDetailController extends GetxController {
             episodesData["episodes"][index]["episodeId"],
             episodesData["episodes"][index]["chapter"]));
     searchResults.refresh();
+  }
+  Future changeStatus() async {
+    try {
+      CustomDio customDio = CustomDio();
+      var data = {
+          "serieId": serieId,
+          "type": isPublished.value?"UNPUBLISH":"PUBLISH",
+      };
+      var response = await customDio.post(
+        "/serie/status",
+        data,
+      );
+      var json = jsonDecode(response.toString());
+      isPublished.value=!isPublished.value;
+      return json;
+    } catch (e, s) {
+      return null;
+    }
+  }
+
+  Future deleteSeries() async {
+    try {
+      CustomDio customDio = CustomDio();
+      var response = await customDio.delete(
+        "/serie/$serieId"
+      );
+      var json = jsonDecode(response.toString());
+      return json;
+    } catch (e, s) {
+      return null;
+    }
   }
 }

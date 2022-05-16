@@ -63,6 +63,9 @@ dependencies:
   internet_file:
   permission_handler:
   webview_flutter:
+  epubx:
+  file_picker: ^4.5.1
+  image_picker: ^0.8.5
 
 dev_dependencies:
   flutter_test:

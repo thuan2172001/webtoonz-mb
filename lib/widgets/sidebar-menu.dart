@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
+import 'package:untitled/controller/payment/payment_controller.dart';
 import 'package:untitled/screen/account/user_account.dart';
 import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
@@ -187,6 +188,7 @@ class SideBarMenu extends StatelessWidget {
                                 // delete
                                 // await StripeService.deletePayment(
                                 //     "pm_1Kv1thCkuVKGrqVo4JMUPyAb", context);
+                                Get.put(PaymentController()).isPickCard.value = false;
                                 Get.to(() => PaymentMethodScreen());
                               },
                               child: Container(

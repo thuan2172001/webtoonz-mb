@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/chat/chat_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
+import 'package:untitled/screen/chat/conversation_page.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';
 import 'package:untitled/screen/home_page/search_result_screen.dart';
 import 'package:untitled/utils/config.dart';
@@ -21,9 +23,15 @@ class CreatorHomePageTabScreen extends StatelessWidget {
           centerTitle: true,
           elevation: 1.0,
           actions: [
-            SvgPicture.asset(
-              "assets/icons/bell.svg",
-              width: getWidth(24),
+            GestureDetector(
+              child: SvgPicture.asset(
+                "assets/icons/chat.svg",
+                width: getWidth(24),
+              ),
+              onTap: () async {
+                await Get.put(ChatController()).getConversations();
+                Get.to(() => ConversationPage());
+              },
             ),
             SizedBox(
               width: getWidth(20),
