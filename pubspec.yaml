@@ -61,10 +61,8 @@ dependencies:
   floating_pullup_card:
   syncfusion_flutter_pdfviewer:
   internet_file:
-  epub_viewer:
-  epub_view: ^3.0.0
   permission_handler:
-  epubx:
+  webview_flutter:
 
 dev_dependencies:
   flutter_test:
