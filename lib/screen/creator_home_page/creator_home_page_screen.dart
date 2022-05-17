@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/screen/creator_home_page/creator_home_page_tab_screen.dart';
+import 'package:untitled/screen/transaction/transaction_screen.dart';
 import 'package:untitled/widgets/creator_bottom_navigator.dart';
 import 'package:untitled/widgets/sidebar-menu.dart';
 
@@ -21,7 +22,7 @@ class CreatorHomePageScreen extends StatelessWidget {
           children: [
             CreatorHomePageTabScreen(),
             CreateSeriesScreen(),
-            Container(),
+            TransactionScreen(),
             SideBarMenu()
           ],
         ),
