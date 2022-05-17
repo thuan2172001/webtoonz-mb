@@ -188,7 +188,8 @@ class SideBarMenu extends StatelessWidget {
                                 // delete
                                 // await StripeService.deletePayment(
                                 //     "pm_1Kv1thCkuVKGrqVo4JMUPyAb", context);
-                                Get.put(PaymentController()).isPickCard.value = false;
+                                Get.put(PaymentController()).isPickCard.value =
+                                    false;
                                 Get.to(() => PaymentMethodScreen());
                               },
                               child: Container(
@@ -293,60 +294,113 @@ class SideBarMenu extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () async {
-                                Get.put(BookshelfController()).getBookshelf();
-                                Get.to(BookshelfScreen());
-                              },
-                              child: Container(
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: getHeight(16),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: getWidth(32),
-                                              height: getWidth(32),
-                                              child: SvgPicture.asset(
-                                                "assets/icons/menu-ic-4.svg",
-                                                height: getWidth(32),
+                            globalController.user.value.role == "user"
+                                ? GestureDetector(
+                                    onTap: () async {
+                                      Get.put(BookshelfController())
+                                          .getBookshelf();
+                                      Get.to(BookshelfScreen());
+                                    },
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: getHeight(16),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width: getWidth(32),
+                                                    height: getWidth(32),
+                                                    child: SvgPicture.asset(
+                                                      "assets/icons/menu-ic-4.svg",
+                                                      height: getWidth(32),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: getWidth(8),
+                                                  ),
+                                                  Text(
+                                                    "Bookshelf",
+                                                    style: TextStyle(
+                                                        fontSize: getWidth(16)),
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: getWidth(8),
-                                            ),
-                                            Text(
-                                              "Bookshelf",
-                                              style: TextStyle(
-                                                  fontSize: getWidth(16)),
-                                            )
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: 15,
-                                        ),
-                                      ],
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: 15,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: getHeight(16),
+                                          ),
+                                          Container(
+                                            height: 1,
+                                            width: double.infinity,
+                                            color: Color(0xFFE6E6E6),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    SizedBox(
-                                      height: getHeight(16),
+                                  )
+                                : GestureDetector(
+                                    onTap: () async {},
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: getHeight(16),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width: getWidth(32),
+                                                    height: getWidth(32),
+                                                    child: SvgPicture.asset(
+                                                      "assets/icons/menu-ic-4.svg",
+                                                      height: getWidth(32),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: getWidth(8),
+                                                  ),
+                                                  Text(
+                                                    "Sale",
+                                                    style: TextStyle(
+                                                        fontSize: getWidth(16)),
+                                                  )
+                                                ],
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: 15,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: getHeight(16),
+                                          ),
+                                          Container(
+                                            height: 1,
+                                            width: double.infinity,
+                                            color: Color(0xFFE6E6E6),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    Container(
-                                      height: 1,
-                                      width: double.infinity,
-                                      color: Color(0xFFE6E6E6),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  ),
                             GestureDetector(
                               onTap: () {
                                 Get.to(ChangePasswordScreen());

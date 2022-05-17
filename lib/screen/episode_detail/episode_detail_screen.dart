@@ -415,7 +415,7 @@ class EpisodeDetailScreen extends StatelessWidget {
               iconSize: getWidth(20),
               icon: Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                Get.to(() => CreatorDetailScreen());
+                // Get.to(() => CreatorDetailScreen());
               },
             )
           ],

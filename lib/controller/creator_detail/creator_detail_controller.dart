@@ -13,33 +13,51 @@ class CreatorDetailController extends GetxController {
 
   final int limit = 6;
 
-  Future init() async {
-    await getCreatorInfo();
-    await getList();
+  Future init(String id) async {
+    // await getCreatorInfo(id);
+    // await getList(id);
   }
 
-  Future getCreatorInfo() async {
+  Future getCreatorInfo(String id) async {
+    if (id == "") return;
     try {
       CustomDio customDio = CustomDio();
       customDio.dio.options.headers["Authorization"] =
           Get.put(GlobalController()).user.value.certificate.toString();
-      var response =
-      await customDio.get("/creator/1c2347cc-160d-11ec-a238-cb22be0d8bab");
+      var response = await customDio.get("/creator/$id");
       response = jsonDecode(response.toString());
       creatorInfo.value = CreatorInfo.fromJson(response);
-
       return true;
     } catch (e, s) {
       return false;
     }
   }
 
-  Future getSeries(int page) async {
+  Future getConversationId(String id) async {
+    if (id == "") return;
     try {
       CustomDio customDio = CustomDio();
       customDio.dio.options.headers["Authorization"] =
           Get.put(GlobalController()).user.value.certificate.toString();
-      var response = await customDio.get("/serie?limit=$limit&page=$page");
+      var response = await customDio.get("/conversation-id?receiver=$id");
+      response = jsonDecode(response.toString());
+      if (response["success"] == true) {
+        return response["data"]["conversationId"];
+      }
+      return null;
+    } catch (e, s) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future getSeries(int page, String id) async {
+    try {
+      CustomDio customDio = CustomDio();
+      customDio.dio.options.headers["Authorization"] =
+          Get.put(GlobalController()).user.value.certificate.toString();
+      var response =
+          await customDio.get("/serie?limit=$limit&page=$page&creatorId=$id");
       response = jsonDecode(response.toString());
       pageSeries.value = FavoriteSeries.fromJson(response).listSeries;
 
@@ -49,12 +67,12 @@ class CreatorDetailController extends GetxController {
     }
   }
 
-  Future getList() async {
+  Future getList(String id) async {
     try {
       CustomDio customDio = CustomDio();
       customDio.dio.options.headers["Authorization"] =
           Get.put(GlobalController()).user.value.certificate.toString();
-      var response = await customDio.get("/serie");
+      var response = await customDio.get("/serie?creatorId=$id");
       response = jsonDecode(response.toString());
       listSeries.value = FavoriteSeries.fromJson(response).listSeries;
       pageSeries.value = listSeries.sublist(0, limit);

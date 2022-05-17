@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/creator_detail/creator_detail_controller.dart';
 import 'package:untitled/model/Serie.dart';
+import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/series_detail/series_detail_screen.dart';
 import 'package:untitled/utils/common-function.dart';
 import 'package:untitled/utils/config.dart';
@@ -119,6 +120,9 @@ class CreatorItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () {
+        Get.to(() => CreatorDetailScreen(creatorId: creatorInfo.id));
+      },
       child: Container(
         margin: EdgeInsets.only(
           top: getHeight(22),

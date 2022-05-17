@@ -2,17 +2,40 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:untitled/controller/chat/chat_controller.dart';
 import 'package:untitled/controller/creator_detail/creator_detail_controller.dart';
+import 'package:untitled/i18n.dart';
+import 'package:untitled/screen/chat/chat_page.dart';
 import 'package:untitled/screen/favorite/search_component.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/app_bar.dart';
 
-class CreatorDetailScreen extends StatelessWidget {
-  final CreatorDetailController controller = Get.put(CreatorDetailController());
+class CreatorDetailScreen extends StatefulWidget {
+  final String creatorId;
+  CreatorDetailScreen({Key? key, required this.creatorId}) : super(key: key);
 
   @override
+  State<CreatorDetailScreen> createState() => _CreatorDetailScreenState();
+
+  static const TextStyle _style1 = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontStyle: FontStyle.italic,
+    color: Color(0xFF545454),
+    fontSize: 25,
+  );
+  static const TextStyle _style2 = TextStyle(
+    color: Colors.black87,
+    fontSize: 18,
+  );
+}
+
+class _CreatorDetailScreenState extends State<CreatorDetailScreen> {
+  final CreatorDetailController controller = Get.put(CreatorDetailController());
+  @override
   Widget build(BuildContext context) {
+    controller.getCreatorInfo(widget.creatorId);
+    controller.getList(widget.creatorId);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBar(
@@ -27,25 +50,28 @@ class CreatorDetailScreen extends StatelessWidget {
               },
             )
           ]),
-      body: Obx(() => body()),
+      body: Obx(
+          () => controller.creatorInfo.value.id != null ? body() : Container()),
     );
   }
 
   FutureBuilder body() {
     return FutureBuilder(
-        future: controller.init(),
+        future: controller.init(widget.creatorId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return Container(
                 padding: EdgeInsets.symmetric(horizontal: getWidth(20)),
                 color: Colors.white,
                 child: Obx(() => ListView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  children: [
-                    _creatorInfo(),
-                    _listSeries(),
-                  ],
-                )));
+                      physics: AlwaysScrollableScrollPhysics(),
+                      children: [
+                        controller.creatorInfo.value.id != null
+                            ? _creatorInfo()
+                            : Container(),
+                        _listSeries(),
+                      ],
+                    )));
           } else if (snapshot.hasError)
             return Column(
               children: [
@@ -78,41 +104,51 @@ class CreatorDetailScreen extends StatelessWidget {
                   child: CircleAvatar(
                       radius: getWidth(38),
                       backgroundImage:
-                      NetworkImage(controller.creatorInfo.value.avatar))),
+                          NetworkImage(controller.creatorInfo.value.avatar))),
             ),
             SizedBox(
               width: getWidth(15),
             ),
             Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(controller.creatorInfo.value.fullName,
-                        style: TextStyle(
-                          fontSize: getWidth(20),
-                          fontWeight: FontWeight.bold,
-                        )),
-                    SizedBox(
-                      height: getHeight(10),
-                    ),
-                    OutlinedButton(
-                      onPressed: null,
-                      child: Text(
-                        "Message",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        fixedSize: const Size(120, 45),
-                        backgroundColor: Colors.blue,
-                        shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30))),
-                      ),
-                    ),
-                  ],
-                )),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(controller.creatorInfo.value.fullName,
+                    style: TextStyle(
+                      fontSize: getWidth(20),
+                      fontWeight: FontWeight.bold,
+                    )),
+                SizedBox(
+                  height: getHeight(10),
+                ),
+                OutlinedButton(
+                  onPressed: () async {
+                    var id =
+                        await controller.getConversationId(widget.creatorId);
+                    if (id != null) {
+                      ChatController chatController = Get.put(ChatController());
+                      chatController.conversationId.value = id;
+                      chatController.receiverId.value = widget.creatorId;
+                      chatController.stopFetchConversations();
+                      Get.to(() => MessagesPage());
+                    }
+                  },
+                  child: Text(
+                    "Message",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    fixedSize: const Size(120, 45),
+                    backgroundColor: Colors.blue,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30))),
+                  ),
+                ),
+              ],
+            )),
           ],
         ),
         SizedBox(
@@ -148,11 +184,11 @@ class CreatorDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   "${controller.creatorInfo.value.seriesQuantity}",
-                  style: _style1,
+                  style: CreatorDetailScreen._style1,
                 ),
                 Text(
                   "Series",
-                  style: _style2,
+                  style: CreatorDetailScreen._style2,
                 ),
               ],
             ),
@@ -161,11 +197,11 @@ class CreatorDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   "${controller.creatorInfo.value.episodeQuantity}",
-                  style: _style1,
+                  style: CreatorDetailScreen._style1,
                 ),
                 Text(
                   "Episodes",
-                  style: _style2,
+                  style: CreatorDetailScreen._style2,
                 ),
               ],
             ),
@@ -174,11 +210,11 @@ class CreatorDetailScreen extends StatelessWidget {
               children: [
                 Text(
                   "${dateFormat(controller.creatorInfo.value.createdAt)}",
-                  style: _style1,
+                  style: CreatorDetailScreen._style1,
                 ),
                 Text(
                   "Joined",
-                  style: _style2,
+                  style: CreatorDetailScreen._style2,
                 ),
               ],
             ),
@@ -191,7 +227,7 @@ class CreatorDetailScreen extends StatelessWidget {
   Column _listSeries() {
     var ratio = controller.listSeries.length / controller.limit;
     var numberOfPages =
-    ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
+        ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
     numberOfPages = max(numberOfPages, 1);
 
     return Column(
@@ -214,7 +250,7 @@ class CreatorDetailScreen extends StatelessWidget {
           numberPages: numberOfPages,
           initialPage: 0,
           onPageChange: (index) {
-            controller.getSeries(index + 1);
+            controller.getSeries(index + 1, widget.creatorId);
           },
           buttonShape: BeveledRectangleBorder(
             borderRadius: BorderRadius.circular(6),
@@ -237,15 +273,4 @@ class CreatorDetailScreen extends StatelessWidget {
     if (dif >= 30) return "${dif ~/ 30} months";
     return "1 month";
   }
-
-  static const TextStyle _style1 = TextStyle(
-    fontWeight: FontWeight.bold,
-    fontStyle: FontStyle.italic,
-    color: Color(0xFF545454),
-    fontSize: 25,
-  );
-  static const TextStyle _style2 = TextStyle(
-    color: Colors.black87,
-    fontSize: 18,
-  );
 }

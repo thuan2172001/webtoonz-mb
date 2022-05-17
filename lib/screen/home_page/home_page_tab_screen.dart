@@ -46,7 +46,7 @@ class HomePageTabScreen extends StatelessWidget {
                 width: getWidth(24),
               ),
               onTap: () {
-                Get.to(() => CreatorDetailScreen());
+                // Get.to(() => CreatorDetailScreen());
               },
             ),
             SizedBox(
@@ -172,6 +172,7 @@ class HomePageTabScreen extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 primary: false,
+                padding: EdgeInsets.only(bottom: getHeight(20)),
                 crossAxisSpacing: getWidth(0),
                 mainAxisSpacing: getHeight(20),
                 crossAxisCount: 2,
@@ -217,6 +218,7 @@ class HomePageTabScreen extends StatelessWidget {
               return GridView.count(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
+                padding: EdgeInsets.only(bottom: getHeight(20)),
                 primary: false,
                 crossAxisSpacing: getWidth(0),
                 mainAxisSpacing: getHeight(20),
@@ -265,6 +267,7 @@ class HomePageTabScreen extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 primary: false,
+                padding: EdgeInsets.only(bottom: getHeight(20)),
                 crossAxisSpacing: getWidth(0),
                 mainAxisSpacing: getHeight(20),
                 crossAxisCount: 2,

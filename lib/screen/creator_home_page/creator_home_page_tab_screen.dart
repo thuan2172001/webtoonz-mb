@@ -14,8 +14,8 @@ import 'package:untitled/widgets/input.dart';
 class CreatorHomePageTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    GlobalController globalController = Get.put(GlobalController());
     HomePageController homePageController = Get.put(HomePageController());
+    homePageController.getCreatorSeries();
     return Scaffold(
       appBar: appBar(
           title: "Shop name",

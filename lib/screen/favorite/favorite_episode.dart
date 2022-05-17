@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 import 'package:untitled/controller/favorite/favorite_episode_controller.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
+import 'package:untitled/utils/config.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
 
-class FavoriteEpisodeScreen extends StatelessWidget{
+class FavoriteEpisodeScreen extends StatelessWidget {
   final FavoriteEpisode favoriteEpisode;
 
   const FavoriteEpisodeScreen({Key? key, required this.favoriteEpisode})
@@ -20,28 +21,30 @@ class FavoriteEpisodeScreen extends StatelessWidget{
         child: ListView(
           children: <Widget>[
             GridView.builder(
+              padding: EdgeInsets.only(bottom: getHeight(20)),
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: favoriteEpisode.listEpisode.length,
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () async {
-
-                    var episodeDetailController=EpisodeDetailController(episodeId: favoriteEpisode.listEpisode[index].episodeId);
-                    await episodeDetailController.getApi();
-                    Get.to(() => EpisodeDetailScreen(controller: episodeDetailController));
-                  },
-                  child: EpisodeCard(episode: favoriteEpisode.listEpisode[index])
-                );
+                    onTap: () async {
+                      var episodeDetailController = EpisodeDetailController(
+                          episodeId:
+                              favoriteEpisode.listEpisode[index].episodeId);
+                      await episodeDetailController.getApi();
+                      Get.to(() => EpisodeDetailScreen(
+                          controller: episodeDetailController));
+                    },
+                    child: EpisodeCard(
+                        episode: favoriteEpisode.listEpisode[index]));
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 0,
-                  mainAxisSpacing: 20,
+                  mainAxisSpacing: 0,
                   childAspectRatio: 4 / 5.7),
             ),
           ],
-        )
-    );
+        ));
   }
 }

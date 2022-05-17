@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:untitled/controller/favorite/favorite_series_controller.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';
+import 'package:untitled/utils/config.dart';
 
-class FavoriteSeriesScreen extends StatelessWidget{
+class FavoriteSeriesScreen extends StatelessWidget {
   final FavoriteSeries favoriteSeries;
 
   const FavoriteSeriesScreen({Key? key, required this.favoriteSeries})
@@ -17,6 +18,7 @@ class FavoriteSeriesScreen extends StatelessWidget{
           children: <Widget>[
             GridView.builder(
               physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.only(bottom: getHeight(20)),
               shrinkWrap: true,
               itemCount: favoriteSeries.listSeries.length,
               itemBuilder: (BuildContext context, int index) {
@@ -25,11 +27,10 @@ class FavoriteSeriesScreen extends StatelessWidget{
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 0,
-                  mainAxisSpacing: 20,
+                  mainAxisSpacing: 0,
                   childAspectRatio: 4 / 5.5),
             ),
           ],
-        )
-    );
+        ));
   }
 }
