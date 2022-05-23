@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/main.dart';
-import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
 import 'package:untitled/screen/episode_detail/read_epub_episode.dart';
 import 'package:untitled/screen/episode_detail/read_pdf_episode.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
+import '../../controller/favorite/favorite_episode_controller.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
+import '../series_detail/series_detail_screen.dart';
 
 class EpisodeDetailScreen extends StatelessWidget {
   final EpisodeDetailController controller;
@@ -508,7 +509,39 @@ class EpisodeDetailScreen extends StatelessWidget {
                           BorderRadius.all(Radius.circular(getWidth(15)))),
                 ),
                 onPressed: () async {
-                  await controller.deleteItem();
+                  var result=await controller.deleteItem();
+                  if(result["success"]==true) {
+                    var serieId=controller.episode.value.seriesId;
+                    SeriesDetailScreen(serieId: serieId).fetchSerie(serieId);
+                    Get.back();
+                    Get.snackbar(
+                      "Delete episode ${controller.episode.value.name}",
+                      "Success",
+                      icon: Icon(Icons.done_outlined, color: Colors.white),
+                      snackPosition: SnackPosition.TOP,
+                      backgroundColor: Colors.green,
+                      borderRadius: 20,
+                      margin: EdgeInsets.all(15),
+                      colorText: Colors.white,
+                      duration: Duration(seconds: 2),
+                      isDismissible: true,
+                      forwardAnimationCurve: Curves.easeOutBack,
+                    );
+                    return;
+                  }
+                  Get.snackbar(
+                    "Delete episode ${controller.episode.value.name}",
+                    "Failed",
+                    icon: Icon(Icons.sms_failed, color: Colors.white),
+                    snackPosition: SnackPosition.TOP,
+                    backgroundColor: Colors.red,
+                    borderRadius: 20,
+                    margin: EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: Duration(seconds: 2),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  );
                 },
                 child: component.deleteItemText,
               )
@@ -560,6 +593,8 @@ class EpisodeDetailScreen extends StatelessWidget {
                           await controller.unLike();
                         }
                         await controller.getEpisodeDetail();
+                        var favoriteEpisodeController = Get.put(FavoriteEpisodeController());
+                        favoriteEpisodeController.getFavoriteEpisode();
                       },
                       child: Obx(() {
                         if (controller.episode.value.alreadyLiked == false)

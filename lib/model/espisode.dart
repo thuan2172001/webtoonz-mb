@@ -30,6 +30,8 @@ class Episode {
 
   var key;
 
+  var seriesId;
+
   Episode(
       {this.id,
       this.name,
@@ -44,7 +46,8 @@ class Episode {
       this.alreadyLiked,
       this.isBought,
       this.isPublished,
-      this.key});
+      this.key,
+      this.seriesId});
 
   factory Episode.fromJson(Map<String, dynamic> json) {
     return Episode(
@@ -61,6 +64,7 @@ class Episode {
         alreadyLiked: json["data"]["data"]["alreadyLiked"],
         isBought: json["data"]["data"]["isBought"],
         isPublished: json["data"]["data"]["isPublished"],
-        key: json["data"]["data"]["key"]);
+        key: json["data"]["data"]["key"],
+        seriesId:json["data"]["data"]["serie"]["serieId"]);
   }
 }

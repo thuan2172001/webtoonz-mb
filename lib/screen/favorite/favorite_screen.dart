@@ -59,7 +59,7 @@ class FavoriteScreen extends StatelessWidget {
             body: TabBarView(
               children: [
                 FavoriteSeriesScreen(favoriteSeries: favoriteSeriesController.favoriteSeries.value),
-                FavoriteEpisodeScreen(favoriteEpisode: favoriteEpisodeController.favoriteEpisode.value),
+                Obx(()=>FavoriteEpisodeScreen(favoriteEpisode: favoriteEpisodeController.favoriteEpisode.value))
               ],
             ),
           ),
