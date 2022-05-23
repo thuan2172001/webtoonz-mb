@@ -17,6 +17,7 @@ import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/image.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
+import '../../controller/home_page/home_page_controller.dart';
 import '../../main.dart';
 import '../../model/custom_dio.dart';
 import '../create_episode/create_episode_screen.dart';
@@ -306,76 +307,140 @@ class SeriesDetailScreen extends StatelessWidget {
                                     ],
                                   ),
                                   SizedBox(height:getWidth(13.6)),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Colors.white,
-                                          minimumSize: Size(
-                                            getWidth(142),
-                                            getWidth(47),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(getWidth(15))),
-                                              side: BorderSide(color: Colors.black)),
-                                        ),
-                                        onPressed: () async {
-                                          controller.isChangingStatus.value=true;
-                                          await controller.changeStatus();
-                                          controller.isChangingStatus.value=false;
-                                        },
-                                        child:Obx((){
-                                          if(controller.isChangingStatus.value==true)
-                                            return Center(
-                                              child: CircularProgressIndicator(),
-                                            );
-                                        if (controller.isPublished.value ==
-                                            true) {
-                                          return Text("Unpublish series",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: getWidth(13),
-                                            ),);
-                                        }
-                                        return Text("Publish series",
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: getWidth(13),
-                                          ),);
+                                  Obx((){
+                                    if(controller.episodes.length>0)
+                                    {
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.white,
+                                              minimumSize: Size(
+                                                getWidth(302),
+                                                getWidth(47),
+                                              ),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(Radius.circular(getWidth(15))),
+                                                  side: BorderSide(color: Colors.black)),
+                                            ),
+                                            onPressed: () async {
+                                              controller.isChangingStatus.value=true;
+                                              await controller.changeStatus();
+                                              controller.isChangingStatus.value=false;
+                                            },
+                                            child:Obx((){
+                                              if(controller.isChangingStatus.value==true)
+                                                return Center(
+                                                  child: CircularProgressIndicator(),
+                                                );
+                                              if (controller.isPublished.value ==
+                                                  true) {
+                                                return Text("Unpublish series",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: getWidth(13),
+                                                  ),);
+                                              }
+                                              return Text("Publish series",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: getWidth(13),
+                                                ),);
 
-                                        }),
-                                      ),
-                                      SizedBox(width:getWidth(17)),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Color(0xFF3669C9),
-                                          minimumSize: Size(
-                                            getWidth(142),
-                                            getWidth(47),
+                                            }),
                                           ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(getWidth(15))),),
+                                        ],
+                                      );
+                                    }
+
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.white,
+                                            minimumSize: Size(
+                                              getWidth(142),
+                                              getWidth(47),
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(getWidth(15))),
+                                                side: BorderSide(color: Colors.black)),
+                                          ),
+                                          onPressed: () async {
+                                            controller.isChangingStatus.value=true;
+                                            await controller.changeStatus();
+                                            controller.isChangingStatus.value=false;
+                                          },
+                                          child:Obx((){
+                                            if(controller.isChangingStatus.value==true)
+                                              return Center(
+                                                child: CircularProgressIndicator(),
+                                              );
+                                            if (controller.isPublished.value ==
+                                                true) {
+                                              return Text("Unpublish series",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: getWidth(13),
+                                                ),);
+                                            }
+                                            return Text("Publish series",
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: getWidth(13),
+                                              ),);
+
+                                          }),
                                         ),
-                                        onPressed: () async {
-                                          controller.isDeleting.value=true;
-                                          // var result={
-                                          //   "success":true,
-                                          // };
-                                          // await Future.delayed(Duration(seconds: 2));
-                                          var result=await controller.deleteSeries();
-                                          controller.isDeleting.value=false;
-                                          print(result["success"]);
-                                          if(result["success"]==true){
-                                            Get.back();
+                                        SizedBox(width:getWidth(17)),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Color(0xFF3669C9),
+                                            minimumSize: Size(
+                                              getWidth(142),
+                                              getWidth(47),
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius.all(Radius.circular(getWidth(15))),),
+                                          ),
+                                          onPressed: () async {
+                                            controller.isDeleting.value=true;
+                                            // var result={
+                                            //   "success":true,
+                                            // };
+                                            // await Future.delayed(Duration(seconds: 2));
+                                            var result=await controller.deleteSeries();
+                                            controller.isDeleting.value=false;
+                                            print(result["success"]);
+                                            if(result["success"]==true){
+                                              await Get.put(HomePageController()).getSeries();
+                                              Get.back();
+                                              Get.snackbar(
+                                                "Delete series ${seriesInfo.serieName}",
+                                                "Success",
+                                                icon: Icon(Icons.done_outlined, color: Colors.white),
+                                                snackPosition: SnackPosition.TOP,
+                                                backgroundColor: Colors.green,
+                                                borderRadius: 20,
+                                                margin: EdgeInsets.all(15),
+                                                colorText: Colors.white,
+                                                duration: Duration(seconds: 2),
+                                                isDismissible: true,
+                                                forwardAnimationCurve: Curves.easeOutBack,
+                                              );
+                                              return;
+                                            }
                                             Get.snackbar(
                                               "Delete series ${seriesInfo.serieName}",
-                                              "Success",
-                                              icon: Icon(Icons.done_outlined, color: Colors.white),
+                                              "Failed",
+                                              icon: Icon(Icons.sms_failed, color: Colors.white),
                                               snackPosition: SnackPosition.TOP,
-                                              backgroundColor: Colors.green,
+                                              backgroundColor: Colors.red,
                                               borderRadius: 20,
                                               margin: EdgeInsets.all(15),
                                               colorText: Colors.white,
@@ -383,39 +448,25 @@ class SeriesDetailScreen extends StatelessWidget {
                                               isDismissible: true,
                                               forwardAnimationCurve: Curves.easeOutBack,
                                             );
-                                            return;
-                                          }
-                                          Get.snackbar(
-                                            "Delete series ${seriesInfo.serieName}",
-                                            "Failed",
-                                            icon: Icon(Icons.sms_failed, color: Colors.white),
-                                            snackPosition: SnackPosition.TOP,
-                                            backgroundColor: Colors.red,
-                                            borderRadius: 20,
-                                            margin: EdgeInsets.all(15),
-                                            colorText: Colors.white,
-                                            duration: Duration(seconds: 2),
-                                            isDismissible: true,
-                                            forwardAnimationCurve: Curves.easeOutBack,
-                                          );
-                                        },
-                                        child:
-                                        Obx((){
-                                          if(controller.isDeleting.value==false)
-                                            return
-                                          Text("Delete series",style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: getWidth(13),
-                                          ),);
-                                          return  Center(
-                                            child: CircularProgressIndicator(),
-                                          );
-                                        }),
+                                          },
+                                          child:
+                                          Obx((){
+                                            if(controller.isDeleting.value==false)
+                                              return
+                                                Text("Delete series",style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: getWidth(13),
+                                                ),);
+                                            return  Center(
+                                              child: CircularProgressIndicator(),
+                                            );
+                                          }),
 
-                                      ),
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    );
+                                  }),
                                 ]
                               ));
                             }
