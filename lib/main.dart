@@ -25,21 +25,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
-        supportedLocales: const [Locale('en')],
-        translations: Messages(),
-        locale: const Locale('en', 'US'),
-        defaultTransition:
-            Platform.isIOS ? Transition.cupertino : Transition.rightToLeft,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          fontFamily: "DMSans",
-        ),
-        home: LoginScreen(),
-      );
+      return WillPopScope(
+          child: GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate
+            ],
+            supportedLocales: const [Locale('en')],
+            translations: Messages(),
+            locale: const Locale('en', 'US'),
+            defaultTransition:
+                Platform.isIOS ? Transition.cupertino : Transition.rightToLeft,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              fontFamily: "DMSans",
+            ),
+            home: LoginScreen(),
+          ),
+          onWillPop: () async {
+            Get.back();
+            return true;
+          });
     });
   }
 }
