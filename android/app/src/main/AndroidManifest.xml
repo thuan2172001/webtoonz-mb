@@ -16,7 +16,7 @@
         </intent>
     </queries>
    <application
-        android:label="Handyman"
+        android:label="WebtoonZ"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -45,7 +45,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="handyman.uetbc.xyz"/>
+                <data android:scheme="https" android:host="webtoonz.uetbc.xyz"/>
             </intent-filter>
 
              <!-- App Links -->
@@ -54,7 +54,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!-- Accepts URIs that begin with https://YOUR_HOST -->
-                <data android:scheme="https" android:host="handyman.uetbc.xyz"/>
+                <data android:scheme="https" android:host="webtoonz.uetbc.xyz"/>
             </intent-filter>
             
             <meta-data
