@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../widgets/app_bar.dart';
+
 class ReadEpubScreen extends StatefulWidget {
   final String episodeKey;
   final String episodeTitle;
@@ -29,17 +31,20 @@ class _ReadEpubScreenState extends State<ReadEpubScreen> {
     print(encodedUrl);
     print(widget.episodeTitle);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.episodeTitle),
-        centerTitle: true,
-      ),
-      body: WebView(
-        initialUrl: encodedUrl,
+      appBar: appBar(title: widget.episodeTitle, centerTitle: true),
+      body: Container(
+        child: WebView(
+          initialUrl: encodedUrl,
+          javascriptMode: JavascriptMode.unrestricted,
+          onProgress: (int progress) {
+            print('WebView is loading (progress : $progress%)');
+          },
+          gestureNavigationEnabled: true,
+        ),
+        /*WebView(
+        initialUrl: 'https://google.com',
         javascriptMode: JavascriptMode.unrestricted,
-        onProgress: (int progress) {
-          print('WebView is loading (progress : $progress%)');
-        },
-        gestureNavigationEnabled: true,
+      )*/
       ),
     );
   }
