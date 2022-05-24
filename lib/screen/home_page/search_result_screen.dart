@@ -46,8 +46,7 @@ class SearchResultScreen extends StatelessWidget {
               height: getHeight(15),
             ),
             Text(
-                "${homepageController.isSearchCreator
-                    ? homepageController.searchCreatorList.length : homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"),
+                "${homepageController.isSearchCreator ? homepageController.searchCreatorList.length : homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"),
             SizedBox(
               height: getHeight(15),
             ),
@@ -73,6 +72,9 @@ class SearchResultScreen extends StatelessWidget {
                       }).toList(),
               );
             }),
+            SizedBox(
+              height: getHeight(45),
+            ),
           ],
         ),
       ),

@@ -115,3 +115,7 @@ Tuple2 extractDate(String expireDate) {
   int year = 2000 + int.parse(splitted[1]);
   return Tuple2<int, int>(month, year);
 }
+
+String shortenID(String id) {
+  return "${id.substring(0, 8)}..${id.substring(id.length - 10)}";
+}

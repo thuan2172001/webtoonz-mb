@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:untitled/utils/common-function.dart';
 
 import '../../utils/config.dart';
 
 class TransactionCard extends StatelessWidget {
-  final int amount;
+  final String amount;
   final String date;
   final String transactionID;
   final List<String> episodes;
@@ -54,14 +55,14 @@ class TransactionCard extends StatelessWidget {
             children: [
               Text("Episode ID"),
               Spacer(), // use Spacer
-              Text(episodes[0]),
+              Text(shortenID(episodes[0])),
             ],
           ),
           SizedBox(
             width: double.infinity,
             child: Column(
-              children: List.generate(
-                  episodes.length - 1, (index) => Text(episodes[index + 1])),
+              children: List.generate(episodes.length - 1,
+                  (index) => Text(shortenID(episodes[index + 1]))),
               crossAxisAlignment: CrossAxisAlignment.end,
             ),
           ),

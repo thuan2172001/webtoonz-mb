@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Response, FormData, MultipartFile;
 import 'package:untitled/model/User.dart';
 import 'package:untitled/model/custom_dio.dart';
-import 'package:dio/src/form_data.dart';
 import 'package:dio/dio.dart';
 
 class GlobalController extends GetxController {

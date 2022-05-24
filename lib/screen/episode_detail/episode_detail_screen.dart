@@ -5,6 +5,8 @@ import 'package:untitled/main.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
 import 'package:untitled/screen/episode_detail/read_epub_episode.dart';
 import 'package:untitled/screen/episode_detail/read_pdf_episode.dart';
+import 'package:untitled/screen/home_page/home_page_screen.dart';
+import 'package:untitled/screen/home_page/home_page_tab_screen.dart';
 
 import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../controller/favorite/favorite_episode_controller.dart';
@@ -237,13 +239,6 @@ class EpisodeDetailScreen extends StatelessWidget {
           centerTitle: true,
           elevation: 1.0,
           actions: [
-            SizedBox(
-              width: getWidth(20),
-            ),
-            SvgPicture.asset(
-              "assets/icons/cart.svg",
-              width: getWidth(24),
-            ),
             SizedBox(
               width: getWidth(20),
             ),
@@ -509,9 +504,9 @@ class EpisodeDetailScreen extends StatelessWidget {
                           BorderRadius.all(Radius.circular(getWidth(15)))),
                 ),
                 onPressed: () async {
-                  var result=await controller.deleteItem();
-                  if(result["success"]==true) {
-                    var serieId=controller.episode.value.seriesId;
+                  var result = await controller.deleteItem();
+                  if (result["success"] == true) {
+                    var serieId = controller.episode.value.seriesId;
                     SeriesDetailScreen(serieId: serieId).fetchSerie(serieId);
                     Get.back();
                     Get.snackbar(
@@ -593,7 +588,8 @@ class EpisodeDetailScreen extends StatelessWidget {
                           await controller.unLike();
                         }
                         await controller.getEpisodeDetail();
-                        var favoriteEpisodeController = Get.put(FavoriteEpisodeController());
+                        var favoriteEpisodeController =
+                            Get.put(FavoriteEpisodeController());
                         favoriteEpisodeController.getFavoriteEpisode();
                       },
                       child: Obx(() {

@@ -93,37 +93,37 @@ Container creatorBottomNavigator() {
                       ),
                     );
                   }),
-                  Obx(() {
-                    return Bouncing(
-                      onPress: () {
-                        globalController.onChangeTab(2);
-                      },
-                      child: Container(
-                        color: Colors.white,
-                        width: getWidth(60),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              "assets/icons/ic_menu_transaction.svg",
-                              width: getWidth(18),
-                              color: globalController.currentPage.value == 2
-                                  ? Color(0xFF3669C9)
-                                  : Color(0xFF999999),
-                            ),
-                            Text(
-                              "Transaction",
-                              style: TextStyle(
-                                  fontSize: getWidth(10),
-                                  color: globalController.currentPage.value == 2
-                                      ? Color(0xFF3669C9)
-                                      : Color(0xFF999999)),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+                  // Obx(() {
+                  //   return Bouncing(
+                  //     onPress: () {
+                  //       globalController.onChangeTab(2);
+                  //     },
+                  //     child: Container(
+                  //       color: Colors.white,
+                  //       width: getWidth(60),
+                  //       child: Column(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           SvgPicture.asset(
+                  //             "assets/icons/ic_menu_transaction.svg",
+                  //             width: getWidth(18),
+                  //             color: globalController.currentPage.value == 2
+                  //                 ? Color(0xFF3669C9)
+                  //                 : Color(0xFF999999),
+                  //           ),
+                  //           Text(
+                  //             "Transaction",
+                  //             style: TextStyle(
+                  //                 fontSize: getWidth(10),
+                  //                 color: globalController.currentPage.value == 2
+                  //                     ? Color(0xFF3669C9)
+                  //                     : Color(0xFF999999)),
+                  //           )
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   );
+                  // }),
                   Obx(() {
                     return Bouncing(
                       onPress: () {

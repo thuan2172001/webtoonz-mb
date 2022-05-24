@@ -16,9 +16,10 @@ class CreateSeriesScreen extends StatelessWidget {
   late CreateSeriesController controller;
   @override
   Widget build(BuildContext context) {
-   controller = Get.put(CreateSeriesController());
+    controller = Get.put(CreateSeriesController());
     return Scaffold(
-      appBar: appBar(title: "Create series", centerTitle: true),
+      appBar: appBar(
+          title: "Create series", centerTitle: true, hideBackButton: true),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: getWidth(25)),
         color: Colors.white,
@@ -153,7 +154,6 @@ class CreateSeriesScreen extends StatelessWidget {
             SizedBox(
               height: getWidth(16),
             ),
-
             Container(
               margin: EdgeInsets.only(
                 left: getWidth(16),
@@ -169,13 +169,17 @@ class CreateSeriesScreen extends StatelessWidget {
                 Text("*", style: TextStyle(color: Colors.red))
               ]),
             ),
-            SizedBox(height: getWidth(5),),
+            SizedBox(
+              height: getWidth(5),
+            ),
             DropdownButtonFormField(
-              hint: Text("Categories",
-              style: TextStyle(
-                color: Colors.grey,
-                fontSize: getWidth(12),
-              ),),
+              hint: Text(
+                "Categories",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: getWidth(12),
+                ),
+              ),
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(
                   top: getWidth(10),
@@ -183,25 +187,30 @@ class CreateSeriesScreen extends StatelessWidget {
                   bottom: getHeight(20),
                 ),
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFFE6E6E6), width: getHeight(1),),
+                  borderSide: BorderSide(
+                    color: Color(0xFFE6E6E6),
+                    width: getHeight(1),
+                  ),
                   borderRadius: BorderRadius.circular(getHeight(6)),
                 ),
               ),
               dropdownColor: Colors.white,
               onChanged: (String? newValue) {
-                controller.seriesCategory=newValue!;
+                controller.seriesCategory = newValue!;
                 print(controller.seriesCategory);
               },
               items: globalController.categories.value
                   .map<DropdownMenuItem<String>>((e) {
                 return DropdownMenuItem<String>(
                   value: e["categoryId"],
-                  child: Text(e["categoryName"],style:
-                    TextStyle(color: Colors.black,fontSize: getWidth(12)),),
+                  child: Text(
+                    e["categoryName"],
+                    style:
+                        TextStyle(color: Colors.black, fontSize: getWidth(12)),
+                  ),
                 );
               }).toList(),
             ),
-
             SizedBox(
               height: getWidth(16),
             ),
@@ -260,10 +269,10 @@ class CreateSeriesScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                controller.isLoading.value=true;
-                var result=await controller.createSeries();
-                controller.isLoading.value=false;
-                if(result==null){
+                controller.isLoading.value = true;
+                var result = await controller.createSeries();
+                controller.isLoading.value = false;
+                if (result == null) {
                   Get.snackbar(
                     "Create Series",
                     "Failed",
@@ -277,8 +286,7 @@ class CreateSeriesScreen extends StatelessWidget {
                     isDismissible: true,
                     forwardAnimationCurve: Curves.easeOutBack,
                   );
-                }
-                else{
+                } else {
                   controller.reset();
                   Get.snackbar(
                     "Create Series",
@@ -292,14 +300,12 @@ class CreateSeriesScreen extends StatelessWidget {
                     duration: Duration(seconds: 2),
                     isDismissible: true,
                     forwardAnimationCurve: Curves.easeOutBack,
-
                   );
                 }
               },
-              child: Obx((){
-                if(controller.isLoading.value==false)
-                  return Text("Save");
-                return  Center(
+              child: Obx(() {
+                if (controller.isLoading.value == false) return Text("Save");
+                return Center(
                   child: CircularProgressIndicator(),
                 );
               }),
@@ -327,7 +333,7 @@ class CreateSeriesScreen extends StatelessWidget {
     try {
       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (file == null) return;
-      controller.banner.value= File(file.path);
+      controller.banner.value = File(file.path);
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }

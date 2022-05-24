@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
 import 'package:untitled/controller/chat/chat_controller.dart';
+import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
@@ -17,6 +18,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePageTabScreen extends StatelessWidget {
   HomePageController homePageController = Get.put(HomePageController());
+  GlobalController globalController = Get.put(GlobalController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class HomePageTabScreen extends StatelessWidget {
                 width: getWidth(24),
               ),
               onTap: () {
-                // Get.to(() => CreatorDetailScreen());
+                globalController.onChangeTab(2);
               },
             ),
             SizedBox(

@@ -8,6 +8,7 @@ import 'package:untitled/widgets/bottom_navigator.dart';
 import 'package:untitled/widgets/sidebar-menu.dart';
 
 class HomePageScreen extends StatelessWidget {
+  GlobalController globalController = Get.put(GlobalController());
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -17,7 +18,7 @@ class HomePageScreen extends StatelessWidget {
       child: Scaffold(
         bottomNavigationBar: bottomNavigator(),
         body: PageView(
-          controller: Get.put(GlobalController()).pageController,
+          controller: globalController.pageController,
           children: [
             HomePageTabScreen(),
             FavoriteScreen(),
