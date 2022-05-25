@@ -46,6 +46,7 @@ class ChatController extends GetxController {
 
   void startFetchDetail() {
     fetchDetail = Timer.periodic(new Duration(seconds: 1), (timer) {
+      print({"db": conversationId});
       if (conversationId.value != "") {
         print("fetch ${conversationId.value}");
         getConversation();

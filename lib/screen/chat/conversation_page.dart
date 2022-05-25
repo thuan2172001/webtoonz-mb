@@ -59,6 +59,7 @@ class ConversationPage extends StatelessWidget {
                             data["conversationId"];
                         chatController.receiverId.value =
                             data["friendInfo"]["_id"];
+                        chatController.startFetchConversations();
                         Get.to(MessagesPage());
                       },
                       child: Container(

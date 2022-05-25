@@ -25,7 +25,7 @@ class _ReadEpubScreenState extends State<ReadEpubScreen> {
   @override
   Widget build(BuildContext context) {
     var encodedUrl = Uri.encodeFull(
-        "https://webtoonz-s3-v2.uetbc.xyz/?book=${widget.episodeKey}");
+        "https://webtoonz-s3.uetbc.xyz/?book=${widget.episodeKey}");
     return Scaffold(
       //appBar: appBar(title: widget.episodeTitle, centerTitle: true),
       body: WebView(
