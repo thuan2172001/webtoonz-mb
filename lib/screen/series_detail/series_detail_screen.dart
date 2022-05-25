@@ -97,6 +97,8 @@ class SeriesDetailScreen extends StatelessWidget {
               ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
               numberOfPages=max(numberOfPages,1);
               return Scaffold(
+                floatingActionButton: _buttons(seriesInfo.serieName),
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
                 appBar: appBar(
                     title: seriesInfo.serieName,
                     centerTitle: true,
@@ -108,374 +110,164 @@ class SeriesDetailScreen extends StatelessWidget {
                         },
                       )
                     ]),
-                body: ListView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(bottom: coverImageBottomPadding),
-                      child: Container(
-                        color: Colors.black,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            getImage(seriesInfo.cover,
-                                height: imageHeight.h, fit: BoxFit.cover),
-                          ],
+                body: Container(
+                  color: Colors.white,
+                  child: ListView(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: coverImageBottomPadding),
+                        child: Container(
+                          color: Colors.black,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              getImage(seriesInfo.cover,
+                                  height: imageHeight.h, fit: BoxFit.cover),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: sidePadding.w, right: sidePadding.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                RichText(
-                                    text: TextSpan(
-                                        style: TextStyle(color: Colors.black),
-                                        children: [
-                                          TextSpan(
-                                              text:
-                                              '${seriesInfo
-                                                  .totalEpisodes} items  |  ',
-                                              style: TextStyle(
-                                                  fontSize: statusFontSize.sp)),
-                                          WidgetSpan(
-                                              child: SvgPicture.asset(
-                                                'assets/icons/heart.svg',
-                                                width: statusFontSize.sp,
-                                              )),
-                                          TextSpan(
-                                              text: ' ${seriesInfo.totalLikes}',
-                                              style: TextStyle(
-                                                  fontSize: statusFontSize.sp))
-                                        ])),
-                                Container(
-                                    width: statusFontSize.sp,
-                                    child: Icon(Icons.share_sharp))
-                              ],
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: sidePadding.w, right: sidePadding.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(color: Colors.black),
+                                          children: [
+                                            TextSpan(
+                                                text:
+                                                '${seriesInfo
+                                                    .totalEpisodes} items  |  ',
+                                                style: TextStyle(
+                                                    fontSize: statusFontSize.sp)),
+                                            WidgetSpan(
+                                                child: SvgPicture.asset(
+                                                  'assets/icons/heart.svg',
+                                                  width: statusFontSize.sp,
+                                                )),
+                                            TextSpan(
+                                                text: ' ${seriesInfo.totalLikes}',
+                                                style: TextStyle(
+                                                    fontSize: statusFontSize.sp))
+                                          ])),
+                                  Container(
+                                      width: statusFontSize.sp,
+                                      child: Icon(Icons.share_sharp))
+                                ],
+                              ),
                             ),
-                          ),
-                          Text(
-                            seriesInfo.category!,
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: categoryFontSize.sp),
-                          ),
-                          Container(
-                            child: Container(
-                              height: 50,
-                              child: Center(
-                                child: CustomPaint(
-                                  painter: DrawDashLine(),
+                            Text(
+                              seriesInfo.category!,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: categoryFontSize.sp),
+                            ),
+                            Container(
+                              child: Container(
+                                height: 50,
+                                child: Center(
+                                  child: CustomPaint(
+                                    painter: DrawDashLine(),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 3.h),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 2.w),
-                                  child: Container(
-                                    width: authorAvatarWidth.w,
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          seriesInfo.authorAvatar!),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 3.h),
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 2.w),
+                                    child: Container(
+                                      width: authorAvatarWidth.w,
+                                      child: CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            seriesInfo.authorAvatar!),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Text(
-                                  seriesInfo.authorName!,
-                                  style: TextStyle(
-                                      fontSize: authorTitleFontSize.sp),
-                                )
-                              ],
+                                  Text(
+                                    seriesInfo.authorName!,
+                                    style: TextStyle(
+                                        fontSize: authorTitleFontSize.sp),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: ExpandableText(
-                              seriesInfo.description,
-                              style:
-                              TextStyle(fontSize: descriptionFontSize.sp),
-                              expandText: 'show more',
-                              collapseText: 'show less',
-                              maxLines: 6,
-                              linkColor: Colors.blue,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: ExpandableText(
+                                seriesInfo.description,
+                                style:
+                                TextStyle(fontSize: descriptionFontSize.sp),
+                                expandText: 'show more',
+                                collapseText: 'show less',
+                                maxLines: 6,
+                                linkColor: Colors.blue,
+                              ),
                             ),
-                          ),
-                          Obx(() =>
-                              GridView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: controller.episodes.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () async {
-                                      var episodeDetailController =
-                                      EpisodeDetailController(
-                                          episodeId: controller
-                                              .episodes[index].episodeId);
-                                      await episodeDetailController.getApi();
-                                      Get.to(() =>
-                                          EpisodeDetailScreen(
-                                              controller: episodeDetailController));
-                                    },
-                                    child: EpisodeCard(
-                                        episode: controller.episodes[index]),
-                                  );
-                                },
-                                gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 0,
-                                    mainAxisSpacing: 0,
-                                    childAspectRatio: 4 / 5.7),
-                              )),
-                          NumberPaginator(
-                            numberPages: numberOfPages,
-                            initialPage: 0,
-                            onPageChange: (index) {
-                              controller.getEpisodes(serieId, index + 1);
-                            },
-                            buttonShape: BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            buttonSelectedForegroundColor: Colors.white,
-                            buttonSelectedBackgroundColor: Colors.blue,
-                            buttonUnselectedForegroundColor: Colors.black,
-                            buttonUnselectedBackgroundColor: Colors.white,
-                          ),
-                          Obx(() {
-                            if (globalController.user.value.role == "creator") {
-                              return SizedBox(height: getWidth(150),
-                              child:Column(
-                                children:<Widget>[
-                                  SizedBox(height:getWidth(30)),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Colors.white,
-                                          minimumSize: Size(
-                                            getWidth(142),
-                                            getWidth(47),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(getWidth(15))),
-                                              side: BorderSide(color: Colors.black)),
-                                        ),
-                                        onPressed: () {
-
-                                        },
-                                        child: Text("Edit series",
-                                          style: TextStyle(
-                                            color:Colors.black,
-                                            fontSize: getWidth(13),
-                                          ),),
-                                      ),
-                                      SizedBox(width:getWidth(17)),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: Color(0xFF3669C9),
-                                          minimumSize: Size(
-                                            getWidth(142),
-                                            getWidth(47),
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(getWidth(15))),),
-                                        ),
-                                        onPressed: () {
-                                          Get.to(() =>CreateEpisodeScreen(seriesId: serieId));
-                                        },
-                                        child: Text("Create episode",style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: getWidth(13),
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height:getWidth(13.6)),
-                                  Obx((){
-                                    if(controller.episodes.length>0)
-                                    {
-                                      return Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Colors.white,
-                                              minimumSize: Size(
-                                                getWidth(302),
-                                                getWidth(47),
-                                              ),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.all(Radius.circular(getWidth(15))),
-                                                  side: BorderSide(color: Colors.black)),
-                                            ),
-                                            onPressed: () async {
-                                              controller.isChangingStatus.value=true;
-                                              await controller.changeStatus();
-                                              controller.isChangingStatus.value=false;
-                                            },
-                                            child:Obx((){
-                                              if(controller.isChangingStatus.value==true)
-                                                return Center(
-                                                  child: CircularProgressIndicator(),
-                                                );
-                                              if (controller.isPublished.value ==
-                                                  true) {
-                                                return Text("Unpublish series",
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: getWidth(13),
-                                                  ),);
-                                              }
-                                              return Text("Publish series",
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: getWidth(13),
-                                                ),);
-
-                                            }),
-                                          ),
-                                        ],
-                                      );
-                                    }
-
-                                    return Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Colors.white,
-                                            minimumSize: Size(
-                                              getWidth(142),
-                                              getWidth(47),
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius.all(Radius.circular(getWidth(15))),
-                                                side: BorderSide(color: Colors.black)),
-                                          ),
-                                          onPressed: () async {
-                                            controller.isChangingStatus.value=true;
-                                            await controller.changeStatus();
-                                            controller.isChangingStatus.value=false;
-                                          },
-                                          child:Obx((){
-                                            if(controller.isChangingStatus.value==true)
-                                              return Center(
-                                                child: CircularProgressIndicator(),
-                                              );
-                                            if (controller.isPublished.value ==
-                                                true) {
-                                              return Text("Unpublish series",
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: getWidth(13),
-                                                ),);
-                                            }
-                                            return Text("Publish series",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: getWidth(13),
-                                              ),);
-
-                                          }),
-                                        ),
-                                        SizedBox(width:getWidth(17)),
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Color(0xFF3669C9),
-                                            minimumSize: Size(
-                                              getWidth(142),
-                                              getWidth(47),
-                                            ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.all(Radius.circular(getWidth(15))),),
-                                          ),
-                                          onPressed: () async {
-                                            controller.isDeleting.value=true;
-                                            // var result={
-                                            //   "success":true,
-                                            // };
-                                            // await Future.delayed(Duration(seconds: 2));
-                                            var result=await controller.deleteSeries();
-                                            controller.isDeleting.value=false;
-                                            print(result["success"]);
-                                            if(result["success"]==true){
-                                              await Get.put(HomePageController()).getSeries();
-                                              Get.back();
-                                              Get.snackbar(
-                                                "Delete series ${seriesInfo.serieName}",
-                                                "Success",
-                                                icon: Icon(Icons.done_outlined, color: Colors.white),
-                                                snackPosition: SnackPosition.TOP,
-                                                backgroundColor: Colors.green,
-                                                borderRadius: 20,
-                                                margin: EdgeInsets.all(15),
-                                                colorText: Colors.white,
-                                                duration: Duration(seconds: 2),
-                                                isDismissible: true,
-                                                forwardAnimationCurve: Curves.easeOutBack,
-                                              );
-                                              return;
-                                            }
-                                            Get.snackbar(
-                                              "Delete series ${seriesInfo.serieName}",
-                                              "Failed",
-                                              icon: Icon(Icons.sms_failed, color: Colors.white),
-                                              snackPosition: SnackPosition.TOP,
-                                              backgroundColor: Colors.red,
-                                              borderRadius: 20,
-                                              margin: EdgeInsets.all(15),
-                                              colorText: Colors.white,
-                                              duration: Duration(seconds: 2),
-                                              isDismissible: true,
-                                              forwardAnimationCurve: Curves.easeOutBack,
-                                            );
-                                          },
-                                          child:
-                                          Obx((){
-                                            if(controller.isDeleting.value==false)
-                                              return
-                                                Text("Delete series",style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: getWidth(13),
-                                                ),);
-                                            return  Center(
-                                              child: CircularProgressIndicator(),
-                                            );
-                                          }),
-
-                                        ),
-                                      ],
+                            Obx(() =>
+                                GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: controller.episodes.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () async {
+                                        var episodeDetailController =
+                                        EpisodeDetailController(
+                                            episodeId: controller
+                                                .episodes[index].episodeId);
+                                        await episodeDetailController.getApi();
+                                        Get.to(() =>
+                                            EpisodeDetailScreen(
+                                                controller: episodeDetailController));
+                                      },
+                                      child: EpisodeCard(
+                                          episode: controller.episodes[index]),
                                     );
-                                  }),
-                                ]
-                              ));
-                            }
-                            return Container();
-                          })
-                        ],
+                                  },
+                                  gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 0,
+                                      mainAxisSpacing: 0,
+                                      childAspectRatio: 4 / 5.7),
+                                )),
+                            NumberPaginator(
+                              numberPages: numberOfPages,
+                              initialPage: 0,
+                              onPageChange: (index) {
+                                controller.getEpisodes(serieId, index + 1);
+                              },
+                              buttonShape: BeveledRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              buttonSelectedForegroundColor: Colors.white,
+                              buttonSelectedBackgroundColor: Colors.blue,
+                              buttonUnselectedForegroundColor: Colors.black,
+                              buttonUnselectedBackgroundColor: Colors.white,
+                            ),
+                            Obx((){
+                              if(globalController.user.value.role == "creator"){
+                                return SizedBox(height: getWidth(130));
+                              }
+                              return Container();
+                            })
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             }
@@ -491,6 +283,233 @@ class SeriesDetailScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         });
+  }
+
+  Widget _buttons(String serieName){
+    return Container(
+        color: Colors.white,
+        width: double.infinity,
+        height: getWidth(130),
+    padding: EdgeInsets.only(top: getWidth(10)),
+      child: Obx(() {
+        if (globalController.user.value.role == "creator") {
+          return SizedBox(height: getWidth(130),
+              child:Column(
+                  children:<Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            minimumSize: Size(
+                              getWidth(142),
+                              getWidth(47),
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(getWidth(15))),
+                                side: BorderSide(color: Colors.black)),
+                          ),
+                          onPressed: () {
+
+                          },
+                          child: Text("Edit series",
+                            style: TextStyle(
+                              color:Colors.black,
+                              fontSize: getWidth(13),
+                            ),),
+                        ),
+                        SizedBox(width:getWidth(17)),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF3669C9),
+                            minimumSize: Size(
+                              getWidth(142),
+                              getWidth(47),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(getWidth(15))),),
+                          ),
+                          onPressed: () {
+                            Get.to(() =>CreateEpisodeScreen(seriesId: serieId));
+                          },
+                          child: Text("Create episode",style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: getWidth(13),
+                          ),),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height:getWidth(13.6)),
+                    Obx((){
+                      if(controller.episodes.length>0)
+                      {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                minimumSize: Size(
+                                  getWidth(302),
+                                  getWidth(47),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(getWidth(15))),
+                                    side: BorderSide(color: Colors.black)),
+                              ),
+                              onPressed: () async {
+                                controller.isChangingStatus.value=true;
+                                await controller.changeStatus();
+                                controller.isChangingStatus.value=false;
+                              },
+                              child:Obx((){
+                                if(controller.isChangingStatus.value==true)
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                if (controller.isPublished.value ==
+                                    true) {
+                                  return Text("Unpublish series",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: getWidth(13),
+                                    ),);
+                                }
+                                return Text("Publish series",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getWidth(13),
+                                  ),);
+
+                              }),
+                            ),
+                          ],
+                        );
+                      }
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.white,
+                              minimumSize: Size(
+                                getWidth(142),
+                                getWidth(47),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(getWidth(15))),
+                                  side: BorderSide(color: Colors.black)),
+                            ),
+                            onPressed: () async {
+                              controller.isChangingStatus.value=true;
+                              await controller.changeStatus();
+                              controller.isChangingStatus.value=false;
+                            },
+                            child:Obx((){
+                              if(controller.isChangingStatus.value==true)
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              if (controller.isPublished.value ==
+                                  true) {
+                                return Text("Unpublish series",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: getWidth(13),
+                                  ),);
+                              }
+                              return Text("Publish series",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getWidth(13),
+                                ),);
+
+                            }),
+                          ),
+                          SizedBox(width:getWidth(17)),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xFF3669C9),
+                              minimumSize: Size(
+                                getWidth(142),
+                                getWidth(47),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(getWidth(15))),),
+                            ),
+                            onPressed: () async {
+                              controller.isDeleting.value=true;
+                              // var result={
+                              //   "success":true,
+                              // };
+                              // await Future.delayed(Duration(seconds: 2));
+                              var result=await controller.deleteSeries();
+                              controller.isDeleting.value=false;
+                              print(result["success"]);
+                              if(result["success"]==true){
+                                await Get.put(HomePageController()).getSeries();
+                                Get.back();
+                                Get.snackbar(
+                                  "Delete series $serieName",
+                                  "Success",
+                                  icon: Icon(Icons.done_outlined, color: Colors.white),
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.green,
+                                  borderRadius: 20,
+                                  margin: EdgeInsets.all(15),
+                                  colorText: Colors.white,
+                                  duration: Duration(seconds: 2),
+                                  isDismissible: true,
+                                  forwardAnimationCurve: Curves.easeOutBack,
+                                );
+                                return;
+                              }
+                              Get.snackbar(
+                                "Delete series $serieName",
+                                "Failed",
+                                icon: Icon(Icons.sms_failed, color: Colors.white),
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.red,
+                                borderRadius: 20,
+                                margin: EdgeInsets.all(15),
+                                colorText: Colors.white,
+                                duration: Duration(seconds: 2),
+                                isDismissible: true,
+                                forwardAnimationCurve: Curves.easeOutBack,
+                              );
+                            },
+                            child:
+                            Obx((){
+                              if(controller.isDeleting.value==false)
+                                return
+                                  Text("Delete series",style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: getWidth(13),
+                                  ),);
+                              return  Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }),
+
+                          ),
+                        ],
+                      );
+                    }),
+                  ]
+              ));
+        }
+        return Container();
+      }),
+    );
   }
 }
 
