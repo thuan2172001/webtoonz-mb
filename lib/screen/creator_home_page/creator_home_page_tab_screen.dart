@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:number_paginator/number_paginator.dart';
 import 'package:untitled/controller/chat/chat_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
@@ -16,6 +17,7 @@ class CreatorHomePageTabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     HomePageController homePageController = Get.put(HomePageController());
     homePageController.getCreatorSeries();
+
     return Scaffold(
       appBar: appBar(
           title: "Shop name",
@@ -74,13 +76,33 @@ class CreatorHomePageTabScreen extends StatelessWidget {
                 mainAxisSpacing: getHeight(20),
                 crossAxisCount: 2,
                 childAspectRatio: 4 / 5.5,
-                children: homePageController.seriesList.map((e) {
+                children: homePageController.seriesOnPageList.map((e) {
                   return SeriesItem(
                     seriesInfo: e,
                   );
                 }).toList(),
               );
             }),
+            SizedBox(
+              height: getHeight(28),
+            ),
+            Obx(() {
+                return NumberPaginator(
+                  numberPages: homePageController.numberOfPages.value,
+                  initialPage: 0,
+                  onPageChange: (index) {
+                    homePageController.choosePage(index);
+                  },
+                  buttonShape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  buttonSelectedForegroundColor: Colors.white,
+                  buttonSelectedBackgroundColor: Colors.blue,
+                  buttonUnselectedForegroundColor: Colors.black,
+                  buttonUnselectedBackgroundColor: Colors.white,
+                );
+              }
+            ),
           ],
         ),
       ),

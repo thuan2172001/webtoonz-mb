@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +14,8 @@ class HomePageController extends GetxController {
   TextEditingController searchText = TextEditingController();
 
   RxList<Series> seriesList = <Series>[].obs;
+  RxList<Series> seriesOnPageList = <Series>[].obs;
+
   RxList<Series> searchList = <Series>[].obs;
   RxList<Series> newReleased = <Series>[].obs;
   RxList<Series> popular = <Series>[].obs;
@@ -21,6 +24,10 @@ class HomePageController extends GetxController {
   RxList<CreatorInfo> searchCreatorList = <CreatorInfo>[].obs;
 
   bool isSearchCreator = false;
+  final int limit = 8;
+  int totalSeries = 0;
+  late double ratio;
+  RxInt numberOfPages = 0.obs;
 
   Future getSeries() async {
     try {
@@ -48,7 +55,13 @@ class HomePageController extends GetxController {
           Get.put(GlobalController()).user.value.certificate.toString();
       var response = await customDio.get("/serie", {"isCreator": true});
       var json = jsonDecode(response.toString());
-      seriesList.value = FavoriteSeries.fromJson(json).listSeries;
+      var data = FavoriteSeries.fromJson(json);
+      seriesList.value = data.listSeries;
+      ratio = seriesList.length / limit;
+      numberOfPages.value =
+      ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
+      numberOfPages.value = max(numberOfPages.value,1);
+      choosePage(0);
       return true;
     } catch (e, s) {
       print(e);
@@ -100,5 +113,9 @@ class HomePageController extends GetxController {
     } catch (e, s) {
       return false;
     }
+  }
+
+  void choosePage(int page) {
+    seriesOnPageList.value = seriesList.sublist(page * limit, min((page * limit + limit), seriesList.length -1));
   }
 }
