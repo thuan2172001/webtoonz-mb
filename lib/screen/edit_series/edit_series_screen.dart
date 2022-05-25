@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:untitled/main.dart';
 import '../../controller/edit_series/edit_series_controller.dart';
+import '../../controller/home_page/home_page_controller.dart';
+import '../../controller/series_detail/series_detail_controller.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/input.dart';
@@ -267,6 +269,7 @@ class EditSeriesScreen extends StatelessWidget {
               onPressed: () async {
                 controller.isLoading.value=true;
                 var result=await controller.updateSeries();
+                await Get.put(HomePageController()).getCreatorSeries();
                 controller.isLoading.value=false;
                 if(result==false){
                   Get.snackbar(
