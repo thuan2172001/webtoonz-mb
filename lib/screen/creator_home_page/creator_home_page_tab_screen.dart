@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:untitled/controller/chat/chat_controller.dart';
-import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
 import 'package:untitled/screen/chat/conversation_page.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';

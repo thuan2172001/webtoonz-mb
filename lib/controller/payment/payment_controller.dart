@@ -31,7 +31,9 @@ class PaymentController extends GetxController {
       return PaymentCard(
           paymentData[index]["paymentId"],
           paymentData[index]["nameOnCard"],
-          "123456789123" + paymentData[index]["card"]["card"]["last4"],
+          paymentData[index]["card"]["card"]["last4"] +
+              "00000000" +
+              paymentData[index]["card"]["card"]["last4"],
           getExpireDate(paymentData[index]["card"]["card"]["exp_month"],
               paymentData[index]["card"]["card"]["exp_year"]),
           "123",

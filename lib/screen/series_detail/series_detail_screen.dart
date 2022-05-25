@@ -13,7 +13,6 @@ import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
 import 'package:untitled/screen/series_detail/search_episodes.dart';
 import 'package:untitled/utils/config.dart';
-import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/image.dart';
 
 import '../../controller/edit_series/edit_series_controller.dart';
@@ -324,7 +323,18 @@ class SeriesDetailScreen extends StatelessWidget {
     return Obx(() {
       if (globalController.user.value.role == "creator") {
         return Container(
-            color: Colors.white,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
+              borderRadius: BorderRadius.circular(8),
+            ),
             width: double.infinity,
             height: getWidth(130),
             padding: EdgeInsets.only(top: getWidth(10)),

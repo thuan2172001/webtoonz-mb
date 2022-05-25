@@ -305,8 +305,11 @@ class CreateSeriesScreen extends StatelessWidget {
               },
               child: Obx(() {
                 if (controller.isLoading.value == false) return Text("Save");
-                return Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+                  padding: EdgeInsets.all(8),
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }),
             ),

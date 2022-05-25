@@ -56,11 +56,12 @@ class HomePageController extends GetxController {
       var response = await customDio.get("/serie", {"isCreator": true});
       var json = jsonDecode(response.toString());
       var data = FavoriteSeries.fromJson(json);
+      print(data);
       seriesList.value = data.listSeries;
       ratio = seriesList.length / limit;
       numberOfPages.value =
-      ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
-      numberOfPages.value = max(numberOfPages.value,1);
+          ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
+      numberOfPages.value = max(numberOfPages.value, 1);
       choosePage(0);
       return true;
     } catch (e, s) {
@@ -103,8 +104,6 @@ class HomePageController extends GetxController {
       var json = jsonDecode(response.toString());
       var list = json["data"]["creators"];
       creatorList.clear();
-
-      print(list.length);
       for (int i = 0; i < list.length; i++) {
         print(list[i]);
         creatorList.add(CreatorInfo.fromJsonInList(list[i]));
@@ -116,6 +115,7 @@ class HomePageController extends GetxController {
   }
 
   void choosePage(int page) {
-    seriesOnPageList.value = seriesList.sublist(page * limit, min((page * limit + limit), seriesList.length -1));
+    seriesOnPageList.value = seriesList.sublist(
+        page * limit, min((page * limit + limit), seriesList.length - 1));
   }
 }

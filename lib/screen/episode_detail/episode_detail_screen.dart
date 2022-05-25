@@ -545,26 +545,6 @@ class EpisodeDetailScreen extends StatelessWidget {
         } else
           return Column(
             children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  minimumSize: Size(
-                    getWidth(315),
-                    getWidth(50),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(getWidth(15))),
-                      side: BorderSide(color: Colors.black)),
-                ),
-                onPressed: () {
-                  _addComment();
-                },
-                child: component.commentText,
-              ),
-              SizedBox(
-                height: getWidth(15),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -646,6 +626,29 @@ class EpisodeDetailScreen extends StatelessWidget {
                     }),
                   )
                 ],
+              ),
+              SizedBox(
+                height: getWidth(15),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(
+                    getWidth(315),
+                    getWidth(50),
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(getWidth(12))),
+                      side: BorderSide(color: Colors.black)),
+                ),
+                onPressed: () {
+                  _addComment();
+                },
+                child: component.commentText,
+              ),
+              SizedBox(
+                height: getWidth(1),
               ),
             ],
           );
