@@ -87,22 +87,20 @@ class CreatorHomePageTabScreen extends StatelessWidget {
               height: getHeight(28),
             ),
             Obx(() {
-                return NumberPaginator(
-                  numberPages: homePageController.numberOfPages.value,
-                  initialPage: 0,
-                  onPageChange: (index) {
-                    homePageController.choosePage(index);
-                  },
-                  buttonShape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  buttonSelectedForegroundColor: Colors.white,
-                  buttonSelectedBackgroundColor: Colors.blue,
-                  buttonUnselectedForegroundColor: Colors.black,
-                  buttonUnselectedBackgroundColor: Colors.white,
-                );
-              }
-            ),
+              return NumberPaginator(
+                numberPages: homePageController.numberOfPages.value,
+                initialPage: 0,
+                onPageChange: (index) {
+                  homePageController.choosePage(index);
+                },
+                buttonShape: CircleBorder(
+                    side: BorderSide(width: 1, color: Colors.transparent)),
+                buttonSelectedForegroundColor: Colors.white,
+                buttonSelectedBackgroundColor: Colors.blue,
+                buttonUnselectedForegroundColor: Colors.white,
+                buttonUnselectedBackgroundColor: Colors.transparent,
+              );
+            }),
           ],
         ),
       ),

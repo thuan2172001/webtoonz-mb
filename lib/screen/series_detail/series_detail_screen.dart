@@ -116,15 +116,15 @@ class SeriesDetailScreen extends StatelessWidget {
                 appBar: AppBar(
                     backgroundColor: Colors.white,
                     leading: IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.black,
-                              size: getHeight(20),
-                            ),
-                            onPressed: () {
-                              Get.back();
-                            },
-                          ),
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.black,
+                        size: getHeight(20),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
                     centerTitle: true,
                     elevation: 0,
                     title: Obx(() => Text(
@@ -283,13 +283,14 @@ class SeriesDetailScreen extends StatelessWidget {
                               onPageChange: (index) {
                                 controller.getEpisodes(serieId, index + 1);
                               },
-                              buttonShape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                              ),
+                              buttonShape: CircleBorder(
+                                  side: BorderSide(
+                                      width: 1, color: Colors.transparent)),
                               buttonSelectedForegroundColor: Colors.white,
                               buttonSelectedBackgroundColor: Colors.blue,
-                              buttonUnselectedForegroundColor: Colors.black,
-                              buttonUnselectedBackgroundColor: Colors.white,
+                              buttonUnselectedForegroundColor: Colors.white,
+                              buttonUnselectedBackgroundColor:
+                                  Colors.transparent,
                             ),
                             Obx(() {
                               if (globalController.user.value.role ==

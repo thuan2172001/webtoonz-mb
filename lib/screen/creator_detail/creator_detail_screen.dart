@@ -252,13 +252,12 @@ class _CreatorDetailScreenState extends State<CreatorDetailScreen> {
           onPageChange: (index) {
             controller.getSeries(index + 1, widget.creatorId);
           },
-          buttonShape: BeveledRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-          ),
+          buttonShape: CircleBorder(
+              side: BorderSide(width: 1, color: Colors.transparent)),
           buttonSelectedForegroundColor: Colors.white,
           buttonSelectedBackgroundColor: Colors.blue,
-          buttonUnselectedForegroundColor: Colors.black,
-          buttonUnselectedBackgroundColor: Colors.white,
+          buttonUnselectedForegroundColor: Colors.white,
+          buttonUnselectedBackgroundColor: Colors.transparent,
         ),
         SizedBox(height: getWidth(5))
       ],

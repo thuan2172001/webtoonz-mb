@@ -28,7 +28,7 @@ class TransactionCard extends StatelessWidget {
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 1,
             blurRadius: 7,
-            offset: Offset(0, 1), // changes position of shadow
+            offset: Offset(1, 1), // changes position of shadow
           ),
         ],
       ),

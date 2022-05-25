@@ -55,7 +55,7 @@ class SearchResultScreen extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 primary: false,
-                crossAxisSpacing: 20,
+                crossAxisSpacing: 0,
                 mainAxisSpacing: 20,
                 crossAxisCount: 2,
                 childAspectRatio: 4 / 5.7,

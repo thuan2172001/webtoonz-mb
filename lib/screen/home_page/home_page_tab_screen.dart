@@ -82,7 +82,7 @@ class HomePageTabScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: getHeight(28),
+              height: getHeight(8),
             ),
             CarouselSlider(
               items: [1, 2, 3, 4]
@@ -100,7 +100,7 @@ class HomePageTabScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: getHeight(28),
+              height: getHeight(8),
             ),
             Container(
               alignment: Alignment.centerLeft,
@@ -114,7 +114,7 @@ class HomePageTabScreen extends StatelessWidget {
             ),
             SizedBox(height: getHeight(20)),
             Container(
-              height: getHeight(140),
+              height: getHeight(110),
               child: Obx(() {
                 return ListView(
                   shrinkWrap: true,
