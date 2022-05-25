@@ -7,6 +7,7 @@ import '../../model/Serie.dart';
 import '../../model/custom_dio.dart';
 
 class SerieDetailController extends GetxController {
+  Rx<Series>seriesInfo=Series().obs;
   String serieId = "";
   final int limit = 8;
   RxList<SeriesEpisode> episodes = <SeriesEpisode>[].obs;
@@ -19,6 +20,34 @@ class SerieDetailController extends GetxController {
     serieId = _serieId;
     isPublished.value = _isPublished;
   }
+  Future getSeriesInfor() async {
+    try {
+      CustomDio customDio = CustomDio();
+      customDio.dio.options.headers["Authorization"] =
+          globalController.user.value.certificate.toString();
+      var response = await customDio.get("/serie/$serieId?page=1&limit=0");
+      print(response);
+      response = jsonDecode(response.toString());
+      if (response["code"] != 200) return;
+      var serieData = response["data"];
+      seriesInfo.value = Series.fullParam(
+        serieData["serieName"],
+        serieData["description"],
+        serieData["thumbnail"],
+        serieData["cover"],
+        serieData["totalEpisodes"],
+        serieData["likes"],
+        serieData["categoryId"],
+        serieData["category"]["categoryName"],
+        serieData["creatorInfo"]["fullName"],
+        serieData["creatorInfo"]["avatar"],
+        serieData["serieId"],
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   Future getEpisodes(String _serieId, int page) async {
     CustomDio customDio = CustomDio();
