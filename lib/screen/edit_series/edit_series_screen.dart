@@ -269,7 +269,6 @@ class EditSeriesScreen extends StatelessWidget {
               onPressed: () async {
                 controller.isLoading.value=true;
                 var result=await controller.updateSeries();
-                await Get.put(HomePageController()).getCreatorSeries();
                 controller.isLoading.value=false;
                 if(result==false){
                   Get.snackbar(
@@ -287,7 +286,8 @@ class EditSeriesScreen extends StatelessWidget {
                   );
                 }
                 else{
-                  await SeriesDetailScreen(serieId: controller.seriesId).fetchSerie(controller.seriesId);
+                  await Get.put(HomePageController()).getCreatorSeries();
+                  await Get.put(SerieDetailController()).getSeriesInfor();
                   Get.snackbar(
                     "Edit Series",
                     "Success",

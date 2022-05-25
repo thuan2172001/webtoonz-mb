@@ -42,16 +42,16 @@ class SeriesDetailScreen extends StatelessWidget {
       var serieData = response["data"];
       var serieEpisodes = List.generate(
           serieData["episodes"].length,
-              (index) =>
-              SeriesEpisode(
-                  serieData["episodes"][index]["name"],
-                  serieData["episodes"][index]["thumbnail"],
-                  serieData["episodes"][index]["price"],
-                  serieData["episodes"][index]["likeInit"],
-                  serieData["episodes"][index]["comments"],
-                  serieData["episodes"][index]["episodeId"],
-                  serieData["episodes"][index]["chapter"]));
-      controller.initialize(serieEpisodes, serieData["serieId"],serieData["isPublished"]);
+          (index) => SeriesEpisode(
+              serieData["episodes"][index]["name"],
+              serieData["episodes"][index]["thumbnail"],
+              serieData["episodes"][index]["price"],
+              serieData["episodes"][index]["likeInit"],
+              serieData["episodes"][index]["comments"],
+              serieData["episodes"][index]["episodeId"],
+              serieData["episodes"][index]["chapter"]));
+      controller.initialize(
+          serieEpisodes, serieData["serieId"], serieData["isPublished"]);
       var seriesInfo = Series.fullParam(
         serieData["serieName"],
         serieData["description"],
@@ -76,9 +76,7 @@ class SeriesDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double coverImageBottomPadding = 30;
     double imageHeight =
-    MediaQuery
-        .of(context)
-        .orientation == Orientation.portrait ? 30 : 40;
+        MediaQuery.of(context).orientation == Orientation.portrait ? 30 : 40;
     double sidePadding = 5;
     double authorAvatarWidth = 10;
     double descriptionFontSize = 10;
@@ -93,17 +91,50 @@ class SeriesDetailScreen extends StatelessWidget {
             if (!snapshot.hasData)
               return Text("No data");
             else {
-              var seriesInfo = snapshot.data!;
-              var ratio = seriesInfo.totalEpisodes! / controller.limit;
+              controller.seriesInfo.value = snapshot.data!;
+              var ratio =
+                  controller.seriesInfo.value.totalEpisodes! / controller.limit;
               var numberOfPages =
-              ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
-              numberOfPages=max(numberOfPages,1);
+                  ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
+              numberOfPages = max(numberOfPages, 1);
               return Scaffold(
-                floatingActionButton: _buttons(seriesInfo),
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-                appBar: appBar(
-                    title: seriesInfo.serieName,
+                floatingActionButton: _buttons(controller.seriesInfo.value),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
+                // appBar: appBar(
+                //     title: controller.seriesInfo.value.serieName,
+                //     centerTitle: true,
+                //     actions: <Widget>[
+                //       new IconButton(
+                //         icon: new Icon(Icons.search, color: Colors.black),
+                //         onPressed: () {
+                //           Get.to(() => SearchEpisodeScreen());
+                //         },
+                //       )
+                //     ]),
+
+                appBar: AppBar(
+                    backgroundColor: Colors.white,
+                    leading: IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: getHeight(20),
+                            ),
+                            onPressed: () {
+                              Get.back();
+                            },
+                          ),
                     centerTitle: true,
+                    elevation: 0,
+                    title: Obx(() => Text(
+                          controller.seriesInfo.value.serieName,
+                          style: TextStyle(
+                            fontSize: getHeight(18),
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF3669C9),
+                          ),
+                        )),
                     actions: <Widget>[
                       new IconButton(
                         icon: new Icon(Icons.search, color: Colors.black),
@@ -118,16 +149,17 @@ class SeriesDetailScreen extends StatelessWidget {
                     physics: AlwaysScrollableScrollPhysics(),
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(bottom: coverImageBottomPadding),
+                        padding:
+                            EdgeInsets.only(bottom: coverImageBottomPadding),
                         child: Container(
                           color: Colors.black,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              getImage(seriesInfo.cover,
-                                  height: imageHeight.h, fit: BoxFit.cover),
-                            ],
-                          ),
+                          child: Obx(() => Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  getImage(controller.seriesInfo.value.cover,
+                                      height: imageHeight.h, fit: BoxFit.cover),
+                                ],
+                              )),
                         ),
                       ),
                       Padding(
@@ -139,40 +171,41 @@ class SeriesDetailScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   RichText(
                                       text: TextSpan(
                                           style: TextStyle(color: Colors.black),
                                           children: [
-                                            TextSpan(
-                                                text:
-                                                '${seriesInfo
-                                                    .totalEpisodes} items  |  ',
-                                                style: TextStyle(
-                                                    fontSize: statusFontSize.sp)),
-                                            WidgetSpan(
-                                                child: SvgPicture.asset(
-                                                  'assets/icons/heart.svg',
-                                                  width: statusFontSize.sp,
-                                                )),
-                                            TextSpan(
-                                                text: ' ${seriesInfo.totalLikes}',
-                                                style: TextStyle(
-                                                    fontSize: statusFontSize.sp))
-                                          ])),
+                                        TextSpan(
+                                            text:
+                                                '${controller.seriesInfo.value.totalEpisodes} items  |  ',
+                                            style: TextStyle(
+                                                fontSize: statusFontSize.sp)),
+                                        WidgetSpan(
+                                            child: SvgPicture.asset(
+                                          'assets/icons/heart.svg',
+                                          width: statusFontSize.sp,
+                                        )),
+                                        TextSpan(
+                                            text:
+                                                ' ${controller.seriesInfo.value.totalLikes}',
+                                            style: TextStyle(
+                                                fontSize: statusFontSize.sp))
+                                      ])),
                                   Container(
                                       width: statusFontSize.sp,
                                       child: Icon(Icons.share_sharp))
                                 ],
                               ),
                             ),
-                            Text(
-                              seriesInfo.category!,
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: categoryFontSize.sp),
-                            ),
+                            Obx(() => Text(
+                                  controller.seriesInfo.value.category!,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: categoryFontSize.sp),
+                                )),
                             Container(
                               child: Container(
                                 height: 50,
@@ -192,13 +225,13 @@ class SeriesDetailScreen extends StatelessWidget {
                                     child: Container(
                                       width: authorAvatarWidth.w,
                                       child: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            seriesInfo.authorAvatar!),
+                                        backgroundImage: NetworkImage(controller
+                                            .seriesInfo.value.authorAvatar!),
                                       ),
                                     ),
                                   ),
                                   Text(
-                                    seriesInfo.authorName!,
+                                    controller.seriesInfo.value.authorName!,
                                     style: TextStyle(
                                         fontSize: authorTitleFontSize.sp),
                                   )
@@ -206,44 +239,43 @@ class SeriesDetailScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: ExpandableText(
-                                seriesInfo.description,
-                                style:
-                                TextStyle(fontSize: descriptionFontSize.sp),
-                                expandText: 'show more',
-                                collapseText: 'show less',
-                                maxLines: 6,
-                                linkColor: Colors.blue,
-                              ),
-                            ),
-                            Obx(() =>
-                                GridView.builder(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: Obx(() => ExpandableText(
+                                      controller.seriesInfo.value.description,
+                                      style: TextStyle(
+                                          fontSize: descriptionFontSize.sp),
+                                      expandText: 'show more',
+                                      collapseText: 'show less',
+                                      maxLines: 6,
+                                      linkColor: Colors.blue,
+                                    ))),
+                            Obx(() => GridView.builder(
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: controller.episodes.length,
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () async {
                                         var episodeDetailController =
-                                        EpisodeDetailController(
-                                            episodeId: controller
-                                                .episodes[index].episodeId);
+                                            EpisodeDetailController(
+                                                episodeId: controller
+                                                    .episodes[index].episodeId);
                                         await episodeDetailController.getApi();
-                                        Get.to(() =>
-                                            EpisodeDetailScreen(
-                                                controller: episodeDetailController));
+                                        Get.to(() => EpisodeDetailScreen(
+                                            controller:
+                                                episodeDetailController));
                                       },
                                       child: EpisodeCard(
                                           episode: controller.episodes[index]),
                                     );
                                   },
                                   gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      crossAxisSpacing: 0,
-                                      mainAxisSpacing: 0,
-                                      childAspectRatio: 4 / 5.7),
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          crossAxisSpacing: 0,
+                                          mainAxisSpacing: 0,
+                                          childAspectRatio: 4 / 5.7),
                                 )),
                             NumberPaginator(
                               numberPages: numberOfPages,
@@ -259,8 +291,9 @@ class SeriesDetailScreen extends StatelessWidget {
                               buttonUnselectedForegroundColor: Colors.black,
                               buttonUnselectedBackgroundColor: Colors.white,
                             ),
-                            Obx((){
-                              if(globalController.user.value.role == "creator"){
+                            Obx(() {
+                              if (globalController.user.value.role ==
+                                  "creator") {
                                 return SizedBox(height: getWidth(130));
                               }
                               return Container();
@@ -287,231 +320,241 @@ class SeriesDetailScreen extends StatelessWidget {
         });
   }
 
-  Widget _buttons(Series seriesInfo){
-    return Obx((){
+  Widget _buttons(Series seriesInfo) {
+    return Obx(() {
       if (globalController.user.value.role == "creator") {
         return Container(
-          color: Colors.white,
-          width: double.infinity,
-          height: getWidth(130),
-          padding: EdgeInsets.only(top: getWidth(10)),
-          child: SizedBox(height: getWidth(130),
-                child:Column(
-                    children:<Widget>[
-                      Row(
+            color: Colors.white,
+            width: double.infinity,
+            height: getWidth(130),
+            padding: EdgeInsets.only(top: getWidth(10)),
+            child: SizedBox(
+                height: getWidth(130),
+                child: Column(children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          minimumSize: Size(
+                            getWidth(142),
+                            getWidth(47),
+                          ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(getWidth(15))),
+                              side: BorderSide(color: Colors.black)),
+                        ),
+                        onPressed: () {
+                          var editSeriesController = Get.put(
+                              EditSeriesController(serieData: seriesInfo));
+                          Get.to(() => EditSeriesScreen(
+                                controller: editSeriesController,
+                              ));
+                        },
+                        child: Text(
+                          "Edit series",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: getWidth(13),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: getWidth(17)),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFF3669C9),
+                          minimumSize: Size(
+                            getWidth(142),
+                            getWidth(47),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(getWidth(15))),
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.to(() => CreateEpisodeScreen(seriesId: serieId));
+                        },
+                        child: Text(
+                          "Create episode",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: getWidth(13),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: getWidth(13.6)),
+                  Obx(() {
+                    if (controller.episodes.length > 0) {
+                      return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               minimumSize: Size(
-                                getWidth(142),
+                                getWidth(302),
                                 getWidth(47),
                               ),
                               shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(getWidth(15))),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(getWidth(15))),
                                   side: BorderSide(color: Colors.black)),
                             ),
-                            onPressed: () {
-
-                              var editSeriesController = Get.put(EditSeriesController(serieData: seriesInfo));
-                              Get.to(()=>EditSeriesScreen(controller: editSeriesController,));
-
+                            onPressed: () async {
+                              controller.isChangingStatus.value = true;
+                              await controller.changeStatus();
+                              controller.isChangingStatus.value = false;
                             },
-                            child: Text("Edit series",
-                              style: TextStyle(
-                                color:Colors.black,
-                                fontSize: getWidth(13),
-                              ),),
-                          ),
-                          SizedBox(width:getWidth(17)),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Color(0xFF3669C9),
-                              minimumSize: Size(
-                                getWidth(142),
-                                getWidth(47),
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(getWidth(15))),),
-                            ),
-                            onPressed: () {
-                              Get.to(() =>CreateEpisodeScreen(seriesId: serieId));
-                            },
-                            child: Text("Create episode",style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: getWidth(13),
-                            ),),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height:getWidth(13.6)),
-                      Obx((){
-                        if(controller.episodes.length>0)
-                        {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.white,
-                                  minimumSize: Size(
-                                    getWidth(302),
-                                    getWidth(47),
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(getWidth(15))),
-                                      side: BorderSide(color: Colors.black)),
-                                ),
-                                onPressed: () async {
-                                  controller.isChangingStatus.value=true;
-                                  await controller.changeStatus();
-                                  controller.isChangingStatus.value=false;
-                                },
-                                child:Obx((){
-                                  if(controller.isChangingStatus.value==true)
-                                    return Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  if (controller.isPublished.value ==
-                                      true) {
-                                    return Text("Unpublish series",
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: getWidth(13),
-                                      ),);
-                                  }
-                                  return Text("Publish series",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: getWidth(13),
-                                    ),);
-
-                                }),
-                              ),
-                            ],
-                          );
-                        }
-
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                minimumSize: Size(
-                                  getWidth(142),
-                                  getWidth(47),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(getWidth(15))),
-                                    side: BorderSide(color: Colors.black)),
-                              ),
-                              onPressed: () async {
-                                controller.isChangingStatus.value=true;
-                                await controller.changeStatus();
-                                controller.isChangingStatus.value=false;
-                              },
-                              child:Obx((){
-                                if(controller.isChangingStatus.value==true)
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                if (controller.isPublished.value ==
-                                    true) {
-                                  return Text("Unpublish series",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: getWidth(13),
-                                    ),);
-                                }
-                                return Text("Publish series",
+                            child: Obx(() {
+                              if (controller.isChangingStatus.value == true)
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              if (controller.isPublished.value == true) {
+                                return Text(
+                                  "Unpublish series",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: getWidth(13),
-                                  ),);
-
-                              }),
-                            ),
-                            SizedBox(width:getWidth(17)),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF3669C9),
-                                minimumSize: Size(
-                                  getWidth(142),
-                                  getWidth(47),
+                                  ),
+                                );
+                              }
+                              return Text(
+                                "Publish series",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getWidth(13),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(getWidth(15))),),
-                              ),
-                              onPressed: () async {
-                                controller.isDeleting.value=true;
-                                // var result={
-                                //   "success":true,
-                                // };
-                                // await Future.delayed(Duration(seconds: 2));
-                                var result=await controller.deleteSeries();
-                                controller.isDeleting.value=false;
-                                print(result["success"]);
-                                if(result["success"]==true){
-                                  await Get.put(HomePageController()).getSeries();
-                                  Get.back();
-                                  Get.snackbar(
-                                    "Delete series ${seriesInfo.serieName}",
-                                    "Success",
-                                    icon: Icon(Icons.done_outlined, color: Colors.white),
-                                    snackPosition: SnackPosition.TOP,
-                                    backgroundColor: Colors.green,
-                                    borderRadius: 20,
-                                    margin: EdgeInsets.all(15),
-                                    colorText: Colors.white,
-                                    duration: Duration(seconds: 2),
-                                    isDismissible: true,
-                                    forwardAnimationCurve: Curves.easeOutBack,
-                                  );
-                                  return;
-                                }
-                                Get.snackbar(
-                                  "Delete series ${seriesInfo.serieName}",
-                                  "Failed",
-                                  icon: Icon(Icons.sms_failed, color: Colors.white),
-                                  snackPosition: SnackPosition.TOP,
-                                  backgroundColor: Colors.red,
-                                  borderRadius: 20,
-                                  margin: EdgeInsets.all(15),
-                                  colorText: Colors.white,
-                                  duration: Duration(seconds: 2),
-                                  isDismissible: true,
-                                  forwardAnimationCurve: Curves.easeOutBack,
-                                );
-                              },
-                              child:
-                              Obx((){
-                                if(controller.isDeleting.value==false)
-                                  return
-                                    Text("Delete series",style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: getWidth(13),
-                                    ),);
-                                return  Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }),
+                              );
+                            }),
+                          ),
+                        ],
+                      );
+                    }
 
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.white,
+                            minimumSize: Size(
+                              getWidth(142),
+                              getWidth(47),
                             ),
-                          ],
-                        );
-                      }),
-                    ]
-                ))
-        );
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(getWidth(15))),
+                                side: BorderSide(color: Colors.black)),
+                          ),
+                          onPressed: () async {
+                            controller.isChangingStatus.value = true;
+                            await controller.changeStatus();
+                            controller.isChangingStatus.value = false;
+                          },
+                          child: Obx(() {
+                            if (controller.isChangingStatus.value == true)
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            if (controller.isPublished.value == true) {
+                              return Text(
+                                "Unpublish series",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: getWidth(13),
+                                ),
+                              );
+                            }
+                            return Text(
+                              "Publish series",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: getWidth(13),
+                              ),
+                            );
+                          }),
+                        ),
+                        SizedBox(width: getWidth(17)),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color(0xFF3669C9),
+                            minimumSize: Size(
+                              getWidth(142),
+                              getWidth(47),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(getWidth(15))),
+                            ),
+                          ),
+                          onPressed: () async {
+                            controller.isDeleting.value = true;
+                            // var result={
+                            //   "success":true,
+                            // };
+                            // await Future.delayed(Duration(seconds: 2));
+                            var result = await controller.deleteSeries();
+                            controller.isDeleting.value = false;
+                            print(result["success"]);
+                            if (result["success"] == true) {
+                              await Get.put(HomePageController()).getSeries();
+                              Get.back();
+                              Get.snackbar(
+                                "Delete series ${seriesInfo.serieName}",
+                                "Success",
+                                icon: Icon(Icons.done_outlined,
+                                    color: Colors.white),
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.green,
+                                borderRadius: 20,
+                                margin: EdgeInsets.all(15),
+                                colorText: Colors.white,
+                                duration: Duration(seconds: 2),
+                                isDismissible: true,
+                                forwardAnimationCurve: Curves.easeOutBack,
+                              );
+                              return;
+                            }
+                            Get.snackbar(
+                              "Delete series ${seriesInfo.serieName}",
+                              "Failed",
+                              icon: Icon(Icons.sms_failed, color: Colors.white),
+                              snackPosition: SnackPosition.TOP,
+                              backgroundColor: Colors.red,
+                              borderRadius: 20,
+                              margin: EdgeInsets.all(15),
+                              colorText: Colors.white,
+                              duration: Duration(seconds: 2),
+                              isDismissible: true,
+                              forwardAnimationCurve: Curves.easeOutBack,
+                            );
+                          },
+                          child: Obx(() {
+                            if (controller.isDeleting.value == false)
+                              return Text(
+                                "Delete series",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: getWidth(13),
+                                ),
+                              );
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }),
+                        ),
+                      ],
+                    );
+                  }),
+                ])));
       }
       return Container();
     });
