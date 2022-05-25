@@ -42,18 +42,6 @@ class HomePageTabScreen extends StatelessWidget {
             SizedBox(
               width: getWidth(20),
             ),
-            GestureDetector(
-              child: SvgPicture.asset(
-                "assets/icons/cart.svg",
-                width: getWidth(24),
-              ),
-              onTap: () {
-                globalController.onChangeTab(2);
-              },
-            ),
-            SizedBox(
-              width: getWidth(20),
-            ),
           ]),
       body: Container(
         width: double.infinity,

@@ -288,9 +288,8 @@ class SeriesDetailScreen extends StatelessWidget {
                                       width: 1, color: Colors.transparent)),
                               buttonSelectedForegroundColor: Colors.white,
                               buttonSelectedBackgroundColor: Colors.blue,
-                              buttonUnselectedForegroundColor: Colors.white,
-                              buttonUnselectedBackgroundColor:
-                                  Colors.transparent,
+                              buttonUnselectedForegroundColor: Colors.black,
+                              buttonUnselectedBackgroundColor: Colors.white,
                             ),
                             Obx(() {
                               if (globalController.user.value.role ==

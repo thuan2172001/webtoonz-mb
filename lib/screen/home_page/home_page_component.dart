@@ -171,7 +171,7 @@ class CreatorItem extends StatelessWidget {
               child: SizedBox(
                   width: getWidth(100),
                   height: getWidth(100),
-                  child: getImage(creatorInfo.avatar)),
+                  child: getImage(creatorInfo.avatar, fit: BoxFit.cover)),
             ),
             SizedBox(height: getHeight(10)),
             Text(

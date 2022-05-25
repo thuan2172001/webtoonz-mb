@@ -78,8 +78,8 @@ class TransactionScreen extends StatelessWidget {
                       side: BorderSide(width: 1, color: Colors.transparent)),
                   buttonSelectedForegroundColor: Colors.white,
                   buttonSelectedBackgroundColor: Colors.blue,
-                  buttonUnselectedForegroundColor: Colors.white,
-                  buttonUnselectedBackgroundColor: Colors.transparent,
+                  buttonUnselectedForegroundColor: Colors.black,
+                  buttonUnselectedBackgroundColor: Colors.white,
                 ),
               ),
             );

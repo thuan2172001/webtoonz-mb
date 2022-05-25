@@ -138,7 +138,7 @@ class CartScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        primary: const Color(0xff1b447b),
+                        primary: Color.fromARGB(255, 63, 104, 154),
                         fixedSize: Size(
                           350,
                           50,

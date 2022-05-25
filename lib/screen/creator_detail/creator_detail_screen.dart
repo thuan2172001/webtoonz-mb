@@ -256,8 +256,8 @@ class _CreatorDetailScreenState extends State<CreatorDetailScreen> {
               side: BorderSide(width: 1, color: Colors.transparent)),
           buttonSelectedForegroundColor: Colors.white,
           buttonSelectedBackgroundColor: Colors.blue,
-          buttonUnselectedForegroundColor: Colors.white,
-          buttonUnselectedBackgroundColor: Colors.transparent,
+          buttonUnselectedForegroundColor: Colors.black,
+          buttonUnselectedBackgroundColor: Colors.white,
         ),
         SizedBox(height: getWidth(5))
       ],
