@@ -17,7 +17,7 @@ class CreateEpisodeScreen extends StatelessWidget {
   CreateEpisodeScreen({required this.seriesId});
   @override
   Widget build(BuildContext context) {
-    controller= Get.put(CreateEpisodeController(seriesId: seriesId));
+    controller = Get.put(CreateEpisodeController(seriesId: seriesId));
     return Scaffold(
       appBar: appBar(title: "Create episode", centerTitle: true),
       body: Container(
@@ -185,7 +185,7 @@ class CreateEpisodeScreen extends StatelessWidget {
             ),
             inputRegular(
               context,
-              label: "Price (VND)",
+              label: "Price (Cent)",
               hintText: "0.00",
               textEditingController: controller.price,
               required: true,
@@ -248,10 +248,10 @@ class CreateEpisodeScreen extends StatelessWidget {
                 ),
               ),
               onPressed: () async {
-                controller.isLoading.value=true;
-                var result=await controller.createEpisode();
-                controller.isLoading.value=false;
-                if(result==null){
+                controller.isLoading.value = true;
+                var result = await controller.createEpisode();
+                controller.isLoading.value = false;
+                if (result == null) {
                   Get.snackbar(
                     "Create Episode",
                     "Failed",
@@ -265,8 +265,7 @@ class CreateEpisodeScreen extends StatelessWidget {
                     isDismissible: true,
                     forwardAnimationCurve: Curves.easeOutBack,
                   );
-                }
-                else{
+                } else {
                   controller.reset();
                   Get.snackbar(
                     "Create Episode",
@@ -283,10 +282,9 @@ class CreateEpisodeScreen extends StatelessWidget {
                   );
                 }
               },
-              child: Obx((){
-                if(controller.isLoading.value==false)
-                  return Text("Save");
-                return  Center(
+              child: Obx(() {
+                if (controller.isLoading.value == false) return Text("Save");
+                return Center(
                   child: CircularProgressIndicator(),
                 );
               }),
@@ -303,8 +301,8 @@ class CreateEpisodeScreen extends StatelessWidget {
   Future pickLogo() async {
     try {
       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(file==null)return;
-      controller.logo.value=File(file.path);
+      if (file == null) return;
+      controller.logo.value = File(file.path);
     } on PlatformException catch (e) {
       print("Failed to pick image: $e");
     }
@@ -314,14 +312,15 @@ class CreateEpisodeScreen extends StatelessWidget {
     try {
       final result = await FilePicker.platform.pickFiles();
       if (result == null) return;
-      final file=result.files.first;
-      if(file==null||file.path==null)return;
+      final file = result.files.first;
+      if (file == null || file.path == null) return;
       controller.file.value = File(file.path!);
-      controller.fileName.value=file.name;
+      controller.fileName.value = file.name;
       if (controller.fileName.value.length > 30) {
         controller.fileName.value = "..." +
             controller.fileName.value.substring(
-                controller.fileName.value.length - 27, controller.fileName.value.length);
+                controller.fileName.value.length - 27,
+                controller.fileName.value.length);
       }
     } on PlatformException catch (e) {
       print("Failed to pick file: $e");

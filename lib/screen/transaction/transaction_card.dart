@@ -73,7 +73,7 @@ class TransactionCard extends StatelessWidget {
             children: [
               Text("Total Amount:"),
               Spacer(), // use Spacer
-              Text("$amount\$"),
+              Text("$amount Cent"),
             ],
           ),
           SizedBox(

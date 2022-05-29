@@ -48,7 +48,7 @@ class StripeService {
   }
 
   static Future createNewPayment(SetupIntent? paymentMethod,
-      BuildContext context, String cardHolder) async {
+      BuildContext context, String cardHolder, CardDetails card) async {
     try {
       if (paymentMethod == null) {
         return;
@@ -59,7 +59,11 @@ class StripeService {
         "futureUsage": true,
         "paymentMethodInfo": {
           "payment_method": paymentMethod.paymentMethodId,
-          "status": "succeeded"
+          "status": "succeeded",
+          "cvc": card.cvc,
+          "number": card.number,
+          "expiredMonth": card.expirationMonth,
+          "expiredYear": card.expirationYear
         }
       });
       var json = jsonDecode(response.toString());

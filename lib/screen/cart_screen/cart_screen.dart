@@ -125,7 +125,7 @@ class CartScreen extends StatelessWidget {
                           "${cartController.episodeList.length > 0 ? cartController.episodeList.reduce((previousValue, element) {
                               element.price += previousValue.price;
                               return element;
-                            }).price : 0}\$",
+                            }).price : 0} Cent",
                         );
                       })
                     ],

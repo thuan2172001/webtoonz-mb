@@ -90,7 +90,7 @@ class _PaymentFormState extends State<PaymentForm> {
                       var paymentMethod =
                           await StripeService.createSetupIntent(card);
                       var response = await StripeService.createNewPayment(
-                          paymentMethod, context, cardHolderName);
+                          paymentMethod, context, cardHolderName, card);
                       if (response == null) {
                         setState(() => isLoading = false);
                         CustomDialog(context, "FAILED")

@@ -68,7 +68,7 @@ class SeriesItem extends StatelessWidget {
               height: getHeight(3),
             ),
             Text(
-              'VND ',
+              'Cent ',
               style: TextStyle(fontSize: 11, color: Colors.red),
             ),
             SizedBox(

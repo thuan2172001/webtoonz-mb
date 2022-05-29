@@ -54,7 +54,7 @@ class EpisodeCard extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: priceBottomPadding.h),
               child: Text(
-                'VND ${episode.price}',
+                'Cent ${episode.price}',
                 style: TextStyle(fontSize: priceFontSize.sp, color: Colors.red),
               ),
             ),

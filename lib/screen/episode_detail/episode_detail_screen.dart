@@ -295,7 +295,7 @@ class EpisodeDetailScreen extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "${controller.episode.value.price}.000 VND ",
+                  "${controller.episode.value.price} Cent ",
                   style: TextStyle(
                     fontSize: getWidth(18),
                     fontWeight: FontWeight.bold,
