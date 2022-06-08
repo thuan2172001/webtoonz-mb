@@ -55,6 +55,7 @@ class AccountController extends GetxController {
         globalController.user.value.phone = phoneNumber.text;
         globalController.user.value.age = age.text;
         globalController.user.value.fullName = fullName.text;
+        globalController.user.refresh();
       }
       CustomDialog(context, "SUCCESS")
           .show({"message": "Change information successful !"});

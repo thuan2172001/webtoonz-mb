@@ -119,16 +119,3 @@ Tuple2 extractDate(String expireDate) {
 String shortenID(String id) {
   return "${id.substring(0, 8)}..${id.substring(id.length - 10)}";
 }
-
-String getSalesMonth(String month, int year) {
-  return "${month.substring(0, 3)}\n-${year % 100}";
-}
-
-String shortenNumber(int num) {
-  if (num > 1000000) {
-    return "${num ~/ 1000000},${(num % 1000000) ~/ 1000}M";
-  } else if (num > 1000) {
-    return "${num ~/ 1000},${(num % 1000) ~/ 100}K";
-  } else
-    return "$num";
-}

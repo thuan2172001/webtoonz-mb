@@ -5,6 +5,8 @@ import 'package:untitled/model/espisode.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/image.dart';
 
+import '../../main.dart';
+
 class OrderItem extends StatelessWidget {
   final Episode episode;
   const OrderItem({Key? key, required this.episode}) : super(key: key);
@@ -67,6 +69,7 @@ class OrderItem extends StatelessWidget {
               onTap: () async {
                 Get.put(CartController()).episodeIds.removeWhere((element) => element == episode.id);
                 await Get.put(CartController()).updateCart();
+                await globalController.getEpisodeIdsInCart();
               },
               child: Container(
                 height: getHeight(50),

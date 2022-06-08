@@ -9,7 +9,6 @@ import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
 import 'package:untitled/screen/payment/payment_method.dart';
-import 'package:untitled/screen/sales/sales_screen.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
 import 'package:untitled/utils/config.dart';
 
@@ -89,12 +88,12 @@ class SideBarMenu extends StatelessWidget {
                           ),
                           FittedBox(
                             fit: BoxFit.fitWidth,
-                            child: Text(
+                            child: Obx(()=>Text(
                               globalController.user.value.fullName.toString(),
                               style: TextStyle(
                                   fontSize: getWidth(16),
                                   fontWeight: FontWeight.w500),
-                            ),
+                            ),)
                           ),
                         ],
                       ),
@@ -352,9 +351,7 @@ class SideBarMenu extends StatelessWidget {
                                     ),
                                   )
                                 : GestureDetector(
-                                    onTap: () async {
-                                      Get.to(() => SalesScreen());
-                                    },
+                                    onTap: () async {},
                                     child: Container(
                                       color: Colors.white,
                                       child: Column(
