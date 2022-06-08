@@ -161,6 +161,7 @@ Container confirmButtonContainer(
                       if (result) {
                         globalController.onChangeTab(0);
                         if (globalController.user.value.role == "creator") {
+                          await Get.put(HomePageController()).getCreatorSeries();
                           Get.to(() => CreatorHomePageScreen());
                         } else {
                           await Get.put(HomePageController()).getSeries();
