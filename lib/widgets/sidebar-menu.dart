@@ -9,6 +9,7 @@ import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
 import 'package:untitled/screen/payment/payment_method.dart';
+import 'package:untitled/screen/sales/sales_screen.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
 import 'package:untitled/utils/config.dart';
 
@@ -351,7 +352,9 @@ class SideBarMenu extends StatelessWidget {
                                     ),
                                   )
                                 : GestureDetector(
-                                    onTap: () async {},
+                                    onTap: () async {
+                                      Get.to(() => SalesScreen());
+                                    },
                                     child: Container(
                                       color: Colors.white,
                                       child: Column(
