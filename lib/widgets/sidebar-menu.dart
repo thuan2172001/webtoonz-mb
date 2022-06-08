@@ -88,12 +88,12 @@ class SideBarMenu extends StatelessWidget {
                           ),
                           FittedBox(
                             fit: BoxFit.fitWidth,
-                            child: Text(
+                            child: Obx(()=>Text(
                               globalController.user.value.fullName.toString(),
                               style: TextStyle(
                                   fontSize: getWidth(16),
                                   fontWeight: FontWeight.w500),
-                            ),
+                            ),)
                           ),
                         ],
                       ),
