@@ -15,7 +15,6 @@ class CreatorHomePageTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomePageController homePageController = Get.put(HomePageController());
-    homePageController.getCreatorSeries();
 
     return Scaffold(
       appBar: appBar(
