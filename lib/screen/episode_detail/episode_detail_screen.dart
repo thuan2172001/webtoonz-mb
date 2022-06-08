@@ -12,6 +12,7 @@ import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../controller/favorite/favorite_episode_controller.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
+import '../creator_detail/creator_detail_screen.dart';
 import '../series_detail/series_detail_screen.dart';
 
 class EpisodeDetailScreen extends StatelessWidget {
@@ -411,7 +412,7 @@ class EpisodeDetailScreen extends StatelessWidget {
               iconSize: getWidth(20),
               icon: Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                // Get.to(() => CreatorDetailScreen());
+                 Get.to(() => CreatorDetailScreen(creatorId: controller.episode.value.creatorId));
               },
             )
           ],
