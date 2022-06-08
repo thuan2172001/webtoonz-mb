@@ -116,6 +116,6 @@ class HomePageController extends GetxController {
 
   void choosePage(int page) {
     seriesOnPageList.value = seriesList.sublist(
-        page * limit, min((page * limit + limit), seriesList.length - 1));
+        page * limit, min((page * limit + limit), seriesList.length));
   }
 }

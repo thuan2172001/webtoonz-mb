@@ -515,6 +515,7 @@ class SeriesDetailScreen extends StatelessWidget {
                             print(result["success"]);
                             if (result["success"] == true) {
                               await Get.put(HomePageController()).getSeries();
+                              await Get.put(HomePageController()).getCreatorSeries();
                               Get.back();
                               Get.snackbar(
                                 "Delete series ${seriesInfo.serieName}",
