@@ -14,6 +14,8 @@ import 'package:untitled/screen/sales/chart.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
 import 'package:untitled/utils/config.dart';
 
+import '../screen/sales/sales_screen.dart';
+
 class SideBarMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -348,7 +350,9 @@ class SideBarMenu extends StatelessWidget {
                                     ),
                                   )
                                 : GestureDetector(
-                                    onTap: () async {},
+                                    onTap: () async {
+                                      Get.to(() => SalesScreen());
+                                    },
                                     child: Container(
                                       color: Colors.white,
                                       child: Column(
