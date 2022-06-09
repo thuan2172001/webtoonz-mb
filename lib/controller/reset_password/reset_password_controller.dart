@@ -48,7 +48,7 @@ class ResetPasswordController extends GetxController {
     try {
       CustomDio customDio = CustomDio();
       var encryptedKeyPair = generateKeyPairAndEncrypt(password.text);
-      var response = await customDio.post(
+      var response = await customDio.put(
         "/auth/reset-password",
         {
           "email": email.text,

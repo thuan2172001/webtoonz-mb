@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/reset_password/reset_password_controller.dart';
 import 'package:untitled/screen/login/login_screen.dart';
+import 'package:untitled/screen/reset_password/reset_success_screen.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/app_name.dart';
+import 'package:untitled/widgets/dialog.dart';
 import 'package:untitled/widgets/input.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
@@ -62,7 +64,8 @@ class ResetPasswordScreen extends StatelessWidget {
                   var status =
                       await forgotPasswordController.resetPassword(context);
                   if (status) {
-                    Get.to(LoginScreen());
+                    Get.delete<ResetPasswordController>();
+                    Get.to((ResetSuccessScreen()));
                   }
                 },
                 child: Text(
