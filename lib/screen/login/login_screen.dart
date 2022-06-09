@@ -6,6 +6,7 @@ import 'package:untitled/controller/login/login_controller.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/screen/chat/chat_page.dart';
 import 'package:untitled/screen/creator_home_page/creator_home_page_screen.dart';
+import 'package:untitled/screen/forgot_password/forgot_password_screen.dart';
 import 'package:untitled/screen/home_page/home_page_screen.dart';
 import 'package:untitled/screen/signup/signup_welcome_screen.dart';
 import 'package:untitled/utils/config.dart';
@@ -123,7 +124,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                onPress: () => {}),
+                onPress: () => {Get.to((ForgotPasswordScreen()))}),
           ],
         ),
       ),
@@ -161,7 +162,8 @@ Container confirmButtonContainer(
                       if (result) {
                         globalController.onChangeTab(0);
                         if (globalController.user.value.role == "creator") {
-                          await Get.put(HomePageController()).getCreatorSeries();
+                          await Get.put(HomePageController())
+                              .getCreatorSeries();
                           Get.to(() => CreatorHomePageScreen());
                         } else {
                           await Get.put(HomePageController()).getSeries();

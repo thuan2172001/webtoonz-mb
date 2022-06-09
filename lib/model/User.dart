@@ -18,6 +18,7 @@ class User {
     this.role,
     this.fullName,
     this.age,
+    this.description,
   });
 
   @HiveField(0)
@@ -42,8 +43,10 @@ class User {
   String? role;
   @HiveField(10)
   String? fullName;
-  @HiveField(10)
+  @HiveField(11)
   String? age;
+  @HiveField(12)
+  String? description;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

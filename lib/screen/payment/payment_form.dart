@@ -9,6 +9,7 @@ import 'package:tuple/tuple.dart';
 import 'package:untitled/controller/payment/payment_controller.dart';
 import 'package:untitled/screen/payment/payment_method.dart';
 import 'package:untitled/screen/payment/success_screen.dart';
+import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/dialog.dart';
 
 import '../../main.dart';
@@ -54,14 +55,13 @@ class _PaymentFormState extends State<PaymentForm> {
                   cvvCode: cvvCode,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 1.h),
-                child: ElevatedButton.icon(
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    primary: const Color(0xff1b447b),
+                    primary: Color.fromARGB(255, 69, 125, 198),
                   ),
                   icon: isLoading
                       ? Container(
@@ -107,36 +107,36 @@ class _PaymentFormState extends State<PaymentForm> {
                     'Add New Card',
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: 'halter',
                       fontSize: 14,
                       package: 'flutter_credit_card',
                     ),
                   ),
                 ),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  primary: const Color(0xff1b447b),
+                SizedBox(
+                  width: getWidth(10),
                 ),
-                child: Container(
-                  margin: const EdgeInsets.all(12),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'halter',
-                      fontSize: 14,
-                      package: 'flutter_credit_card',
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    primary: Color.fromARGB(255, 69, 125, 198),
+                  ),
+                  child: Container(
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        package: 'flutter_credit_card',
+                      ),
                     ),
                   ),
-                ),
-                onPressed: () {
-                  Get.back();
-                },
-              )
+                  onPressed: () {
+                    Get.back();
+                  },
+                )
+              ]),
             ],
           )),
     );
