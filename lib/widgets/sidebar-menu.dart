@@ -4,13 +4,17 @@ import 'package:get/get.dart';
 import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/payment/payment_controller.dart';
+import 'package:untitled/screen/account/creator_account.dart';
 import 'package:untitled/screen/account/user_account.dart';
 import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
 import 'package:untitled/screen/change_password/change_password_screen.dart';
 import 'package:untitled/screen/login/login_screen.dart';
 import 'package:untitled/screen/payment/payment_method.dart';
+import 'package:untitled/screen/sales/chart.dart';
 import 'package:untitled/screen/transaction/transaction_screen.dart';
 import 'package:untitled/utils/config.dart';
+
+import '../screen/sales/sales_screen.dart';
 
 class SideBarMenu extends StatelessWidget {
   @override
@@ -87,14 +91,16 @@ class SideBarMenu extends StatelessWidget {
                             width: getWidth(8),
                           ),
                           FittedBox(
-                            fit: BoxFit.fitWidth,
-                            child: Text(
-                              globalController.user.value.fullName.toString(),
-                              style: TextStyle(
-                                  fontSize: getWidth(16),
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
+                              fit: BoxFit.fitWidth,
+                              child: Obx(
+                                () => Text(
+                                  globalController.user.value.fullName
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontSize: getWidth(16),
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              )),
                         ],
                       ),
                       SizedBox(
@@ -120,7 +126,11 @@ class SideBarMenu extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () async {
-                                Get.to(UserAccountScreen());
+                                if (globalController.user.value.role ==
+                                    "creator") {
+                                  Get.to(CreatorAccountScreen());
+                                } else
+                                  Get.to(UserAccountScreen());
                               },
                               child: Container(
                                 color: Colors.white,
@@ -171,76 +181,65 @@ class SideBarMenu extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () async {
-                                // add
-                                // var card = CardDetails.fromJson({
-                                //   "number": "4242424242424242",
-                                //   "expirationYear": 42,
-                                //   "expirationMonth": 6,
-                                //   "cvc": "424"
-                                // });
-                                // var paymentMethod =
-                                //     await StripeService.createSetupIntent(card);
-                                // StripeService.createNewPayment(
-                                //     paymentMethod, context);
-
-                                // delete
-                                // await StripeService.deletePayment(
-                                //     "pm_1Kv1thCkuVKGrqVo4JMUPyAb", context);
-                                Get.put(PaymentController()).isPickCard.value =
-                                    false;
-                                Get.to(() => PaymentMethodScreen());
-                              },
-                              child: Container(
-                                color: Colors.white,
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height: getHeight(16),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              width: getWidth(32),
-                                              height: getWidth(32),
-                                              child: SvgPicture.asset(
-                                                "assets/icons/menu-ic-2.svg",
-                                                height: getWidth(32),
+                            Obx(() => globalController.user.value.role !=
+                                    "creator"
+                                ? GestureDetector(
+                                    onTap: () async {
+                                      Get.put(PaymentController())
+                                          .isPickCard
+                                          .value = false;
+                                      Get.to(() => PaymentMethodScreen());
+                                    },
+                                    child: Container(
+                                      color: Colors.white,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            height: getHeight(16),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width: getWidth(32),
+                                                    height: getWidth(32),
+                                                    child: SvgPicture.asset(
+                                                      "assets/icons/menu-ic-2.svg",
+                                                      height: getWidth(32),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: getWidth(8),
+                                                  ),
+                                                  Text(
+                                                    'Payment management',
+                                                    style: TextStyle(
+                                                        fontSize: getWidth(16)),
+                                                  )
+                                                ],
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: getWidth(8),
-                                            ),
-                                            Text(
-                                              'Payment management',
-                                              style: TextStyle(
-                                                  fontSize: getWidth(16)),
-                                            )
-                                          ],
-                                        ),
-                                        Icon(
-                                          Icons.arrow_forward_ios,
-                                          size: getWidth(15),
-                                        ),
-                                      ],
+                                              Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: getWidth(15),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: getHeight(16),
+                                          ),
+                                          Container(
+                                            height: 1,
+                                            width: double.infinity,
+                                            color: const Color(0xFFE6E6E6),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    SizedBox(
-                                      height: getHeight(16),
-                                    ),
-                                    Container(
-                                      height: 1,
-                                      width: double.infinity,
-                                      color: const Color(0xFFE6E6E6),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                                  )
+                                : Container()),
                             GestureDetector(
                               onTap: () async {
                                 Get.to(TransactionScreen());
@@ -351,7 +350,9 @@ class SideBarMenu extends StatelessWidget {
                                     ),
                                   )
                                 : GestureDetector(
-                                    onTap: () async {},
+                                    onTap: () async {
+                                      Get.to(() => SalesScreen());
+                                    },
                                     child: Container(
                                       color: Colors.white,
                                       child: Column(

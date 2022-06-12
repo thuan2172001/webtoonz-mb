@@ -34,7 +34,6 @@ class EpisodeDetailComponent {
     'Comment',
     style: TextStyle(
       color: Colors.black87,
-      fontWeight: FontWeight.bold,
       fontSize: getWidth(14),
     ),
   );

@@ -13,7 +13,6 @@ import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 import 'package:untitled/screen/series_detail/episode_card.dart';
 import 'package:untitled/screen/series_detail/search_episodes.dart';
 import 'package:untitled/utils/config.dart';
-import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/image.dart';
 
 import '../../controller/edit_series/edit_series_controller.dart';
@@ -282,9 +281,9 @@ class SeriesDetailScreen extends StatelessWidget {
                               onPageChange: (index) {
                                 controller.getEpisodes(serieId, index + 1);
                               },
-                              buttonShape: BeveledRectangleBorder(
-                                borderRadius: BorderRadius.circular(6),
-                              ),
+                              buttonShape: CircleBorder(
+                                  side: BorderSide(
+                                      width: 1, color: Colors.transparent)),
                               buttonSelectedForegroundColor: Colors.white,
                               buttonSelectedBackgroundColor: Colors.blue,
                               buttonUnselectedForegroundColor: Colors.black,
@@ -323,7 +322,18 @@ class SeriesDetailScreen extends StatelessWidget {
     return Obx(() {
       if (globalController.user.value.role == "creator") {
         return Container(
-            color: Colors.white,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 7,
+                  offset: Offset(0, 1), // changes position of shadow
+                ),
+              ],
+              borderRadius: BorderRadius.circular(8),
+            ),
             width: double.infinity,
             height: getWidth(130),
             padding: EdgeInsets.only(top: getWidth(10)),
@@ -504,6 +514,7 @@ class SeriesDetailScreen extends StatelessWidget {
                             print(result["success"]);
                             if (result["success"] == true) {
                               await Get.put(HomePageController()).getSeries();
+                              await Get.put(HomePageController()).getCreatorSeries();
                               Get.back();
                               Get.snackbar(
                                 "Delete series ${seriesInfo.serieName}",

@@ -123,9 +123,9 @@ class CartScreen extends StatelessWidget {
                       Obx(() {
                         return Text(
                           "${cartController.episodeList.length > 0 ? cartController.episodeList.reduce((previousValue, element) {
-                            element.price += previousValue.price;
-                            return element;
-                          }).price : 0}\$",
+                              element.price += previousValue.price;
+                              return element;
+                            }).price : 0} Cent",
                         );
                       })
                     ],
@@ -138,7 +138,7 @@ class CartScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        primary: const Color(0xff1b447b),
+                        primary: Color.fromARGB(255, 63, 104, 154),
                         fixedSize: Size(
                           350,
                           50,
@@ -149,7 +149,6 @@ class CartScreen extends StatelessWidget {
                         'Checkout',
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'halter',
                           fontSize: 14,
                           package: 'flutter_credit_card',
                         ),

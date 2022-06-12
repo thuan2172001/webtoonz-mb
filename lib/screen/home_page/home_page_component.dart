@@ -48,10 +48,12 @@ class SeriesItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            getImage(
-              seriesInfo.thumbnail,
-              height: getWidth(121),
-              width: getWidth(121),
+            Container(
+              width: double.infinity,
+              child: getImage(seriesInfo.thumbnail,
+                  height: getWidth(121),
+                  width: getWidth(121),
+                  fit: BoxFit.cover),
             ),
             SizedBox(
               height: getHeight(8),
@@ -66,7 +68,7 @@ class SeriesItem extends StatelessWidget {
               height: getHeight(3),
             ),
             Text(
-              'VND ',
+              'Cent ',
               style: TextStyle(fontSize: 11, color: Colors.red),
             ),
             SizedBox(
@@ -171,7 +173,7 @@ class CreatorItem extends StatelessWidget {
               child: SizedBox(
                   width: getWidth(100),
                   height: getWidth(100),
-                  child: getImage(creatorInfo.avatar)),
+                  child: getImage(creatorInfo.avatar, fit: BoxFit.cover)),
             ),
             SizedBox(height: getHeight(10)),
             Text(

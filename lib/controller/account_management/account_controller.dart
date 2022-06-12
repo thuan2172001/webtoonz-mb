@@ -12,6 +12,7 @@ class AccountController extends GetxController {
   TextEditingController fullName = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
   TextEditingController age = TextEditingController();
+  TextEditingController description = TextEditingController();
 
   @override
   void onInit() async {
@@ -21,6 +22,8 @@ class AccountController extends GetxController {
         userInfo.fullName != null ? userInfo.fullName.toString() : "";
     phoneNumber.text = userInfo.phone != null ? userInfo.phone.toString() : "";
     age.text = userInfo.age != null ? userInfo.age.toString() : "";
+    description.text =
+        userInfo.description != null ? userInfo.description.toString() : "";
   }
 
   Future getProfile() async {
@@ -43,18 +46,26 @@ class AccountController extends GetxController {
       CustomDio customDio = CustomDio();
       customDio.dio.options.headers["Authorization"] =
           globalController.user.value.certificate.toString();
+      var response;
+      if (globalController.user.value.role != "creator") {
+        response = await customDio.put(
+            "/user/${globalController.user.value.id}", {
+          "fullName": fullName.text,
+          "age": age.text,
+          "phoneNumber": phoneNumber.text
+        });
+      } else {
+        response = await customDio.put("/creator/profile",
+            {"shopName": fullName.text, "description": phoneNumber.text});
+      }
 
-      var response = await customDio.put(
-          "/user/${globalController.user.value.id}", {
-        "fullName": fullName.text,
-        "age": age.text,
-        "phoneNumber": phoneNumber.text
-      });
       var json = jsonDecode(response.toString());
       if (json["success"] == true) {
         globalController.user.value.phone = phoneNumber.text;
         globalController.user.value.age = age.text;
         globalController.user.value.fullName = fullName.text;
+        globalController.user.value.description = description.text;
+        globalController.user.refresh();
       }
       CustomDialog(context, "SUCCESS")
           .show({"message": "Change information successful !"});
