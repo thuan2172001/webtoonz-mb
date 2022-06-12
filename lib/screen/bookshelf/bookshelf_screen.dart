@@ -45,9 +45,11 @@ class BookshelfScreen extends StatelessWidget {
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                           onTap: () async {
-                            var episodeDetailController = EpisodeDetailController(episodeId: controller.bookshelf.value.listEpisode[index].episodeId);
-                            await episodeDetailController.getApi();
-                            Get.to(() => EpisodeDetailScreen(controller: episodeDetailController));
+                            var episodeId = controller.bookshelf.value.listEpisode[index].episodeId;
+                            var nextController=Get.put(EpisodeDetailController());
+                            nextController.episodeId=episodeId;
+                            await nextController.getApi();
+                            Get.to(() => EpisodeDetailScreen(episodeId: episodeId,));
                           },
                           child: EpisodeCard(episode:controller.bookshelf.value.listEpisode[index])
                       );

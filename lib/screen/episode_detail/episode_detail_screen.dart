@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/main.dart';
+import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
+import 'package:untitled/screen/edit_episode/edit_episode_screen.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_component.dart';
 import 'package:untitled/screen/episode_detail/read_epub_episode.dart';
 import 'package:untitled/screen/episode_detail/read_pdf_episode.dart';
@@ -12,14 +14,16 @@ import '../../controller/episode_detail/episode_detail_controller.dart';
 import '../../controller/favorite/favorite_episode_controller.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
-import '../creator_detail/creator_detail_screen.dart';
 import '../series_detail/series_detail_screen.dart';
 
 class EpisodeDetailScreen extends StatelessWidget {
-  final EpisodeDetailController controller;
+  final String episodeId;
   final component = EpisodeDetailComponent();
+  late EpisodeDetailController controller;
 
-  EpisodeDetailScreen({required this.controller});
+  EpisodeDetailScreen({required this.episodeId}) {
+    controller = Get.put(EpisodeDetailController());
+  }
 
   void _addComment() {
     TextEditingController comment = TextEditingController();
@@ -269,8 +273,8 @@ class EpisodeDetailScreen extends StatelessWidget {
         Center(
           child: ClipRRect(
             borderRadius: BorderRadius.circular(getWidth(12)),
-            child: Image.network(controller.episode.value.image,
-                width: getWidth(350), fit: BoxFit.fill),
+            child: Obx(()=>Image.network(controller.episode.value.image,
+                width: getWidth(350), fit: BoxFit.fill)),
           ),
         ),
         SizedBox(
@@ -278,13 +282,13 @@ class EpisodeDetailScreen extends StatelessWidget {
         ),
         Container(
           alignment: Alignment.center,
-          child: Text(
-            controller.episode.value.name,
-            style: TextStyle(
-              fontSize: getWidth(24),
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          child: Obx(() => Text(
+                controller.episode.value.name,
+                style: TextStyle(
+                  fontSize: getWidth(24),
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
         ),
         SizedBox(
           height: getHeight(4),
@@ -295,14 +299,14 @@ class EpisodeDetailScreen extends StatelessWidget {
               top: getHeight(10),
               child: Container(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "${controller.episode.value.price} Cent ",
-                  style: TextStyle(
-                    fontSize: getWidth(18),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
+                child: Obx(() => Text(
+                      "${controller.episode.value.price}.000 VND ",
+                      style: TextStyle(
+                        fontSize: getWidth(18),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    )),
               ),
             ),
             Container(
@@ -412,7 +416,8 @@ class EpisodeDetailScreen extends StatelessWidget {
               iconSize: getWidth(20),
               icon: Icon(Icons.arrow_forward_ios),
               onPressed: () {
-                 Get.to(() => CreatorDetailScreen(creatorId: controller.episode.value.creatorId));
+                Get.to(() => CreatorDetailScreen(
+                    creatorId: controller.episode.value.creatorId));
               },
             )
           ],
@@ -440,10 +445,10 @@ class EpisodeDetailScreen extends StatelessWidget {
         SizedBox(
           height: getWidth(10),
         ),
-        Text(controller.episode.value.description,
+        Obx(() => Text(controller.episode.value.description,
             style: TextStyle(
               fontSize: getWidth(14),
-            )),
+            ))),
         SizedBox(
           height: getWidth(10),
         ),
@@ -460,15 +465,88 @@ class EpisodeDetailScreen extends StatelessWidget {
       padding: EdgeInsets.only(top: getWidth(10)),
       child: Obx(() {
         if (globalController.user.value.role == "creator") {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          return Column(
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        onPrimary: Colors.black87,
+                        primary: Colors.white,
+                        minimumSize: Size(
+                          getWidth(148),
+                          getWidth(50),
+                        ),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(getWidth(15))),
+                            side: BorderSide(color: Colors.black)),
+                      ),
+                      onPressed: () async {
+                        Get.to(() => EditEpisodeScreen(
+                            episode: controller.episode.value));
+                      },
+                      child: component.editItemText),
+                  SizedBox(
+                    width: getWidth(16),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.black87,
+                      primary: Color(0xFF3669C9),
+                      minimumSize: Size(getWidth(148), getWidth(50)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(getWidth(15)))),
+                    ),
+                    onPressed: () async {
+                      var result = await controller.deleteItem();
+                      if (result["success"] == true) {
+                        var serieId = controller.episode.value.seriesId;
+                        SeriesDetailScreen(serieId: serieId)
+                            .fetchSerie(serieId);
+                        Get.back();
+                        Get.snackbar(
+                          "Delete episode ${controller.episode.value.name}",
+                          "Success",
+                          icon: Icon(Icons.done_outlined, color: Colors.white),
+                          snackPosition: SnackPosition.TOP,
+                          backgroundColor: Colors.green,
+                          borderRadius: 20,
+                          margin: EdgeInsets.all(15),
+                          colorText: Colors.white,
+                          duration: Duration(seconds: 2),
+                          isDismissible: true,
+                          forwardAnimationCurve: Curves.easeOutBack,
+                        );
+                        return;
+                      }
+                      Get.snackbar(
+                        "Delete episode ${controller.episode.value.name}",
+                        "Failed",
+                        icon: Icon(Icons.sms_failed, color: Colors.white),
+                        snackPosition: SnackPosition.TOP,
+                        backgroundColor: Colors.red,
+                        borderRadius: 20,
+                        margin: EdgeInsets.all(15),
+                        colorText: Colors.white,
+                        duration: Duration(seconds: 2),
+                        isDismissible: true,
+                        forwardAnimationCurve: Curves.easeOutBack,
+                      );
+                    },
+                    child: component.deleteItemText,
+                  )
+                ],
+              ),
+              SizedBox(height: getWidth(13.6)),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     onPrimary: Colors.black87,
                     primary: Colors.white,
                     minimumSize: Size(
-                      getWidth(148),
+                      getWidth(312),
                       getWidth(50),
                     ),
                     shape: RoundedRectangleBorder(
@@ -492,60 +570,31 @@ class EpisodeDetailScreen extends StatelessWidget {
                       return component.publishItemText;
                     }
                   })),
-              SizedBox(
-                width: getWidth(16),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  onPrimary: Colors.black87,
-                  primary: Color(0xFF3669C9),
-                  minimumSize: Size(getWidth(148), getWidth(50)),
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(getWidth(15)))),
-                ),
-                onPressed: () async {
-                  var result = await controller.deleteItem();
-                  if (result["success"] == true) {
-                    var serieId = controller.episode.value.seriesId;
-                    SeriesDetailScreen(serieId: serieId).fetchSerie(serieId);
-                    Get.back();
-                    Get.snackbar(
-                      "Delete episode ${controller.episode.value.name}",
-                      "Success",
-                      icon: Icon(Icons.done_outlined, color: Colors.white),
-                      snackPosition: SnackPosition.TOP,
-                      backgroundColor: Colors.green,
-                      borderRadius: 20,
-                      margin: EdgeInsets.all(15),
-                      colorText: Colors.white,
-                      duration: Duration(seconds: 2),
-                      isDismissible: true,
-                      forwardAnimationCurve: Curves.easeOutBack,
-                    );
-                    return;
-                  }
-                  Get.snackbar(
-                    "Delete episode ${controller.episode.value.name}",
-                    "Failed",
-                    icon: Icon(Icons.sms_failed, color: Colors.white),
-                    snackPosition: SnackPosition.TOP,
-                    backgroundColor: Colors.red,
-                    borderRadius: 20,
-                    margin: EdgeInsets.all(15),
-                    colorText: Colors.white,
-                    duration: Duration(seconds: 2),
-                    isDismissible: true,
-                    forwardAnimationCurve: Curves.easeOutBack,
-                  );
-                },
-                child: component.deleteItemText,
-              )
             ],
           );
         } else
           return Column(
             children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  minimumSize: Size(
+                    getWidth(315),
+                    getWidth(50),
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(getWidth(15))),
+                      side: BorderSide(color: Colors.black)),
+                ),
+                onPressed: () {
+                  _addComment();
+                },
+                child: component.commentText,
+              ),
+              SizedBox(
+                height: getWidth(15),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -627,29 +676,6 @@ class EpisodeDetailScreen extends StatelessWidget {
                     }),
                   )
                 ],
-              ),
-              SizedBox(
-                height: getWidth(15),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
-                  minimumSize: Size(
-                    getWidth(315),
-                    getWidth(50),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(getWidth(12))),
-                      side: BorderSide(color: Colors.black)),
-                ),
-                onPressed: () {
-                  _addComment();
-                },
-                child: component.commentText,
-              ),
-              SizedBox(
-                height: getWidth(1),
               ),
             ],
           );

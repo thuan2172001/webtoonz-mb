@@ -6,22 +6,27 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:untitled/controller/create_episode/create_episode_controller.dart';
+import 'package:untitled/controller/edit_episode/edit_episode_controller.dart';
+import 'package:untitled/controller/episode_detail/episode_detail_controller.dart';
+import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
+import '../../controller/series_detail/series_detail_controller.dart';
+import '../../model/espisode.dart';
 import '../../utils/config.dart';
 import '../../widgets/app_bar.dart';
 import '../../widgets/input.dart';
+import '../series_detail/series_detail_screen.dart';
 
-class CreateEpisodeScreen extends StatelessWidget {
-  late CreateEpisodeController controller;
-  final String seriesId;
+class EditEpisodeScreen extends StatelessWidget {
+  late EditEpisodeController controller;
+  final Episode episode;
 
-  CreateEpisodeScreen({required this.seriesId});
+  EditEpisodeScreen({required this.episode});
 
   @override
   Widget build(BuildContext context) {
-    controller = Get.put(CreateEpisodeController(seriesId: seriesId));
+    controller = Get.put(EditEpisodeController(episode: episode));
     return Scaffold(
-      appBar: appBar(title: "Create episode", centerTitle: true),
+      appBar: appBar(title: "Edit episode", centerTitle: true),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: getWidth(25)),
         color: Colors.white,
@@ -68,10 +73,13 @@ class CreateEpisodeScreen extends StatelessWidget {
                           ),
                         );
                       } else {
-                        return Container(
-                          width: getWidth(133),
-                          height: getWidth(130),
-                          color: Color(0xFFF8F9FA),
+                        return ClipRRect(
+                          child: Image.network(
+                            controller.urlLogo,
+                            width: getWidth(133),
+                            height: getWidth(130),
+                            fit: BoxFit.cover,
+                          ),
                         );
                       }
                     }),
@@ -127,36 +135,29 @@ class CreateEpisodeScreen extends StatelessWidget {
                   height: getWidth(150),
                   color: Color(0xFFF8F9FA),
                 ),
-                Obx(() {
-                  if (controller.file.value.path.isNotEmpty) {
-                    return Center(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: getWidth(8),
-                          ),
-                          Container(
-                              width: getWidth(154),
-                              height: getWidth(100),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/icons/file_icon.png"),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              child: null),
-                          SizedBox(
-                            height: getWidth(8),
-                          ),
-                          Text(controller.fileName.value),
-                        ],
+                Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: getWidth(8),
                       ),
-                    );
-                  } else {
-                    return Container();
-                  }
-                }),
+                      Container(
+                          width: getWidth(154),
+                          height: getWidth(100),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/icons/file_icon.png"),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: null),
+                      SizedBox(
+                        height: getWidth(8),
+                      ),
+                      Obx(() => Text(controller.fileName.value)),
+                    ],
+                  ),
+                ),
                 Center(
                   child: IconButton(
                     onPressed: () {
@@ -227,10 +228,10 @@ class CreateEpisodeScreen extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'Description...',
                   hintStyle:
-                      TextStyle(color: Colors.grey, fontSize: getHeight(12)),
+                  TextStyle(color: Colors.grey, fontSize: getHeight(12)),
                   border: OutlineInputBorder(
                     borderRadius:
-                        BorderRadius.all(Radius.circular(getWidth(10))),
+                    BorderRadius.all(Radius.circular(getWidth(10))),
                   ),
                 ),
               ),
@@ -251,11 +252,11 @@ class CreateEpisodeScreen extends StatelessWidget {
               ),
               onPressed: () async {
                 controller.isLoading.value = true;
-                var result = await controller.createEpisode();
+                var result = await controller.updateEpisode();
                 controller.isLoading.value = false;
-                if (result == null) {
+                if (result == false) {
                   Get.snackbar(
-                    "Create Episode",
+                    "Edit Episode",
                     "Failed",
                     icon: Icon(Icons.sms_failed, color: Colors.white),
                     snackPosition: SnackPosition.TOP,
@@ -268,9 +269,13 @@ class CreateEpisodeScreen extends StatelessWidget {
                     forwardAnimationCurve: Curves.easeOutBack,
                   );
                 } else {
-                  controller.reset();
-                  Get.snackbar(
-                    "Create Episode",
+                  var nextController=Get.put(EpisodeDetailController());
+                  nextController.episodeId=episode.id;
+                  await nextController.getEpisodeDetail();
+                  SeriesDetailScreen(serieId: episode.seriesId)
+                      .fetchSerie(episode.seriesId);
+                    Get.snackbar(
+                    "Edit Episode",
                     "Success",
                     icon: Icon(Icons.done_outlined, color: Colors.white),
                     snackPosition: SnackPosition.TOP,
@@ -319,22 +324,6 @@ class CreateEpisodeScreen extends StatelessWidget {
       if (result == null) return;
       final file = result.files.first;
       if (file == null || file.path == null) return;
-      if (file.extension != 'epub' && file.extension != 'pdf') {
-        Get.snackbar(
-          "Message",
-          "Only pdf or epub files are allowed",
-          icon: Icon(Icons.sms_failed, color: Colors.white),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          borderRadius: 20,
-          margin: EdgeInsets.all(15),
-          colorText: Colors.white,
-          duration: Duration(seconds: 3),
-          isDismissible: true,
-          forwardAnimationCurve: Curves.easeOutBack,
-        );
-        return;
-      }
       controller.file.value = File(file.path!);
       controller.fileName.value = file.name;
       if (controller.fileName.value.length > 30) {

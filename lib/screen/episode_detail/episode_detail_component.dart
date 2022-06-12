@@ -65,7 +65,6 @@ class EpisodeDetailComponent {
     "Publish item",
     style: TextStyle(
       color: Colors.black,
-      fontWeight: FontWeight.bold,
       fontSize: getWidth(14),
     ),
   );
@@ -74,7 +73,13 @@ class EpisodeDetailComponent {
     "Unpublish item",
     style: TextStyle(
       color: Colors.black,
-      fontWeight: FontWeight.bold,
+      fontSize: getWidth(14),
+    ),
+  );
+  var editItemText = Text(
+    "Edit item",
+    style: TextStyle(
+      color: Colors.black,
       fontSize: getWidth(14),
     ),
   );
