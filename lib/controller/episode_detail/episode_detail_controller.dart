@@ -5,11 +5,9 @@ import '../../model/custom_dio.dart';
 import '../../model/espisode.dart';
 
 class EpisodeDetailController extends GetxController with StateMixin {
-  final String episodeId;
+  String episodeId = "";
   Rx<Episode> episode = Episode().obs;
   RxList comments = List.empty(growable: true).obs;
-
-  EpisodeDetailController({required this.episodeId});
 
   RxBool seeAll = false.obs;
   // RxBool inCart = false.obs;

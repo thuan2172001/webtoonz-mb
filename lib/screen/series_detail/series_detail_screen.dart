@@ -116,15 +116,15 @@ class SeriesDetailScreen extends StatelessWidget {
                 appBar: AppBar(
                     backgroundColor: Colors.white,
                     leading: IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.black,
-                              size: getHeight(20),
-                            ),
-                            onPressed: () {
-                              Get.back();
-                            },
-                          ),
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.black,
+                        size: getHeight(20),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                    ),
                     centerTitle: true,
                     elevation: 0,
                     title: Obx(() => Text(
@@ -257,14 +257,13 @@ class SeriesDetailScreen extends StatelessWidget {
                                       (BuildContext context, int index) {
                                     return GestureDetector(
                                       onTap: () async {
-                                        var episodeDetailController =
-                                            EpisodeDetailController(
-                                                episodeId: controller
-                                                    .episodes[index].episodeId);
-                                        await episodeDetailController.getApi();
+                                        var episodeId = controller
+                                            .episodes[index].episodeId;
+                                        var nextController=Get.put(EpisodeDetailController());
+                                        nextController.episodeId=episodeId;
+                                        await nextController.getApi();
                                         Get.to(() => EpisodeDetailScreen(
-                                            controller:
-                                                episodeDetailController));
+                                            episodeId: episodeId));
                                       },
                                       child: EpisodeCard(
                                           episode: controller.episodes[index]),

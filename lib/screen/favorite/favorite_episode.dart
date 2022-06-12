@@ -28,12 +28,14 @@ class FavoriteEpisodeScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                     onTap: () async {
-                      var episodeDetailController = EpisodeDetailController(
-                          episodeId:
-                              favoriteEpisode.listEpisode[index].episodeId);
-                      await episodeDetailController.getApi();
+                      var episodeId =
+                          favoriteEpisode.listEpisode[index].episodeId;
+                      var nextController=Get.put(EpisodeDetailController());
+                      nextController.episodeId=episodeId;
+                      await nextController.getApi();
                       Get.to(() => EpisodeDetailScreen(
-                          controller: episodeDetailController));
+                            episodeId: episodeId,
+                          ));
                     },
                     child: EpisodeCard(
                         episode: favoriteEpisode.listEpisode[index]));

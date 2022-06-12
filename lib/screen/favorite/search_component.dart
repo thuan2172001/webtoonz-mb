@@ -49,11 +49,12 @@ class _SearchEpisodeScreen extends State<SearchEpisode> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () async {
-              var episodeDetailController = EpisodeDetailController(
-                  episodeId: _searchResult[index].episodeId);
-              await episodeDetailController.getApi();
+              var episodeId=_searchResult[index].episodeId;
+              var nextController=Get.put(EpisodeDetailController());
+              nextController.episodeId=episodeId;
+              await nextController.getApi();
               Get.to(() =>
-                  EpisodeDetailScreen(controller: episodeDetailController));
+                  EpisodeDetailScreen(episodeId: episodeId));
             },
             child: ListTile(
               leading: ConstrainedBox(
