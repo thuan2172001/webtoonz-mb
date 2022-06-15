@@ -45,8 +45,10 @@ class SearchResultScreen extends StatelessWidget {
             SizedBox(
               height: getHeight(15),
             ),
-            Text(
-                "${homepageController.isSearchCreator ? homepageController.searchCreatorList.length : homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"),
+            Obx(() {
+              return Text(
+                  "${homepageController.isSeeAll.value ? "${homepageController.isSearchCreator ? homepageController.searchCreatorList.length : homepageController.searchList.length} items" : "${homepageController.isSearchCreator ? homepageController.searchCreatorList.length : homepageController.searchList.length} items matching \"${homepageController.searchText.text}\" found"}");
+            }),
             SizedBox(
               height: getHeight(15),
             ),

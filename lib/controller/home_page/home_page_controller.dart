@@ -24,6 +24,7 @@ class HomePageController extends GetxController {
   RxList<CreatorInfo> searchCreatorList = <CreatorInfo>[].obs;
 
   bool isSearchCreator = false;
+  RxBool isSeeAll = false.obs;
   final int limit = 8;
   int totalSeries = 0;
   late double ratio;
@@ -72,7 +73,6 @@ class HomePageController extends GetxController {
 
   search() {
     searchList.clear();
-    print(seriesList[0].serieName);
 
     for (int i = 0; i < seriesList.length; i++) {
       if (seriesList[i]
@@ -81,6 +81,11 @@ class HomePageController extends GetxController {
           .contains(searchText.text.toLowerCase()))
         searchList.add(seriesList[i]);
     }
+    if (isSeeAll.value) {
+      isSeeAll.value = false;
+      isSeeAll.refresh();
+    }
+    searchList.refresh();
   }
 
   searchCreator() {

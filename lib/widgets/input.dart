@@ -243,9 +243,15 @@ Container inputSearch(
                 maxHeight: getHeight(30),
                 maxWidth: getWidth(30),
               ),
-              suffixIcon: Icon(
-                Icons.search_rounded,
-                color: Colors.black,
+              suffixIcon: IconButton(
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  onSearch();
+                },
+                icon: Icon(
+                  Icons.search_rounded,
+                  color: Colors.black,
+                ),
               ),
               isCollapsed: true,
               border: InputBorder.none,

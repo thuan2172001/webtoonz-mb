@@ -1,20 +1,16 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:untitled/controller/bookshelf/bookshelf_controller.dart';
 import 'package:untitled/controller/chat/chat_controller.dart';
 import 'package:untitled/controller/global_controller.dart';
 import 'package:untitled/controller/home_page/home_page_controller.dart';
-import 'package:untitled/main.dart';
-import 'package:untitled/screen/bookshelf/bookshelf_screen.dart';
 import 'package:untitled/screen/chat/conversation_page.dart';
-import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/home_page/home_page_component.dart';
 import 'package:untitled/screen/home_page/search_result_screen.dart';
 import 'package:untitled/utils/config.dart';
 import 'package:untitled/widgets/app_bar.dart';
 import 'package:untitled/widgets/input.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePageTabScreen extends StatelessWidget {
   HomePageController homePageController = Get.put(HomePageController());
@@ -62,7 +58,7 @@ class HomePageTabScreen extends StatelessWidget {
                 onSearch: () {
                   if (homePageController.searchText.text != "") {
                     homePageController.search();
-                    Get.to(SearchResultScreen());
+                    Get.to(() => SearchResultScreen());
                   }
                 },
                 fillColor: 0xFFFAFAFA,
@@ -143,9 +139,15 @@ class HomePageTabScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    homePageController.searchList =
-                        homePageController.seriesList;
-                    Get.to(SearchResultScreen());
+                    homePageController.searchList.clear();
+                    for (int i = 0;
+                        i < homePageController.seriesList.length;
+                        i++) {
+                      homePageController.searchList
+                          .add(homePageController.seriesList[i]);
+                    }
+                    homePageController.isSeeAll.value = true;
+                    Get.to(() => SearchResultScreen());
                   },
                   child: Text(
                     "See all >>",
