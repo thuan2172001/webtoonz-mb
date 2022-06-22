@@ -29,48 +29,6 @@ class SeriesDetailScreen extends StatelessWidget {
 
   SeriesDetailScreen({Key? key, required this.serieId}) : super(key: key);
 
-  Future<Series> fetchSerie(String serieId) async {
-    try {
-      CustomDio customDio = CustomDio();
-      customDio.dio.options.headers["Authorization"] =
-          globalController.user.value.certificate.toString();
-      var response = await customDio
-          .get("/serie/$serieId?page=1&limit=${controller.limit}");
-      response = jsonDecode(response.toString());
-      if (response["code"] != 200) return Series();
-      var serieData = response["data"];
-      var serieEpisodes = List.generate(
-          serieData["episodes"].length,
-          (index) => SeriesEpisode(
-              serieData["episodes"][index]["name"],
-              serieData["episodes"][index]["thumbnail"],
-              serieData["episodes"][index]["price"],
-              serieData["episodes"][index]["likeInit"],
-              serieData["episodes"][index]["comments"],
-              serieData["episodes"][index]["episodeId"],
-              serieData["episodes"][index]["chapter"]));
-      controller.initialize(
-          serieEpisodes, serieData["serieId"], serieData["isPublished"]);
-      var seriesInfo = Series.fullParam(
-        serieData["serieName"],
-        serieData["description"],
-        serieData["thumbnail"],
-        serieData["cover"],
-        serieData["totalEpisodes"],
-        serieData["likes"],
-        serieData["categoryId"],
-        serieData["category"]["categoryName"],
-        serieData["creatorInfo"]["fullName"],
-        serieData["creatorInfo"]["avatar"],
-        serieData["serieId"],
-      );
-      return seriesInfo;
-    } catch (e) {
-      print(e);
-      return Series();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     double coverImageBottomPadding = 30;
@@ -83,239 +41,207 @@ class SeriesDetailScreen extends StatelessWidget {
     double categoryFontSize = 9;
     double authorTitleFontSize = 15;
 
-    return FutureBuilder<Series>(
-        future: fetchSerie(serieId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (!snapshot.hasData)
-              return Text("No data");
-            else {
-              controller.seriesInfo.value = snapshot.data!;
-              var ratio =
-                  controller.seriesInfo.value.totalEpisodes! / controller.limit;
-              var numberOfPages =
-                  ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
-              numberOfPages = max(numberOfPages, 1);
-              return Scaffold(
-                floatingActionButton: _buttons(controller.seriesInfo.value),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerDocked,
-                // appBar: appBar(
-                //     title: controller.seriesInfo.value.serieName,
-                //     centerTitle: true,
-                //     actions: <Widget>[
-                //       new IconButton(
-                //         icon: new Icon(Icons.search, color: Colors.black),
-                //         onPressed: () {
-                //           Get.to(() => SearchEpisodeScreen());
-                //         },
-                //       )
-                //     ]),
+    var ratio = controller.seriesInfo.value.totalEpisodes! / controller.limit;
+    var numberOfPages =
+        ratio > ratio.floor() ? ratio.floor() + 1 : ratio.floor();
+    numberOfPages = max(numberOfPages, 1);
+    return Scaffold(
+      floatingActionButton: _buttons(controller.seriesInfo.value),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // appBar: appBar(
+      //     title: controller.seriesInfo.value.serieName,
+      //     centerTitle: true,
+      //     actions: <Widget>[
+      //       new IconButton(
+      //         icon: new Icon(Icons.search, color: Colors.black),
+      //         onPressed: () {
+      //           Get.to(() => SearchEpisodeScreen());
+      //         },
+      //       )
+      //     ]),
 
-                appBar: AppBar(
-                    backgroundColor: Colors.white,
-                    leading: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: getHeight(20),
-                      ),
-                      onPressed: () {
-                        Get.back();
-                      },
-                    ),
-                    centerTitle: true,
-                    elevation: 0,
-                    title: Obx(() => Text(
-                          controller.seriesInfo.value.serieName,
-                          style: TextStyle(
-                            fontSize: getHeight(18),
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF3669C9),
-                          ),
-                        )),
-                    actions: <Widget>[
-                      new IconButton(
-                        icon: new Icon(Icons.search, color: Colors.black),
-                        onPressed: () {
-                          Get.to(() => SearchEpisodeScreen());
-                        },
-                      )
-                    ]),
-                body: Container(
-                  color: Colors.white,
-                  child: ListView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.only(bottom: coverImageBottomPadding),
-                        child: Container(
-                          color: Colors.black,
-                          child: Obx(() => Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
+      appBar: AppBar(
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+              size: getHeight(20),
+            ),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+          centerTitle: true,
+          elevation: 0,
+          title: Obx(() => Text(
+                controller.seriesInfo.value.serieName,
+                style: TextStyle(
+                  fontSize: getHeight(18),
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3669C9),
+                ),
+              )),
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.search, color: Colors.black),
+              onPressed: () {
+                Get.to(() => SearchEpisodeScreen());
+              },
+            )
+          ]),
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          physics: AlwaysScrollableScrollPhysics(),
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: coverImageBottomPadding),
+              child: Container(
+                color: Colors.black,
+                child: Obx(() => Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        getImage(controller.seriesInfo.value.cover,
+                            height: imageHeight.h, fit: BoxFit.cover),
+                      ],
+                    )),
+              ),
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.only(left: sidePadding.w, right: sidePadding.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                            text: TextSpan(
+                                style: TextStyle(color: Colors.black),
                                 children: [
-                                  getImage(controller.seriesInfo.value.cover,
-                                      height: imageHeight.h, fit: BoxFit.cover),
-                                ],
+                              TextSpan(
+                                  text:
+                                      '${controller.seriesInfo.value.totalEpisodes} items  |  ',
+                                  style:
+                                      TextStyle(fontSize: statusFontSize.sp)),
+                              WidgetSpan(
+                                  child: SvgPicture.asset(
+                                'assets/icons/heart.svg',
+                                width: statusFontSize.sp,
                               )),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: sidePadding.w, right: sidePadding.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  RichText(
-                                      text: TextSpan(
-                                          style: TextStyle(color: Colors.black),
-                                          children: [
-                                        TextSpan(
-                                            text:
-                                                '${controller.seriesInfo.value.totalEpisodes} items  |  ',
-                                            style: TextStyle(
-                                                fontSize: statusFontSize.sp)),
-                                        WidgetSpan(
-                                            child: SvgPicture.asset(
-                                          'assets/icons/heart.svg',
-                                          width: statusFontSize.sp,
-                                        )),
-                                        TextSpan(
-                                            text:
-                                                ' ${controller.seriesInfo.value.totalLikes}',
-                                            style: TextStyle(
-                                                fontSize: statusFontSize.sp))
-                                      ])),
-                                  Container(
-                                      width: statusFontSize.sp,
-                                      child: Icon(Icons.share_sharp))
-                                ],
-                              ),
-                            ),
-                            Obx(() => Text(
-                                  controller.seriesInfo.value.category!,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: categoryFontSize.sp),
-                                )),
-                            Container(
-                              child: Container(
-                                height: 50,
-                                child: Center(
-                                  child: CustomPaint(
-                                    painter: DrawDashLine(),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 3.h),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 2.w),
-                                    child: Container(
-                                      width: authorAvatarWidth.w,
-                                      child: CircleAvatar(
-                                        backgroundImage: NetworkImage(controller
-                                            .seriesInfo.value.authorAvatar!),
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    controller.seriesInfo.value.authorName!,
-                                    style: TextStyle(
-                                        fontSize: authorTitleFontSize.sp),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                                padding: const EdgeInsets.only(bottom: 10),
-                                child: Obx(() => ExpandableText(
-                                      controller.seriesInfo.value.description,
-                                      style: TextStyle(
-                                          fontSize: descriptionFontSize.sp),
-                                      expandText: 'show more',
-                                      collapseText: 'show less',
-                                      maxLines: 6,
-                                      linkColor: Colors.blue,
-                                    ))),
-                            Obx(() => GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: controller.episodes.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return GestureDetector(
-                                      onTap: () async {
-                                        var episodeId = controller
-                                            .episodes[index].episodeId;
-                                        var nextController=Get.put(EpisodeDetailController());
-                                        nextController.episodeId=episodeId;
-                                        await nextController.getApi();
-                                        Get.to(() => EpisodeDetailScreen(
-                                            episodeId: episodeId));
-                                      },
-                                      child: EpisodeCard(
-                                          episode: controller.episodes[index]),
-                                    );
-                                  },
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 0,
-                                          mainAxisSpacing: 0,
-                                          childAspectRatio: 4 / 5.7),
-                                )),
-                            NumberPaginator(
-                              numberPages: numberOfPages,
-                              initialPage: 0,
-                              onPageChange: (index) {
-                                controller.getEpisodes(serieId, index + 1);
-                              },
-                              buttonShape: CircleBorder(
-                                  side: BorderSide(
-                                      width: 1, color: Colors.transparent)),
-                              buttonSelectedForegroundColor: Colors.white,
-                              buttonSelectedBackgroundColor: Colors.blue,
-                              buttonUnselectedForegroundColor: Colors.black,
-                              buttonUnselectedBackgroundColor: Colors.white,
-                            ),
-                            Obx(() {
-                              if (globalController.user.value.role ==
-                                  "creator") {
-                                return SizedBox(height: getWidth(130));
-                              }
-                              return Container();
-                            })
-                          ],
-                        ),
-                      ),
-                    ],
+                              TextSpan(
+                                  text:
+                                      ' ${controller.seriesInfo.value.totalLikes}',
+                                  style: TextStyle(fontSize: statusFontSize.sp))
+                            ])),
+                        Container(
+                            width: statusFontSize.sp,
+                            child: Icon(Icons.share_sharp))
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }
-          } else if (snapshot.hasError)
-            return Column(
-              children: [
-                Text(
-                  snapshot.error.toString(),
-                ),
-              ],
-            );
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+                  Obx(() => Text(
+                        controller.seriesInfo.value.category!,
+                        style: TextStyle(
+                            color: Colors.grey, fontSize: categoryFontSize.sp),
+                      )),
+                  Container(
+                    child: Container(
+                      height: 50,
+                      child: Center(
+                        child: CustomPaint(
+                          painter: DrawDashLine(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 3.h),
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(right: 2.w),
+                          child: Container(
+                            width: authorAvatarWidth.w,
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  controller.seriesInfo.value.authorAvatar!),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          controller.seriesInfo.value.authorName!,
+                          style: TextStyle(fontSize: authorTitleFontSize.sp),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Obx(() => ExpandableText(
+                            controller.seriesInfo.value.description,
+                            style: TextStyle(fontSize: descriptionFontSize.sp),
+                            expandText: 'show more',
+                            collapseText: 'show less',
+                            maxLines: 6,
+                            linkColor: Colors.blue,
+                          ))),
+                  Obx(() => GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: controller.episodes.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () async {
+                              var episodeId =
+                                  controller.episodes[index].episodeId;
+                              var nextController =
+                                  Get.put(EpisodeDetailController());
+                              nextController.episodeId = episodeId;
+                              await nextController.getApi();
+                              Get.to(() =>
+                                  EpisodeDetailScreen(episodeId: episodeId));
+                            },
+                            child: EpisodeCard(
+                                episode: controller.episodes[index]),
+                          );
+                        },
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 0,
+                            mainAxisSpacing: 0,
+                            childAspectRatio: 4 / 5.7),
+                      )),
+                  NumberPaginator(
+                    numberPages: numberOfPages,
+                    initialPage: 0,
+                    onPageChange: (index) {
+                      controller.getEpisodes(serieId, index + 1);
+                    },
+                    buttonShape: CircleBorder(
+                        side: BorderSide(width: 1, color: Colors.transparent)),
+                    buttonSelectedForegroundColor: Colors.white,
+                    buttonSelectedBackgroundColor: Colors.blue,
+                    buttonUnselectedForegroundColor: Colors.black,
+                    buttonUnselectedBackgroundColor: Colors.white,
+                  ),
+                  Obx(() {
+                    if (globalController.user.value.role == "creator") {
+                      return SizedBox(height: getWidth(130));
+                    }
+                    return Container();
+                  })
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _buttons(Series seriesInfo) {
@@ -514,7 +440,8 @@ class SeriesDetailScreen extends StatelessWidget {
                             print(result["success"]);
                             if (result["success"] == true) {
                               await Get.put(HomePageController()).getSeries();
-                              await Get.put(HomePageController()).getCreatorSeries();
+                              await Get.put(HomePageController())
+                                  .getCreatorSeries();
                               Get.back();
                               Get.snackbar(
                                 "Delete series ${seriesInfo.serieName}",

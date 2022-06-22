@@ -272,7 +272,7 @@ class EditEpisodeScreen extends StatelessWidget {
                   var nextController=Get.put(EpisodeDetailController());
                   nextController.episodeId=episode.id;
                   await nextController.getEpisodeDetail();
-                  SeriesDetailScreen(serieId: episode.seriesId)
+                  await Get.put(SerieDetailController())
                       .fetchSerie(episode.seriesId);
                     Get.snackbar(
                     "Edit Episode",
