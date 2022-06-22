@@ -140,6 +140,9 @@ class SerieDetailController extends GetxController {
               episodesData["episodes"][index]["chapter"],
               episodesData["episodes"][index]["isPublished"],
             ));
+    if (globalController.user.value.role == 'user') {
+      searchResults.value.removeWhere((element) => element.isPublished == false);
+    }
     searchResults.refresh();
   }
 
