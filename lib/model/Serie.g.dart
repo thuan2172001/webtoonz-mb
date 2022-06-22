@@ -46,6 +46,7 @@ SeriesEpisode _$SeriesEpisodeFromJson(Map<String, dynamic> json) =>
       json['comments'] as int?,
       json['episodeId'] as String,
       json['chapter'] as String,
+      json['isPublished'] as bool,
     );
 
 Map<String, dynamic> _$SeriesEpisodeToJson(SeriesEpisode instance) =>

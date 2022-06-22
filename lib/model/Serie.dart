@@ -68,9 +68,10 @@ class SeriesEpisode {
   final int price;
   final int likeInit;
   final int? comments;
+  final bool isPublished;
 
   SeriesEpisode(this.name, this.thumbnail, this.price, this.likeInit,
-      this.comments, this.episodeId, this.chapter);
+      this.comments, this.episodeId, this.chapter, this.isPublished);
 
   factory SeriesEpisode.fromJson(Map<String, dynamic> json) =>
       _$SeriesEpisodeFromJson(json);
