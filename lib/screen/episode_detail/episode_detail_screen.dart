@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:untitled/controller/series_detail/series_detail_controller.dart';
 import 'package:untitled/main.dart';
 import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/edit_episode/edit_episode_screen.dart';
@@ -504,7 +505,7 @@ class EpisodeDetailScreen extends StatelessWidget {
                       var result = await controller.deleteItem();
                       if (result["success"] == true) {
                         var serieId = controller.episode.value.seriesId;
-                        SeriesDetailScreen(serieId: serieId)
+                        await Get.put(SerieDetailController())
                             .fetchSerie(serieId);
                         Get.back();
                         Get.snackbar(

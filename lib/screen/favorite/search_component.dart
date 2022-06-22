@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/episode_detail/episode_detail_controller.dart';
+import 'package:untitled/controller/series_detail/series_detail_controller.dart';
 import 'package:untitled/model/Serie.dart';
 import 'package:untitled/screen/episode_detail/episode_detail_screen.dart';
 import 'package:untitled/screen/series_detail/series_detail_screen.dart';
@@ -126,6 +127,8 @@ class _SearchSeriesScreen extends State<SearchSeries> {
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () async {
+              await Get.put(SerieDetailController())
+                  .fetchSerie(_searchResult[index].serieId);
               Get.to(() => SeriesDetailScreen(serieId: _searchResult[index].serieId));
             },
             child: ListTile(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:untitled/controller/creator_detail/creator_detail_controller.dart';
+import 'package:untitled/controller/series_detail/series_detail_controller.dart';
 import 'package:untitled/model/Serie.dart';
 import 'package:untitled/screen/creator_detail/creator_detail_screen.dart';
 import 'package:untitled/screen/series_detail/series_detail_screen.dart';
@@ -16,7 +17,9 @@ class SeriesItem extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        await Get.put(SerieDetailController())
+            .fetchSerie(seriesInfo.serieId);
         Get.to(() => SeriesDetailScreen(serieId: seriesInfo.serieId));
       },
       child: Container(

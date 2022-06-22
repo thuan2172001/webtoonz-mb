@@ -20,6 +20,49 @@ class SerieDetailController extends GetxController {
     serieId = _serieId;
     isPublished.value = _isPublished;
   }
+
+  Future fetchSerie(String serieId) async {
+    try {
+      CustomDio customDio = CustomDio();
+      customDio.dio.options.headers["Authorization"] =
+          globalController.user.value.certificate.toString();
+      var response = await customDio
+          .get("/serie/$serieId?page=1&limit=${limit}");
+      response = jsonDecode(response.toString());
+      if (response["code"] != 200) return Series();
+      var serieData = response["data"];
+      var serieEpisodes = List.generate(
+          serieData["episodes"].length,
+              (index) => SeriesEpisode(
+              serieData["episodes"][index]["name"],
+              serieData["episodes"][index]["thumbnail"],
+              serieData["episodes"][index]["price"],
+              serieData["episodes"][index]["likeInit"],
+              serieData["episodes"][index]["comments"],
+              serieData["episodes"][index]["episodeId"],
+              serieData["episodes"][index]["chapter"]));
+      initialize(
+          serieEpisodes, serieData["serieId"], serieData["isPublished"]);
+      var _seriesInfo = Series.fullParam(
+        serieData["serieName"],
+        serieData["description"],
+        serieData["thumbnail"],
+        serieData["cover"],
+        serieData["totalEpisodes"],
+        serieData["likes"],
+        serieData["categoryId"],
+        serieData["category"]["categoryName"],
+        serieData["creatorInfo"]["fullName"],
+        serieData["creatorInfo"]["avatar"],
+        serieData["serieId"],
+      );
+      seriesInfo.value = _seriesInfo;
+    } catch (e) {
+      print(e);
+      seriesInfo.value = Series();
+    }
+  }
+
   Future getSeriesInfor() async {
     try {
       CustomDio customDio = CustomDio();
