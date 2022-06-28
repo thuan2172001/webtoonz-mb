@@ -22,3 +22,4 @@ Frameworks and technology using to build this project:
 * [Express](https://expressjs.com/)
 * [Postgresql](https://www.postgresql.org/)
 * [Docker](https://docker.com)
+* [Flutter](https://flutter.com)
