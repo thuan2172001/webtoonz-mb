@@ -1,7 +1,4 @@
 <p align="center">
-  <a href="https://github.com/thuan2172001/nodejs-postgres-backend">
-    <img src="about/icon.png" alt="Logo" width="80" height="80">
-  </a>
 
   <h3 align="center">WebtoonZ</h3>
 
@@ -25,7 +22,3 @@ Frameworks and technology using to build this project:
 * [Express](https://expressjs.com/)
 * [Postgresql](https://www.postgresql.org/)
 * [Docker](https://docker.com)
-
-### Database
-- Postgresql is used in this project
-- ERM ![alt text](about/ERD.png)
