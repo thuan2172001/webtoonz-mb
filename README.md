@@ -3,7 +3,7 @@
   <h3 align="center">WebtoonZ</h3>
 
   <p align="center">
-    Shop to buy and sell exclusive digital works of an author!
+    Ecommerce system to buy and sell exclusive digital works !
     <br />
     <a href="https://glucozo.herokuapp.com/">View Demo</a>
     ·
