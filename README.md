@@ -1,16 +1,31 @@
-# untitled
+<p align="center">
+  <a href="https://github.com/thuan2172001/nodejs-postgres-backend">
+    <img src="about/icon.png" alt="Logo" width="80" height="80">
+  </a>
 
-A new Flutter project.
+  <h3 align="center">WebtoonZ</h3>
 
-## Getting Started
+  <p align="center">
+    Shop to buy and sell exclusive digital works of an author!
+    <br />
+    <a href="https://glucozo.herokuapp.com/">View Demo</a>
+    ·
+    <a href="https://github.com/thuan2172001/nodejs-postgres-backend/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/thuan2172001/nodejs-postgres-backend/issues">Request Feature</a>
+  </p>
+</p>
 
-This project is a starting point for a Flutter application.
+## About The Project
+ Ecommerce system, selling exclusive digital works. Support reading and paying directly on the system.c phẩm.
+### Built With
 
-A few resources to get you started if this is your first Flutter project:
+Frameworks and technology using to build this project:
+* [Nodejs](https://nodejs.dev/)
+* [Express](https://expressjs.com/)
+* [Postgresql](https://www.postgresql.org/)
+* [Docker](https://docker.com)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Database
+- Postgresql is used in this project
+- ERM ![alt text](about/ERD.png)
